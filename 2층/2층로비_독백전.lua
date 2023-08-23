@@ -162,7 +162,7 @@ function scene:create( event )
 			if motionUp == 5 then
 				motionUp = 1
 			end
-			print(playerGroup.y)
+			--print(playerGroup.y)
 			if (playerGroup.y > -96) then -- 여기 숫자 각 맵에 맞게 조절하시면 됩니다. ex) -608
 				playerGroup.y = playerGroup.y - moveSpeed	
 			end
@@ -302,6 +302,9 @@ function scene:create( event )
 
 	local function stopMove ( event )
 		if event.phase == "began" or event.phase == "moved" then
+			if (playerGroup.y == -96) then 
+				composer.gotoScene("2층.2층로비_독백") -- 2층로비_독백으로 넘어가기
+			end
 			movingDirection = nil
 
 			up.alpha = 1
@@ -316,15 +319,6 @@ function scene:create( event )
 	stopLeft:addEventListener("touch", stopMove)
 	stopRight:addEventListener("touch", stopMove)
 
-	local function nextpage ( event )
-		if event.target == up then
-			if (playerGroup.y < -95) then 
-				composer.gotoScene("2층.2층로비_독백") -- 2층로비_독백으로 넘어가기
-			end
-		end
-	end
-	
-	up:addEventListener("tap", nextpage)
 -- ↑ 플레이어 이동 함수 정리 -------------------------------------------------------------------------------------------------
 end
 

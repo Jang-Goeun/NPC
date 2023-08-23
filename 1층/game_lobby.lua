@@ -19,10 +19,8 @@ function scene:create( event )
 	sceneGroup:insert(background)
 
 	--벽
-	local wall1 = display.newRect(background.x * 0.5, background.y, 550,280)
-	local wall2 = display.newRect(background.x * 1.5, background.y, 550,280)
-	wall1.alpha = 0
-	wall2.alpha = 0
+	--local wall1 = display.newRect(background.x * 0.5, background.y, 550,280)
+	--local wall2 = display.newRect(background.x * 1.5, background.y, 550,280)
 
 	-- 체리
 	local cherry = display.newImageRect("image/캐릭터/체리_도트_기본모습.png", 120, 120)
@@ -31,7 +29,7 @@ function scene:create( event )
 	local nearCherry = 0
 
 	--desk
-	local desk = display.newRect(background.x, background.y, 550,150)
+	--local desk = display.newRect(background.x, background.y, 550,150)
 
 	local obsGroup = display.newGroup()
 
@@ -47,10 +45,10 @@ function scene:create( event )
 	frame[3].x, frame[3].y =  display.contentWidth * 0.8, display.contentHeight * 0.1
 	frame[4].x, frame[4].y =  display.contentWidth * 0.8, -600
 
-	obsGroup:insert(wall1)
-	obsGroup:insert(wall2)
+	--obsGroup:insert(wall1)
+	--obsGroup:insert(wall2)
 	obsGroup:insert(cherry)
-	obsGroup:insert(desk)
+	--obsGroup:insert(desk)
 
 
 	local restart = display.newImage("image/UI/세모.png")
@@ -66,6 +64,10 @@ function scene:create( event )
 	local finger_key = display.newImage("image/UI/손가락포인터.png")
 	finger_key.x, finger_key.y = 1560, 840
 	finger_key.alpha = 0
+
+	local finger_picture = display.newImage("image/UI/손가락포인터.png")
+	finger_picture.x, finger_picture.y = 1560, 840
+	finger_picture.alpha = 0
 
 	local not_interaction = display.newImageRect("image/UI/빈원형.png", 130, 130)
 	not_interaction.x, not_interaction.y = 1740, 680
@@ -165,6 +167,7 @@ function scene:create( event )
 	sceneGroup:insert(cursor)
 	sceneGroup:insert(finger)
 	sceneGroup:insert(finger_key)
+	sceneGroup:insert(finger_picture)
 	sceneGroup:insert(not_interaction)
 	sceneGroup:insert(interaction)
 	sceneGroup:insert(inventory)
@@ -194,6 +197,19 @@ function scene:create( event )
         
 	end
 	--------------------------------------------------
+	-- ↓ 그림 상호작용 함수 -------------------------------------------------------------------------------------------------
+	local pic = 1
+	local function picture( event )
+		if pic == 1 then
+			composer.setVariable("backgroundY", background.y)
+			composer.gotoScene( "1층.picturejson")
+			cursor.alpha = 1
+			finger_picture.alpha = 0
+			pic = pic + 1
+		end
+	end
+
+	finger_picture:addEventListener("tap", picture)
 
 	-- ↓ 열쇠 상호작용 함수 -------------------------------------------------------------------------------------------------
 
@@ -207,6 +223,10 @@ function scene:create( event )
 
 	local function interCherry( event )
 		nearCherry = nearCherry + 1
+		if itemNum[1] == false then
+			itemNum[1] = true -- 임시
+			audio.play(itemGetSound)
+		end
 
 		composer.setVariable("backgroundY", background.y)
 		composer.setVariable("pi_X", display.contentCenterX + playerGroup.x)
@@ -222,6 +242,14 @@ function scene:create( event )
 		end
 	end
 	finger:addEventListener("tap", interCherry)
+
+
+	-- ↓ 인벤토리 함수 -------------------------------------------------------------------------------------------------
+
+	local function inven( event )
+		composer.showOverlay("inventoryScene", {isModal = true})
+	end
+	inventory:addEventListener("tap", inven)
 
 	-- ↓ 플레이어 이동 함수 정리 -------------------------------------------------------------------------------------------------
 
@@ -256,11 +284,12 @@ function scene:create( event )
 				motionUp = 1
 		 	end
 			
+			print(playerGroup.x, playerGroup.y, background.x, background.y)
 			if (playerGroup.y > -200 ) then
 				playerGroup.y = playerGroup.y - moveSpeed
 			elseif (background.y < 995) then -- 여기 숫자 각 맵에 맞게 조절하시면 됩니다. ex) -608
 				moveCamera(-moveSpeed)
-			elseif (playerGroup.y >= -700) then
+			elseif (playerGroup.y > -700) then
 				playerGroup.y = playerGroup.y - moveSpeed
 			end
 
@@ -286,7 +315,6 @@ function scene:create( event )
 				motionDown = 1
 		 	end
 
-			print(playerGroup.x, playerGroup.y, background.y)
 			if ( background.y > 202 and 434 > background.y or 934 < background.y and playerGroup.y < 998 ) then 
 				if ( playerGroup.y < -280 ) then
 					playerGroup.y = playerGroup.y + moveSpeed
@@ -326,12 +354,34 @@ function scene:create( event )
 				motionLeft = 1
 		 	end
 
-			if ( 78 < background.y and background.y < 198 or 430 < background.y and background.y < 854 or playerGroup.y > 998 ) then
+			if ( playerGroup.y == -200) then
+				if (background.y > 192 and background.y < 430 or background.y > 926) then
+					if (playerGroup.x > -772) then -- 숫자 조절
+						playerGroup.x = playerGroup.x - moveSpeed
+					end
+				else
+					if (playerGroup.x > -132) then -- 숫자 조절
+						playerGroup.x = playerGroup.x - moveSpeed
+					end
+				end
+			elseif ( playerGroup.y == -276 ) then
+				if (background.y > 110 and background.y < 358 or background.y > 850) then
+					if (playerGroup.x > -772) then -- 숫자 조절
+						playerGroup.x = playerGroup.x - moveSpeed
+					end
+				else
+					if (playerGroup.x > -132) then -- 숫자 조절
+						playerGroup.x = playerGroup.x - moveSpeed
+					end
+				end
+			elseif ( playerGroup.y > -196 or playerGroup.y < - 376 ) then 
 				if (playerGroup.x > -132) then -- 숫자 조절
 					playerGroup.x = playerGroup.x - moveSpeed
 				end
-			elseif (playerGroup.x > -772) then -- 숫자 조절
-		 		playerGroup.x = playerGroup.x - moveSpeed
+			else
+				if (playerGroup.x > -772) then -- 숫자 조절
+					playerGroup.x = playerGroup.x - moveSpeed
+				end
 			end
 			
 			left.alpha = 0.7
@@ -356,28 +406,68 @@ function scene:create( event )
 				motionRight = 1
 		 	end
 
-			if ( 78 < background.y and background.y < 198 or 430 < background.y and background.y < 854 or playerGroup.y > 998 ) then
-				if (playerGroup.x < 132) then -- 숫자 조절
+			if ( playerGroup.y == -200) then
+				if (background.y > 192 and background.y < 430 or background.y > 926) then
+					if (playerGroup.x < 772) then -- 숫자 조절
+						playerGroup.x = playerGroup.x + moveSpeed
+					end
+				else
+					if (playerGroup.x < 132) then -- 숫자 조절
+						playerGroup.x = playerGroup.x + moveSpeed
+					end
+				end
+			elseif ( playerGroup.y == -276 ) then
+				if (background.y > 110 and background.y < 358 or background.y > 850) then
+					if (playerGroup.x  < 772) then -- 숫자 조절
+						playerGroup.x = playerGroup.x + moveSpeed
+					end
+				else
+					if (playerGroup.x  < 132) then -- 숫자 조절
+						playerGroup.x = playerGroup.x + moveSpeed
+					end
+				end
+			elseif ( playerGroup.y > -196 or playerGroup.y < - 376 ) then 
+				if (playerGroup.x  < 132) then -- 숫자 조절
 					playerGroup.x = playerGroup.x + moveSpeed
 				end
-			elseif (playerGroup.x < 772) then -- 숫자 조절
-		 		playerGroup.x = playerGroup.x + moveSpeed
+			else
+				if (playerGroup.x < 772) then -- 숫자 조절
+					playerGroup.x = playerGroup.x + moveSpeed
+				end
 			end
 			right.alpha = 0.7
         end
 
+		
+
 		--print(playerGroup.x, background.y)
-		if(playerGroup.x > -100 and playerGroup.x < 70 and background.y > 170 and background.y < 326) then-- 체리 상호작용 위치
+		if(playerGroup.x > -100 and playerGroup.x < 70 and background.y > 90 and background.y < 130) then-- 체리 상호작용 위치
 			cursor.alpha = 0
 			finger.alpha = 1
-		elseif (-660 < playerGroup.x and playerGroup.x < -400 and -370 < playerGroup.y and playerGroup.y < -188) then --열쇠 게임 그림 상호작용
+		elseif (-660 < playerGroup.x and playerGroup.x < -400 and 930 < background.y and playerGroup.y > -372) then --열쇠 게임 그림 상호작용
 			cursor.alpha = 0
 			finger_key.alpha = 1
+		elseif ( playerGroup.y == -200 ) then
+			if pic == 1 then
+				if ( background.y > 570 and background.y < 734) then
+					cursor.alpha = 0
+					finger_picture.alpha = 1
+					finger.alpha = 0
+					finger_key.alpha = 0
+				else
+					cursor.alpha = 1
+					finger_picture.alpha = 0
+					finger.alpha = 0
+					finger_key.alpha = 0
+				end
+			end
 		else
 			cursor.alpha = 1
 			finger.alpha = 0
 			finger_key.alpha = 0
+			finger_picture.alpha = 0
 		end
+
     end
 
     local function touchEventListener(event)
@@ -433,6 +523,7 @@ function scene:create( event )
         end
     end
 
+	
     up:addEventListener("touch", touchEventListener)
     down:addEventListener("touch", touchEventListener)
     left:addEventListener("touch", touchEventListener)
@@ -443,6 +534,9 @@ function scene:create( event )
 	local function stopMove ( event )
 		if event.phase == "began" or event.phase == "moved" then
 			movingDirection = nil
+			if(playerGroup.y == -700 ) then
+				composer.gotoScene("2층.2층로비_독백전")
+			end
 
 			up.alpha = 1
 			right.alpha = 1

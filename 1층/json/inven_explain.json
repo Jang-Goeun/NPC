@@ -1,0 +1,26 @@
+[
+    {
+        "image" : "image/자물쇠/1자열쇠.png",
+        "content" : "심이 없는 열쇠.\n\n어디엔가 심이 있진 않을까..?"
+    },
+    {
+        "image" : "image/자물쇠/심.png",
+        "content" : "왕ㅇ왕열쇠 심"
+    },
+    {
+        "image" : "image/자물쇠/심.png",
+        "content" : "비어있음"
+    },
+    {
+        "image" : "image/자물쇠/나침반.png",
+        "content" : "이 나침반이 집에 데려다 줄 수 있을까"
+    },
+    {
+        "image" : "image/자물쇠/총.png",
+        "content" : "총총총총총"
+    },
+    {
+        "image" : "image/자물쇠/리본.png",
+        "content" : "체리한테 잘어울릴듯"
+    }
+]
