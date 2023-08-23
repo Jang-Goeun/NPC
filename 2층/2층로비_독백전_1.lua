@@ -10,14 +10,14 @@ local scene = composer.newScene()
 function scene:create( event )
 	local sceneGroup = self.view
 	local bgm =  audio.loadSound("sound/저택내부/default_bgm.mp3")
-	--audio.play(bgm)
-	composer.setVariable( "bgm", bgm )
 
 -- ↓ 시작화면 배치 -----------------------------------------------------------------------------------------------
 
 	-- ↓ 배경 ----------------------------------------------------------------------------------------------------
-	local background = display.newImageRect("image/배경/배경_저택_2층로비.png", 1900, 1210)
- 	background.x, background.y = display.contentWidth/2, display.contentHeight/2 - 50
+
+	local background = display.newImageRect("image/배경/배경_저택_2층로비.png", 2000,2000)
+	background.x, background.y = display.contentWidth/2, display.contentHeight*0.001
+	sceneGroup:insert(background)
 
 	local explanation = display.newImage("image/UI/물음표.png")
 	explanation.x, explanation.y = 100, 80
@@ -72,14 +72,6 @@ function scene:create( event )
 
 -- ↑ 시작화면 배치 ---------------------------------------------------------------------------------------------
 
---[[ ↓ 상호작용 버튼 영역 ---------------------------------------------------------------------------------------------------
-	local interact_extent = display.newRect(display.contentCenterX, display.contentCenterY, 300, 150)
-	interact_extent.x, interact_extent.y = display.contentWidth * 0.5, display.contentHeight * 0.9
-	interact_extent.alpha = 1
-
-	sceneGroup:insert(interact_extent)
--- ↑ 상호작용 버튼 영역 ---------------------------------------------------------------------------------------------------]]
-
 -- ↓ 상호작용 버튼 ---------------------------------------------------------------------------------------------------
 	interact_button = display.newImage("image/상호작용버튼/interact_button-1.png")
 	interact_button.x, interact_button.y = 1560, 810
@@ -97,42 +89,38 @@ function scene:create( event )
 	-- 앞
 	for i = 1, 4 do
 		player[1][i] = display.newImageRect("image/캐릭터/pixil(앞)-"..(i - 1)..".png", 120, 120)
-		player[1][i].x, player[1][i].y = display.contentWidth*0.5, display.contentHeight*0.95 
 		player[1][i].alpha = 0
+		player[1][i].x, player[1][i].y = display.contentCenterX , 900
 
 		playerGroup:insert(player[1][i])
 	end
 	-- 뒤
 	for i = 1, 4 do
 		player[2][i] = display.newImageRect("image/캐릭터/pixil(뒤)-"..(i - 1)..".png", 120, 120)
-		player[2][i].x, player[2][i].y = display.contentWidth*0.5, display.contentHeight*0.95
 		player[2][i].alpha = 0
+		player[2][i].x, player[2][i].y = display.contentCenterX , 900
 
 		playerGroup:insert(player[2][i])
 	end
 	-- 왼쪽
 	for i = 1, 4 do
 		player[3][i] = display.newImageRect("image/캐릭터/pixil(왼)-"..(i - 1)..".png", 120, 120)
-		player[3][i].x, player[3][i].y = display.contentWidth*0.5, display.contentHeight*0.95
 		player[3][i].alpha = 0
+		player[3][i].x, player[3][i].y = display.contentCenterX , 900
 
 		playerGroup:insert(player[3][i])
 	end
 	-- 오른쪽
 	for i = 1, 4 do
 		player[4][i] = display.newImageRect("image/캐릭터/pixil(오른)-"..(i - 1)..".png", 120, 120)
-		player[4][i].x, player[4][i].y = display.contentWidth*0.5, display.contentHeight*0.95
 		player[4][i].alpha = 0
-
+		player[4][i].x, player[4][i].y = display.contentCenterX , 900
 		playerGroup:insert(player[4][i])
 	end
 
 	sceneGroup:insert(playerGroup)
 
 	player[2][1].alpha = 1 -- 처음 모습
-
-	local locationX = 1200
-	local locationY = 700
 
 	sceneGroup:insert(up)
 	sceneGroup:insert(right)
@@ -174,12 +162,9 @@ function scene:create( event )
 			if motionUp == 5 then
 				motionUp = 1
 			end
-
-			if playerGroup.y > background.contentHeight - playerGroup.contentHeight * 11.5 then
-				if playerGroup.y == background.contentHeight - playerGroup.contentHeight * 11.15 then
-					composer.gotoScene("2층.2층로비_독백") -- 2층로비_독백으로 넘어가기
-				end
-				playerGroup.y = playerGroup.y - moveSpeed
+			--print(playerGroup.y)
+			if (playerGroup.y > -96) then -- 여기 숫자 각 맵에 맞게 조절하시면 됩니다. ex) -608
+				playerGroup.y = playerGroup.y - moveSpeed	
 			end
 
 			up.alpha = 0.5
@@ -202,7 +187,7 @@ function scene:create( event )
 				motionDown = 1
 			end
 
-			if playerGroup.y < background.contentHeight - playerGroup.contentHeight * 10.183 then
+			if (playerGroup.y < 32) then -- 숫자 조절
 				playerGroup.y = playerGroup.y + moveSpeed
 			end
 
@@ -226,7 +211,7 @@ function scene:create( event )
 				motionLeft = 1
 			end
 
-			if playerGroup.x > background.contentWidth - playerGroup.contentWidth * 16.9 then
+			if (playerGroup.x > -128) then -- 숫자 조절
 				playerGroup.x = playerGroup.x - moveSpeed
 			end
 			left.alpha = 0.5
@@ -250,7 +235,7 @@ function scene:create( event )
 				motionRight = 1
 			end
 
-			if playerGroup.x < background.contentWidth - playerGroup.contentWidth * 14.7 then
+			if (playerGroup.x < 140) then -- 숫자 조절
 				playerGroup.x = playerGroup.x + moveSpeed
 			end
 			right.alpha = 0.5
@@ -262,7 +247,7 @@ function scene:create( event )
 			-- print("터치를 시작함")
 			if event.target == up then
 				movingDirection = "up"
-
+				
 				for i = 1, 4 do
 					if i ~= 2 then
 						for j = 1, 4 do
@@ -317,6 +302,9 @@ function scene:create( event )
 
 	local function stopMove ( event )
 		if event.phase == "began" or event.phase == "moved" then
+			if (playerGroup.y == -96) then 
+				composer.gotoScene("2층.2층로비_독백") -- 2층로비_독백으로 넘어가기
+			end
 			movingDirection = nil
 
 			up.alpha = 1

@@ -59,3 +59,4 @@ local function onFirstView( event )
 end
 
 onFirstView()	-- invoke first tab button's onPress event manually
+

@@ -1,6 +1,6 @@
 -----------------------------------------------------------------------------------------
 --
--- 게임1층로비
+-- 2층로비
 --
 -----------------------------------------------------------------------------------------
 
@@ -10,64 +10,12 @@ local scene = composer.newScene()
 function scene:create( event )
 	local sceneGroup = self.view
 
-	local tempBackground = display.newRect(display.contentCenterX, display.contentCenterY, 1920, 1080)
-	tempBackground:setFillColor(0)
-	sceneGroup:insert(tempBackground)
-
-	local background = display.newImageRect("image/배경/배경_저택_1층.png", 2000,2000)
-	background.x, background.y = display.contentWidth/2, display.contentHeight*0.08
+	local background = display.newImageRect("image/배경/배경_저택_2층로비.png", 2000,2000)
+	background.x, background.y = display.contentWidth/2, display.contentHeight*0.001
 	sceneGroup:insert(background)
 
-	--벽
-	--local wall1 = display.newRect(background.x * 0.5, background.y, 550,280)
-	--local wall2 = display.newRect(background.x * 1.5, background.y, 550,280)
-
-	-- 체리
-	local cherry = display.newImageRect("image/캐릭터/체리_도트_기본모습.png", 120, 120)
-	cherry.x, cherry.y = display.contentWidth/2, 380
-
-	local nearCherry = 0
-
-	--desk
-	--local desk = display.newRect(background.x, background.y, 550,150)
-
-	local obsGroup = display.newGroup()
-
-	-- 액자
-	local frame = {}
-	for i = 1, 4 do
-		frame[i] = display.newImageRect("image/오브제 1층액자.png", 130, 130)
-		sceneGroup:insert(frame[i])
-		obsGroup:insert(frame[i])
-	end
-	frame[1].x, frame[1].y =  display.contentWidth * 0.16, -600
-	frame[2].x, frame[2].y =  display.contentWidth * 0.29, -600
-	frame[3].x, frame[3].y =  display.contentWidth * 0.72, -600
-	frame[4].x, frame[4].y =  display.contentWidth * 0.85, -600
-
-	--obsGroup:insert(wall1)
-	--obsGroup:insert(wall2)
-	obsGroup:insert(cherry)
-	--obsGroup:insert(desk)
-
-
 	local restart = display.newImage("image/UI/세모.png")
-	restart.x, restart.y = 1820, 80
-
-	local cursor = display.newImage("image/UI/커서.png")
-	cursor.x, cursor.y = 1560, 840 
-
-	local finger = display.newImage("image/UI/손가락포인터.png")
-	finger.x, finger.y = 1560, 840
-	finger.alpha = 0
-
-	local finger_key = display.newImage("image/UI/손가락포인터.png")
-	finger_key.x, finger_key.y = 1560, 840
-	finger_key.alpha = 0
-
-	local finger_picture = display.newImage("image/UI/손가락포인터.png")
-	finger_picture.x, finger_picture.y = 1560, 840
-	finger_picture.alpha = 0
+	restart.x, restart.y = 1820, 80	
 
 	local not_interaction = display.newImageRect("image/UI/빈원형.png", 130, 130)
 	not_interaction.x, not_interaction.y = 1740, 680
@@ -115,7 +63,50 @@ function scene:create( event )
 	stopDown.x, stopDown.y = 330, 923
 
 	-- ↑ ui정리 -------------------------------------------------------------------------------------------------
+	-- ↓ 상호작용 버튼 ---------------------------------------------------------------------------------------------------
+	local interact_button = {}
 
+	interact_button[1] = display.newImage("image/상호작용버튼/interact_button-1.png")
+	interact_button[1].x, interact_button[1].y = 1560, 810
+	interact_button[1].alpha = 0
+
+	for i = 2, 4 do
+		interact_button[i] = display.newImage("image/상호작용버튼/interact_button-"..i..".png")
+		interact_button[i].x, interact_button[i].y = 1560, 810
+		interact_button[i].alpha = 0
+
+		sceneGroup:insert(interact_button[i])
+	end
+
+	interact_button[1].alpha = 1 -- 처음 모습
+	-- ↑ 상호작용 버튼 ---------------------------------------------------------------------------------------------------
+
+	-- ↓ 상호작용 버튼 영역 ---------------------------------------------------------------------------------------------------
+	local interact_extentGroup = display.newGroup()
+	local interact_extent = {}
+
+	interact_extent[1] = display.newRect(interact_extentGroup, display.contentCenterX, display.contentCenterY, 100, 150)
+	interact_extent[1].x, interact_extent[1].y = display.contentWidth * 0.12, display.contentHeight * 0.17
+	interact_extent[1].alpha = 0
+
+	interact_extent[2] = display.newRect(interact_extentGroup, display.contentCenterX, display.contentCenterY, 250, 150)
+	interact_extent[2].x, interact_extent[2].y = display.contentWidth * 0.5, display.contentHeight * -0.4
+	interact_extent[2].alpha = 0
+
+	interact_extent[3] = display.newRect(interact_extentGroup, display.contentCenterX, display.contentCenterY, 100, 150)
+	interact_extent[3].x, interact_extent[3].y = display.contentWidth * 0.88, display.contentHeight * 0.17
+	interact_extent[3].alpha = 0
+
+	sceneGroup:insert(interact_extentGroup)
+	-- ↑ 상호작용 버튼 영역 ---------------------------------------------------------------------------------------------------
+	-- ↓ 인벤토리 함수 -------------------------------------------------------------------------------------------------
+
+	local function inven( event )
+		composer.showOverlay("inventoryScene", {isModal = true})
+	end
+	inventory:addEventListener("tap", inven)
+	
+	-- ↑ 인벤토리 함수 -------------------------------------------------------------------------------------------------
 	-- ↓ 플레이어 ---------------------------------------------------------------------------------------------------
 	local playerGroup = display.newGroup()
 	local player = {} -- 앞
@@ -128,7 +119,7 @@ function scene:create( event )
 	for i = 1, 4 do
 		player[1][i] = display.newImageRect("image/캐릭터/pixil(앞)-"..(i - 1)..".png", 120, 120)
 		player[1][i].alpha = 0
-		player[1][i].x, player[1][i].y = display.contentCenterX , 1000
+		player[1][i].x, player[1][i].y = display.contentCenterX , 800
 
 		playerGroup:insert(player[1][i])
 	end
@@ -136,7 +127,7 @@ function scene:create( event )
 	for i = 1, 4 do
 		player[2][i] = display.newImageRect("image/캐릭터/pixil(뒤)-"..(i - 1)..".png", 120, 120)
 		player[2][i].alpha = 0
-		player[2][i].x, player[2][i].y = display.contentCenterX , 1000
+		player[2][i].x, player[2][i].y = display.contentCenterX , 800
 
 		playerGroup:insert(player[2][i])
 	end
@@ -144,7 +135,7 @@ function scene:create( event )
 	for i = 1, 4 do
 		player[3][i] = display.newImageRect("image/캐릭터/pixil(왼)-"..(i - 1)..".png", 120, 120)
 		player[3][i].alpha = 0
-		player[3][i].x, player[3][i].y = display.contentCenterX , 1000
+		player[3][i].x, player[3][i].y = display.contentCenterX , 800
 
 		playerGroup:insert(player[3][i])
 	end
@@ -152,11 +143,11 @@ function scene:create( event )
 	for i = 1, 4 do
 		player[4][i] = display.newImageRect("image/캐릭터/pixil(오른)-"..(i - 1)..".png", 120, 120)
 		player[4][i].alpha = 0
-		player[4][i].x, player[4][i].y = display.contentCenterX , 1000
+		player[4][i].x, player[4][i].y = display.contentCenterX , 800
 		playerGroup:insert(player[4][i])
 	end
 
-	sceneGroup:insert(obsGroup)
+	--sceneGroup:insert(obsGroup)
 	sceneGroup:insert(playerGroup)
 
 	player[2][1].alpha = 1 -- 처음 모습
@@ -164,10 +155,6 @@ function scene:create( event )
 	
 	sceneGroup:insert(restart)
 
-	sceneGroup:insert(cursor)
-	sceneGroup:insert(finger)
-	sceneGroup:insert(finger_key)
-	sceneGroup:insert(finger_picture)
 	sceneGroup:insert(not_interaction)
 	sceneGroup:insert(interaction)
 	sceneGroup:insert(inventory)
@@ -187,69 +174,13 @@ function scene:create( event )
 	
 	--화면 이동 함수-----------------------------------
 	local function moveCamera( dy )
-
-		--배경끝이 스크린끝과 같으면 배경이동멈추고 계단전까지만 주인공 이동
 		-----------------------if ()
 		background.y = background.y - dy
-		obsGroup.y = obsGroup.y - dy
-
+		interact_extentGroup.y = interact_extentGroup.y - dy
 		-- 배경 이동 처리 (위, 아래 이동)
         
 	end
 	--------------------------------------------------
-	-- ↓ 그림 상호작용 함수 -------------------------------------------------------------------------------------------------
-	local pic = 1
-	local function picture( event )
-		if pic == 1 then
-			composer.setVariable("backgroundY", background.y)
-			composer.gotoScene( "1층.picturejson")
-			cursor.alpha = 1
-			finger_picture.alpha = 0
-			pic = pic + 1
-		end
-	end
-
-	finger_picture:addEventListener("tap", picture)
-
-	-- ↓ 열쇠 상호작용 함수 -------------------------------------------------------------------------------------------------
-
-	local function interKey( event )
-		composer.setVariable("backgroundY", background.y)
-		composer.gotoScene("1층.key_lockingImage")
-	end
-	finger_key:addEventListener("tap", interKey)
-
-	-- ↓ 체리 상호작용 함수 -------------------------------------------------------------------------------------------------
-
-	local function interCherry( event )
-		nearCherry = nearCherry + 1
-		if itemNum[1] == false then
-			itemNum[1] = true -- 임시
-			audio.play(itemGetSound)
-		end
-
-		composer.setVariable("backgroundY", background.y)
-		composer.setVariable("pi_X", display.contentCenterX + playerGroup.x)
-		-- 파이 y좌표는 항상 playerGroup 0임 == 초기위치 800
-
-		--체리 위치 / x좌표는 항상 화면 중앙
-		composer.setVariable("cherry_Y", cherry.y + obsGroup.y)
-
-		if nearCherry == 6 then
-			composer.gotoScene( "1층.cherry_distractor" )
-		else
-			composer.gotoScene( "1층.cherryInteraction" )
-		end
-	end
-	finger:addEventListener("tap", interCherry)
-
-
-	-- ↓ 인벤토리 함수 -------------------------------------------------------------------------------------------------
-
-	local function inven( event )
-		composer.showOverlay("inventoryScene", {isModal = true})
-	end
-	inventory:addEventListener("tap", inven)
 
 	-- ↓ 플레이어 이동 함수 정리 -------------------------------------------------------------------------------------------------
 
@@ -283,21 +214,39 @@ function scene:create( event )
 			if motionUp == 5 then
 				motionUp = 1
 		 	end
-			
-			print(playerGroup.x, playerGroup.y, background.x, background.y)
-			if ( playerGroup.y < -420 and background.y < 998) then -- 여기 숫자 각 맵에 맞게 조절하시면 됩니다. ex) -608
-				if ( playerGroup.y == -424 and playerGroup.x > -192 and playerGroup.x < 200) then
-					moveCamera(-moveSpeed)
-				elseif ( background.y < 434 ) then
-					moveCamera(-moveSpeed)
-				end
-			elseif (playerGroup.y >= -700) then
-				playerGroup.y = playerGroup.y - moveSpeed
+
+			if (background.y < 1293) then -- 여기 숫자 각 맵에 맞게 조절하시면 됩니다. ex) -608
+				moveCamera(-moveSpeed)
 			end
 
 			up.alpha = 0.7
-
-			
+			print(playerGroup.x )
+			if (609 < background.y and background.y < 641) then
+				if (playerGroup.x < -664) then
+					interact_button[1].alpha = 0
+					interact_button[2].alpha = 1
+				elseif (playerGroup.x > 664) then
+					interact_button[1].alpha = 0
+					interact_button[4].alpha = 1
+				else
+					interact_button[1].alpha = 1
+					interact_button[2].alpha = 0
+					interact_button[4].alpha = 0
+				end
+			elseif(background.y > 1213) then
+				if (-108 < playerGroup.x and playerGroup.x < 96) then
+					interact_button[1].alpha = 0
+					interact_button[3].alpha = 1
+				else
+					interact_button[1].alpha = 1
+					interact_button[3].alpha = 0
+				end
+			else
+				interact_button[1].alpha = 1
+				interact_button[2].alpha = 0
+				interact_button[3].alpha = 0
+				interact_button[4].alpha = 0
+			end
         elseif movingDirection == "down" then ---------------------
 			-- 이전 모습 삭제
 			if motionDown == 1 then -- 1~4
@@ -317,25 +266,37 @@ function scene:create( event )
 				motionDown = 1
 		 	end
 
-			print(playerGroup.x, playerGroup.y, background.x, background.y)
-			if (background.y > 90 and playerGroup.y > -430) then -- 여기 숫자 각 맵에 맞게 조절하시면 됩니다. ex) -608
-				if ( playerGroup.x < -188 or playerGroup.x > 196 ) then
-					if( background.y > 854 ) then
-						moveCamera(moveSpeed)
-					end
-				else
-					moveCamera(moveSpeed)
-				end
-			elseif ( playerGroup.y < 0 ) then
-				if ( playerGroup.x < -188 or playerGroup.x > 196 ) then
-					if( playerGroup.y < -136 ) then
-						playerGroup.y = playerGroup.y + moveSpeed
-					end
-				else
-					playerGroup.y = playerGroup.y + moveSpeed
-				end
+			if (background.y > -18.91) then -- 숫자 조절
+				moveCamera(moveSpeed)
 			end
 			down.alpha = 0.7
+			
+			if (609 < background.y and background.y < 641) then
+				if (playerGroup.x < -664) then
+					interact_button[1].alpha = 0
+					interact_button[2].alpha = 1
+				elseif (playerGroup.x > 664) then
+					interact_button[1].alpha = 0
+					interact_button[4].alpha = 1
+				else
+					interact_button[1].alpha = 1
+					interact_button[2].alpha = 0
+					interact_button[4].alpha = 0
+				end
+			elseif(background.y > 1213) then
+				if (-108 < playerGroup.x and playerGroup.x < 96) then
+					interact_button[1].alpha = 0
+					interact_button[3].alpha = 1
+				else
+					interact_button[1].alpha = 1
+					interact_button[3].alpha = 0
+				end
+			else
+				interact_button[1].alpha = 1
+				interact_button[2].alpha = 0
+				interact_button[3].alpha = 0
+				interact_button[4].alpha = 0
+			end
 
         elseif movingDirection == "left" then -------------------------
 			-- 이전 모습 삭제
@@ -356,14 +317,44 @@ function scene:create( event )
 				motionLeft = 1
 		 	end
 
-			if ( playerGroup.y > -136 or ( playerGroup.y == -424 and background.y > 466 and background.y < 846 )) then
-				if (playerGroup.x > -188) then -- 숫자 조절
+			print(playerGroup.x, background.y)
+			if (playerGroup.x > -720) then -- 숫자 조절
+				if 609 > background.y or background.y > 641 then
+					if (playerGroup.x > -664) then -- 숫자 조절
+						playerGroup.x = playerGroup.x - moveSpeed
+					end
+				else
 					playerGroup.x = playerGroup.x - moveSpeed
-			   end
-			elseif (playerGroup.x > -780) then -- 숫자 조절
-				playerGroup.x = playerGroup.x - moveSpeed
+				end
 			end
 			left.alpha = 0.7
+
+			if (609 < background.y and background.y < 641) then
+				if (playerGroup.x < -664) then
+					interact_button[1].alpha = 0
+					interact_button[2].alpha = 1
+				elseif (playerGroup.x > 664) then
+					interact_button[1].alpha = 0
+					interact_button[4].alpha = 1
+				else
+					interact_button[1].alpha = 1
+					interact_button[2].alpha = 0
+					interact_button[4].alpha = 0
+				end
+			elseif(background.y > 1213) then
+				if (-108 < playerGroup.x and playerGroup.x < 96) then
+					interact_button[1].alpha = 0
+					interact_button[3].alpha = 1
+				else
+					interact_button[1].alpha = 1
+					interact_button[3].alpha = 0
+				end
+			else
+				interact_button[1].alpha = 1
+				interact_button[2].alpha = 0
+				interact_button[3].alpha = 0
+				interact_button[4].alpha = 0
+			end
 
         elseif movingDirection == "right" then -----------------------------
 			-- 이전 모습 삭제
@@ -384,47 +375,46 @@ function scene:create( event )
 			if motionRight == 5 then
 				motionRight = 1
 		 	end
-			
-			if ( playerGroup.y > -136 or ( playerGroup.y == -424 and background.y > 466 and background.y < 846 )) then
-				if (playerGroup.x < 196) then -- 숫자 조절
-					playerGroup.x = playerGroup.x + moveSpeed
-			    end
-			elseif (playerGroup.x < 780) then -- 숫자 조절
-				playerGroup.x = playerGroup.x + moveSpeed
-			end
-			right.alpha = 0.7
-        end
 
-		
-
-		--print(playerGroup.x, background.y)
-		if(playerGroup.x > -100 and playerGroup.x < 70 and background.y > 90 and background.y < 130) then-- 체리 상호작용 위치
-			cursor.alpha = 0
-			finger.alpha = 1
-		elseif (-660 < playerGroup.x and playerGroup.x < -400 and 930 < background.y and playerGroup.y > -372) then --열쇠 게임 그림 상호작용
-			cursor.alpha = 0
-			finger_key.alpha = 1
-		elseif ( playerGroup.y == -200 ) then
-			if pic == 1 then
-				if ( background.y > 570 and background.y < 734) then
-					cursor.alpha = 0
-					finger_picture.alpha = 1
-					finger.alpha = 0
-					finger_key.alpha = 0
+			print(playerGroup.x, background.y)
+			if (playerGroup.x < 720) then -- 숫자 조절
+				if 609 > background.y or background.y > 641 then
+					if (playerGroup.x < 664) then -- 숫자 조절
+						playerGroup.x = playerGroup.x + moveSpeed
+				    end
 				else
-					cursor.alpha = 1
-					finger_picture.alpha = 0
-					finger.alpha = 0
-					finger_key.alpha = 0
+					playerGroup.x = playerGroup.x + moveSpeed
 				end
 			end
-		else
-			cursor.alpha = 1
-			finger.alpha = 0
-			finger_key.alpha = 0
-			finger_picture.alpha = 0
-		end
+			right.alpha = 0.7
+			if (609 < background.y and background.y < 641) then
+				if (playerGroup.x < -664) then
+					interact_button[1].alpha = 0
+					interact_button[2].alpha = 1
+				elseif (playerGroup.x > 664) then
+					interact_button[1].alpha = 0
+					interact_button[4].alpha = 1
+				else
+					interact_button[1].alpha = 1
+					interact_button[2].alpha = 0
+					interact_button[4].alpha = 0
+				end
+			elseif(background.y > 1213) then
+				if (-108 < playerGroup.x and playerGroup.x < 96) then
+					interact_button[1].alpha = 0
+					interact_button[3].alpha = 1
+				else
+					interact_button[1].alpha = 1
+					interact_button[3].alpha = 0
+				end
+			else
+				interact_button[1].alpha = 1
+				interact_button[2].alpha = 0
+				interact_button[3].alpha = 0
+				interact_button[4].alpha = 0
+			end
 
+        end
     end
 
     local function touchEventListener(event)
@@ -480,7 +470,6 @@ function scene:create( event )
         end
     end
 
-	
     up:addEventListener("touch", touchEventListener)
     down:addEventListener("touch", touchEventListener)
     left:addEventListener("touch", touchEventListener)
@@ -491,9 +480,6 @@ function scene:create( event )
 	local function stopMove ( event )
 		if event.phase == "began" or event.phase == "moved" then
 			movingDirection = nil
-			if(playerGroup.y == -800 ) then
-				composer.gotoScene("2층.2층로비_독백전", {effect = "fade"})
-			end
 
 			up.alpha = 1
 			right.alpha = 1
@@ -509,7 +495,31 @@ function scene:create( event )
 
     -- ↑ 플레이어 이동 함수 정리 ---------------------------------------------------------------------------------------
 
-    -- ↑ 플레이어 이동 함수 정리 ------------------------------------------------------------------------------------------
+	-- ↓ 상호작용 버튼 클릭 함수 ---------------------------------------------------------------------------------
+
+	local function tapinteract_buttonEventListener( event )
+		if interact_button[2].alpha == 1 then
+			audio.play(sound_liar1)
+			composer.gotoScene("2층.거짓말쟁이방_black") -- 거짓말쟁이방
+		
+		elseif interact_button[3].alpha == 1 then
+			audio.play(sound_liar2)
+			composer.gotoScene("2층.투명미로_black") -- 투명미로
+		
+		elseif interact_button[4].alpha == 1 then
+			audio.play(sound_liar1)
+			composer.gotoScene("2층.예술가의방_black") -- 예술가의방
+
+		else 
+			print("상호작용 버튼을 탭함")
+		end
+	end
+
+	interact_button[2]:addEventListener("tap", tapinteract_buttonEventListener)
+	interact_button[3]:addEventListener("tap", tapinteract_buttonEventListener)
+	interact_button[4]:addEventListener("tap", tapinteract_buttonEventListener)
+
+	-- ↑ 상호작용 버튼 클릭 함수-----------------------------------------------------------------------------------
 end
 
 function scene:show( event )
