@@ -9,17 +9,14 @@ local scene = composer.newScene()
 
 function scene:create( event )
 	local sceneGroup = self.view
-	local sound_liar1 =  audio.loadSound("sound/거짓말쟁이의 방/거짓말쟁이 1.mp3")
-	local sound_liar2 =  audio.loadSound("sound/거짓말쟁이의 방/거짓말쟁이 2.mp3")
 -- ↓ 시작화면 배치 -----------------------------------------------------------------------------------------------
 
 	-- ↓ 배경 ----------------------------------------------------------------------------------------------------
 	local background = display.newRect(display.contentCenterX, display.contentCenterY, display.contentWidth, display.contentHeight)
 	background:setFillColor(0.1, 1) -- 전체 화면
 
-	local room = display.newImage( "image/배경/배경_2층_거짓말쟁이.png", display.contentWidth*0.5, display.contentHeight*0.5)
-	room:setFillColor(0.4, 0.4) -- 게임 방
-	room:scale(0.9, 0.9)
+	local room = display.newImage( "image/배경/배경_저택_거짓말쟁이 스포트라이트.png", display.contentWidth*0.5, display.contentHeight*0.5)
+	room:scale(0.9, 0.9) -- 게임 방
 
 	local explanation = display.newImage("image/UI/물음표.png")
 	explanation.x, explanation.y = 100, 80
@@ -30,7 +27,7 @@ function scene:create( event )
 	local back = display.newImage("image/UI/세모.png")
 	back.x, back.y = 1820, 80
 
-	local item_Change = display.newImage("image/UI/Item_Change.png")
+	local item_Change = display.newImage("image/UI/빈원형.png")
 	item_Change.x, item_Change.y = 1740, 680
 
 	local personGroup = composer.getVariable( "personGroup" )

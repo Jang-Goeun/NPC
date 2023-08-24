@@ -1,9 +1,8 @@
 -----------------------------------------------------------------------------------------
 --
--- clear_black.lua
+-- 거짓말쟁이방퀘스트.lua
 --
 -----------------------------------------------------------------------------------------
-
 
 local composer = require( "composer" )
 local scene = composer.newScene()
@@ -11,24 +10,47 @@ local scene = composer.newScene()
 function scene:create( event )
 	local sceneGroup = self.view
 
-	local background = display.newRect(display.contentCenterX, display.contentCenterY, display.contentWidth, display.contentHeight)
-	background:setFillColor(0) -- 검정 화면
-	sceneGroup:insert(background)
+	local question = display.newImage("image/UI/물음표.png")
+	question.x, question.y = 100, 80
 
-	local count = 2
-	local function counter( event )
-		count = count - 1
-		print(count)
+	sceneGroup:insert(question)
 
-		if count == 1 then
-			print("///////")
-			composer.hideOverlay("black")
-			composer.gotoScene("2층.2층로비", {effect = "fade"})
-		end
-		
+	-- ↑ ui정리 -------------------------------------------------------------------------------------------------
+
+	-- json에서 정보 읽기
+	local Data = jsonParse("json/quest.json")
+
+	local tipInfo = display.newGroup()
+
+	local questBox = display.newImage("image/UI/퀘스트.png")
+	questBox.x, questBox.y = display.contentWidth*0.247, display.contentHeight*0.33
+
+	local number = composer.getVariable("number")
+
+	if (number ==  nil) then
+		number = 1
+	else
+		number = number + 1
 	end
-	timer.performWithDelay(1000, counter, 3)
---
+
+	local content = display.newText(tipInfo, Data[number].content, display.contentWidth*0.247, display.contentHeight*0.36, font_Content, 50)
+	content:setFillColor(0)
+
+	sceneGroup:insert(questBox)
+	sceneGroup:insert(content)
+
+
+	local function nextScript( event )
+		composer.setVariable("number", number)
+		-- composer.gotoScene( "computerScreen" ) 
+		composer.hideOverlay("quest")
+	end
+	questBox:addEventListener("tap", nextScript)
+	question:addEventListener("tap", nextScript)
+
+
+
+
 end
 
 function scene:show( event )
@@ -54,7 +76,7 @@ function scene:hide( event )
 		--
 		-- INSERT code here to pause the scene
 		-- e.g. stop timers, stop animation, unload sounds, etc.)
-		composer.removeScene("black")
+		composer.removeScene( "quest" )
 	elseif phase == "did" then
 		-- Called when the scene is now off screen
 	end

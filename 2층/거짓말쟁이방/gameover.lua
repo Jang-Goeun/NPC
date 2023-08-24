@@ -22,7 +22,8 @@ function scene:create( event )
 	sceneGroup:insert(endingText)
 
     function endingText:tap( event )
-		composer.gotoScene('2층.2층로비')
+		composer.hideOverlay("2층.거짓말쟁이방.gameover")
+		composer.gotoScene('2층.2층로비', {effect = "fade"})
 	end
 end
 

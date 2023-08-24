@@ -9,95 +9,28 @@ local scene = composer.newScene()
 
 function scene:create( event )
 	local sceneGroup = self.view
-	local sound_dart =  audio.loadSound("sound/게임 시스템/암전 될 때 소리.mp3")
 
 -- ↓ 시작화면 배치 -----------------------=----------------------------------------------------------------------
 	local background = display.newRect(display.contentCenterX, display.contentCenterY, display.contentWidth, display.contentHeight)
 	background:setFillColor(0.1, 1) -- 전체 화면
 
-	local room = display.newImage( "image/배경/배경_2층_거짓말쟁이.png", display.contentWidth*0.5, display.contentHeight*0.5)
-	room:setFillColor(0.4, 0.4) -- 게임 방
-	room:scale(0.9, 0.9)
-
-	local explanation = display.newImage("image/UI/물음표.png")
-	explanation.x, explanation.y = 100, 80
-
-	local inventory = display.newImage("image/UI/인벤토리.png")
-	inventory.x, inventory.y = 240, 80
-
-	local back = display.newImage("image/UI/세모.png")
-	back.x, back.y = 1820, 80
-
-	local item_Change = display.newImage("image/UI/Item_Change.png")
-	item_Change.x, item_Change.y = 1740, 680
-
-	-- ↓ 방향키 --------------------------------------
-
-	local up = display.newImage("image/UI/콘솔(상).png")
-	up.x, up.y = 330, 696
-	up.name  = "up"
-	up.alpha = 0.5
-
-	local right = display.newImage("image/UI/콘솔(우).png")
-	right.x, right.y = 443, 810
-	right.name = "right"
-	right.alpha = 0.5
-
-	local left = display.newImage("image/UI/콘솔(좌).png")
-	left.x, left.y = 217, 810
-	left.name = "left"
-	left.alpha = 0.5
-
-	local down = display.newImage("image/UI/콘솔(하).png")
-	down.x, down.y = 330, 924
-	down.name = "down"
-	down.alpha = 0.5
-
-	--  -----------
-	local stopUp = display.newImage("image/UI/상_스트로크.png")
-	stopUp.x, stopUp.y = 330, 697
-
-	local stopRight = display.newImage("image/UI/우_스트로크.png")
-	stopRight.x, stopRight.y = 442, 810
-
-	local stopLeft = display.newImage("image/UI/좌_스트로크.png")
-	stopLeft.x, stopLeft.y = 218, 810
-
-	local stopDown = display.newImage("image/UI/하_스트로크.png")
-	stopDown.x, stopDown.y = 330, 923
+	local room = display.newImage( "image/배경/배경_저택_거짓말쟁이 스포트라이트.png", display.contentWidth*0.5, display.contentHeight*0.5)
+	room:scale(0.9, 0.9) -- 게임 방
 
 	local character = display.newImageRect("image/캐릭터/pixil(앞)-0.png", 120, 120)
 	character.x, character.y = display.contentWidth*0.5, display.contentHeight*0.5   -- 주인공
 
-	local talk1 = display.newImage("image/대화창/대화창1.png")
+	local talk1 = display.newImage("image/UI/대화창 ui.png")
 	talk1.x, talk1.y = display.contentWidth*0.5, display.contentHeight*0.7 
 	talk1:scale(0.63, 0.78) -- 대화창
-
-	local interact_button = display.newImage("image/상호작용버튼/interact_button-1.png")
-	interact_button.x, interact_button.y = 1560, 810
-	interact_button.alpha = 0.5
 	
 	local personGroup = composer.getVariable( "personGroup" )  
 
 	-- 레이어 정리
 	sceneGroup:insert(background)
 	sceneGroup:insert(room)
-	sceneGroup:insert(explanation)
-	sceneGroup:insert(inventory)
-	sceneGroup:insert(back)
-	sceneGroup:insert(item_Change)
-	sceneGroup:insert(stopRight)
 	sceneGroup:insert(character)
 	sceneGroup:insert(talk1)
-	sceneGroup:insert(up)
-	sceneGroup:insert(down)
-	sceneGroup:insert(left)
-	sceneGroup:insert(right)
-	sceneGroup:insert(stopUp)
-	sceneGroup:insert(stopDown)
-	sceneGroup:insert(stopLeft)
-	sceneGroup:insert(stopRight)
-	sceneGroup:insert(interact_button)
 	sceneGroup:insert(personGroup)
 
 -- ↑ 시작화면 배치 ---------------------------------------------------------------------------------------
@@ -119,7 +52,8 @@ function scene:create( event )
 		index = index + 1
 		if(index > #Data) then 
 			display.remove(dialog)
-			composer.gotoScene("2층.2층로비")  -- 2층 로비로 이동
+			composer.hideOverlay("2층.거짓말쟁이방.claer2")
+			composer.gotoScene("2층.거짓말쟁이방.black")  -- 암전
 			return
 		end
 

@@ -9,15 +9,14 @@ local scene = composer.newScene()
 
 function scene:create( event )
 	local sceneGroup = self.view
-	local sound_dart =  audio.loadSound("sound/게임 시스템/암전 될 때 소리.mp3")
 -- ↓ 시작화면 배치 -----------------------------------------------------------------------------------------------
 
 	-- ↓ 배경 ----------------------------------------------------------------------------------------------------
 	local background = display.newRect(display.contentCenterX, display.contentCenterY, display.contentWidth, display.contentHeight)
 	background:setFillColor(0.1, 1) -- 전체 화면
 
-	local room = display.newImage( "image/배경/배경_2층_거짓말쟁이.png", display.contentWidth*0.5, display.contentHeight*0.5)
-	room:setFillColor(0.4, 0.4) -- 게임 방
+	local room = display.newImage( "image/배경/배경_저택_거짓말쟁이 스포트라이트.png", display.contentWidth*0.5, display.contentHeight*0.5)
+	--room:setFillColor(0.4, 0.4) -- 게임 방
 	room:scale(0.9, 0.9)
 
 	local explanation = display.newImage("image/UI/물음표.png")
@@ -204,7 +203,8 @@ function scene:create( event )
 			
 			if playerGroup.x > room.contentWidth - playerGroup.contentWidth * 15.7 then
 				if playerGroup.x == room.contentWidth - playerGroup.contentWidth * 15.6 then
-					audio.play(sound_dart)
+					audio.play(darkSound)
+					composer.hideOverlay("2층.거짓말쟁이방.start")
 					composer.gotoScene("2층.거짓말쟁이방.start_black") -- start_black으로 넘어가기
 				end
 				playerGroup.x = playerGroup.x - moveSpeed

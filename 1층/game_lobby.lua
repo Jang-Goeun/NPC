@@ -223,10 +223,6 @@ function scene:create( event )
 
 	local function interCherry( event )
 		nearCherry = nearCherry + 1
-		if itemNum[1] == false then
-			itemNum[1] = true -- 임시
-			audio.play(itemGetSound)
-		end
 
 		composer.setVariable("backgroundY", background.y)
 		composer.setVariable("pi_X", display.contentCenterX + playerGroup.x)

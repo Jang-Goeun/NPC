@@ -1,9 +1,8 @@
 -----------------------------------------------------------------------------------------
 --
--- clear_black.lua
+-- 저택 게임 로딩창
 --
 -----------------------------------------------------------------------------------------
-
 
 local composer = require( "composer" )
 local scene = composer.newScene()
@@ -11,24 +10,36 @@ local scene = composer.newScene()
 function scene:create( event )
 	local sceneGroup = self.view
 
-	local background = display.newRect(display.contentCenterX, display.contentCenterY, display.contentWidth, display.contentHeight)
-	background:setFillColor(0) -- 검정 화면
+	-- ↓ 보안창 ----------------------------------------------------------------------------------------------------------------------------
+	local background = display.newImage("image/로딩창/게임로딩바.png")
+	background.x, background.y = display.contentCenterX, display.contentHeight * 0.5
+
+	local loading = display.newImageRect("image/로딩창/로딩바만.png", 190, 65)
+	loading.x, loading.y = display.contentWidth * 0.252, display.contentHeight * 0.745
+	loading.anchorX = -1
+
 	sceneGroup:insert(background)
+	sceneGroup:insert(loading)
 
-	local count = 2
+	-- ↑ 오브젝트 정리 ---------------------------------------------------------------------------------------------------------------------
+
+	-- ↓ 함수 정리 -------------------------------------------------------------------------------------------
+
+	local go = 5
 	local function counter( event )
-		count = count - 1
-		print(count)
-
-		if count == 1 then
-			print("///////")
-			composer.hideOverlay("black")
-			composer.gotoScene("2층.2층로비", {effect = "fade"})
+		if go > 1 then
+			loading.width = (7 - go) * 190
 		end
-		
+		go = go - 1
+		if(go == -1) then
+			composer.gotoScene( "1층.cherryFirstMeet" )
+		end
+
 	end
-	timer.performWithDelay(1000, counter, 3)
---
+
+ 	timer.performWithDelay(1000, counter, 6)
+
+	
 end
 
 function scene:show( event )
@@ -54,7 +65,8 @@ function scene:hide( event )
 		--
 		-- INSERT code here to pause the scene
 		-- e.g. stop timers, stop animation, unload sounds, etc.)
-		composer.removeScene("black")
+		timer.cancelAll()
+		composer.removeScene( "1층.game_start_loading" )
 	elseif phase == "did" then
 		-- Called when the scene is now off screen
 	end

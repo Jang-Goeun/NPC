@@ -9,17 +9,14 @@ local scene = composer.newScene()
 
 function scene:create( event )
 	local sceneGroup = self.view
-	local sound_heart =  audio.loadSound("sound/파이(피격, 죽음)/베는, 찔리는 소리 2.mp3")
-	local sound_dart =  audio.loadSound("sound/게임 시스템/암전 될 때 소리.mp3")
 -- ↓ 시작화면 배치 -----------------------=----------------------------------------------------------------------
 
 	-- ↓ 배경 ----------------------------------------------------------------------------------------------------
 	local background = display.newRect(display.contentCenterX, display.contentCenterY, display.contentWidth, display.contentHeight)
 	background:setFillColor(0.1, 1) -- 전체 화면
 
-	local room = display.newImage( "image/배경/배경_2층_거짓말쟁이.png", display.contentWidth*0.5, display.contentHeight*0.5)
-	room:setFillColor(0.4, 0.4) -- 게임 방
-	room:scale(0.9, 0.9)
+	local room = display.newImage( "image/배경/배경_저택_거짓말쟁이 스포트라이트.png", display.contentWidth*0.5, display.contentHeight*0.5)
+	room:scale(0.9, 0.9) -- 게임 방
 
 	local personGroup = composer.getVariable( "personGroup" )
 
@@ -30,15 +27,15 @@ function scene:create( event )
 	local heartGroup = composer.getVariable( "heartGroup")
 
 	-- ↓ 대화창 ----------------------------------------------------------------------------------------------------
-	local talk1 = display.newImage("image/대화창/대화창1.png")
+	local talk1 = display.newImage("image/UI/대화창 ui.png")
 	talk1.x, talk1.y = display.contentWidth*0.5, display.contentHeight*0.7 
 	talk1:scale(0.63, 0.78) -- 대화창
 
-	local talk3 = display.newImageRect("image/대화창/대화창2.png", 200, 70)
+	local talk3 = display.newImageRect("image/UI/거짓말쟁이_대화창.png", 200, 70)
 	talk3.x, talk3.y = display.contentWidth*0.7, display.contentHeight*0.50
 	talk3.alpha = 0 -- 대화창(맞아)
 
-	local talk4 = display.newImageRect("image/대화창/대화창3.png", 200, 70)
+	local talk4 = display.newImageRect("image/UI/거짓말쟁이_대화창.png", 200, 70)
 	talk4.x, talk4.y = display.contentWidth*0.7, display.contentHeight*0.56
 	talk4.alpha = 0 -- 대화창(아니야)
 
@@ -130,7 +127,7 @@ function scene:create( event )
 			if c == 1 and doublecheck == 1 then
 				display.remove(dialog)
 				composer.setVariable( "heartGroup" , heartGroup)
-				audio.play(sound_dart)
+				audio.play(darkSound)
 				composer.gotoScene("2층.거짓말쟁이방.gameround1_black")
 				return
 			elseif wrong == 1 then
@@ -144,7 +141,7 @@ function scene:create( event )
 		
 		if heartGroup.numChildren == 0 then
 			display.remove(dialog)
-			audio.play(sound_dart)
+			audio.play(darkSound)
 			composer.gotoScene("2층.거짓말쟁이방.gameover")
 		end
 
@@ -186,7 +183,7 @@ function scene:create( event )
 				if heartGroup.numChildren > 0 then
 					local lastHeart = heartGroup[heartGroup.numChildren]
 					display.remove(lastHeart)  -- 마지막 하트 삭제
-					audio.play(sound_heart)
+					audio.play(dieSound)
 	
 					-- 대화창 내용 업데이트
 					speaker.text = "1,2,3,4,5"
