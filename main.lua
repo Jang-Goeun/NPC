@@ -35,7 +35,7 @@ font_Content = "font/PF스타더스트.ttf"
 font_Speaker = "font/PF스타더스트 Bold.ttf"
 
 mainBackgroundMusic = audio.loadSound( "sound/밝은브금.mp3" )
--- audio.play( mainBackgroundMusic, { channel = 1, loops = -1})
+default_bgm = audio.loadSound( "sound/default_bgm.mp3" )
 wrongSound = audio.loadSound( "sound/경고음 1.mp3" )
 warningSound = audio.loadSound( "sound/경고음 2.mp3" )
 insertItem = audio.loadSound( "sound/게임 시스템/딸깍 소리 1.mp3" )
@@ -59,7 +59,7 @@ end
 
 -- event listeners for tab buttons:
 local function onFirstView( event )
-	composer.gotoScene( "1층.game_start_loading" )
+	composer.gotoScene( "1층.game_lobby" )
 end
 
 onFirstView()	-- invoke first tab button's onPress event manually

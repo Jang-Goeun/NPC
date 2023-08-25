@@ -170,11 +170,8 @@ function scene:create( event )
 			if motionUp == 5 then
 				motionUp = 1
 			end
-
+			print(playerGroup.y)
 			if playerGroup.y > background.contentHeight - playerGroup.contentHeight * 11.5 then
-				if playerGroup.y == background.contentHeight - playerGroup.contentHeight * 11.15 then
-					composer.gotoScene("2층.2층로비_독백") -- 2층로비_독백으로 넘어가기
-				end
 				playerGroup.y = playerGroup.y - moveSpeed
 			end
 
@@ -296,6 +293,10 @@ function scene:create( event )
 
 		elseif event.phase == "ended" or event.phase == "cancelled" then
 			movingDirection = nil
+
+			if playerGroup.y == -172 then
+				composer.gotoScene("2층.2층로비_독백") -- 2층로비_독백으로 넘어가기
+			end
 
 			up.alpha = 1
 			right.alpha = 1

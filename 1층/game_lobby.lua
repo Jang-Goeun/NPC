@@ -263,7 +263,7 @@ function scene:create( event )
 
 		--playerx,y최대값 정하기(틀안넘게)
 
-        if movingDirection == "up" then -----------------------------------
+		if movingDirection == "up" then -----------------------------------
 			-- 이전 모습 삭제
 			if motionUp == 1 then -- 1~4
 				player[2][4].alpha = 0
@@ -280,9 +280,9 @@ function scene:create( event )
 			end
 			if motionUp == 5 then
 				motionUp = 1
-		 	end
+			end
 			
-			--print(playerGroup.x, playerGroup.y, background.x, background.y)
+			print(playerGroup.x, playerGroup.y, background.x, background.y)
 			if ( playerGroup.y < -420 and background.y < 998) then -- 여기 숫자 각 맵에 맞게 조절하시면 됩니다. ex) -608
 				if ( (playerGroup.y == -424 or playerGroup.y == -428) and playerGroup.x > -192 and playerGroup.x < 200) then
 					moveCamera(-moveSpeed)
@@ -301,8 +301,33 @@ function scene:create( event )
 
 			up.alpha = 0.7
 
-			
-        elseif movingDirection == "down" then ---------------------
+			if(playerGroup.x > -100 and playerGroup.x < 70 and background.y > 90 and background.y < 130) then-- 체리 상호작용 위치
+				cursor.alpha = 0
+				finger.alpha = 1
+			elseif (-488 < playerGroup.x and playerGroup.x < -304 and playerGroup.y < -460) then --열쇠 게임 그림 상호작용
+				cursor.alpha = 0
+				finger_key.alpha = 1
+			elseif ( playerGroup.y == -424 or playerGroup.y == -428) then
+				if pic == 1 then
+					if ( background.y > 770 and background.y < 878) then
+						cursor.alpha = 0
+						finger_picture.alpha = 1
+						finger.alpha = 0
+						finger_key.alpha = 0
+					else
+						cursor.alpha = 1
+						finger_picture.alpha = 0
+						finger.alpha = 0
+						finger_key.alpha = 0
+					end
+				end
+			else
+				cursor.alpha = 1
+				finger.alpha = 0
+				finger_key.alpha = 0
+				finger_picture.alpha = 0
+			end
+		elseif movingDirection == "down" then ---------------------
 			-- 이전 모습 삭제
 			if motionDown == 1 then -- 1~4
 				player[1][4].alpha = 0
@@ -310,16 +335,16 @@ function scene:create( event )
 				player[1][motionDown - 1].alpha = 0
 			end
 			-- 현재 모습 
-		 	player[1][motionDown].alpha = 1
+			player[1][motionDown].alpha = 1
 
-		 	d = d + 0.2 -- 움직임 속도 조절
+			d = d + 0.2 -- 움직임 속도 조절
 			if(d == 1.2) then
 				motionDown = motionDown + 1
 				d = 0
 			end
 			if motionDown == 5 then
 				motionDown = 1
-		 	end
+			end
 
 			if (background.y > 90 and playerGroup.y > -430) then -- 여기 숫자 각 맵에 맞게 조절하시면 됩니다. ex) -608
 				if ( playerGroup.x < -188 or playerGroup.x > 196 ) then
@@ -340,9 +365,36 @@ function scene:create( event )
 					playerGroup.y = playerGroup.y + moveSpeed
 				end
 			end
+
 			down.alpha = 0.7
 
-        elseif movingDirection == "left" then -------------------------
+			if(playerGroup.x > -100 and playerGroup.x < 70 and background.y > 90 and background.y < 130) then-- 체리 상호작용 위치
+				cursor.alpha = 0
+				finger.alpha = 1
+			elseif (-488 < playerGroup.x and playerGroup.x < -304 and playerGroup.y < -460) then --열쇠 게임 그림 상호작용
+				cursor.alpha = 0
+				finger_key.alpha = 1
+			elseif ( playerGroup.y == -424 or playerGroup.y == -428) then
+				if pic == 1 then
+					if ( background.y > 770 and background.y < 878) then
+						cursor.alpha = 0
+						finger_picture.alpha = 1
+						finger.alpha = 0
+						finger_key.alpha = 0
+					else
+						cursor.alpha = 1
+						finger_picture.alpha = 0
+						finger.alpha = 0
+						finger_key.alpha = 0
+					end
+				end
+			else
+				cursor.alpha = 1
+				finger.alpha = 0
+				finger_key.alpha = 0
+				finger_picture.alpha = 0
+			end
+		elseif movingDirection == "left" then -------------------------
 			-- 이전 모습 삭제
 			if motionLeft == 1 then -- 1~4
 				player[3][4].alpha = 0
@@ -350,27 +402,54 @@ function scene:create( event )
 				player[3][motionLeft - 1].alpha = 0
 			end
 			-- 현재 모습 
-		 	player[3][motionLeft].alpha = 1
+			player[3][motionLeft].alpha = 1
 
-		 	d = d + 0.2 -- 움직임 속도 조절
+			d = d + 0.2 -- 움직임 속도 조절
 			if(d == 1.4) then
 				motionLeft = motionLeft + 1
 				d = 0
 			end
 			if motionLeft == 5 then
 				motionLeft = 1
-		 	end
+			end
 
 			if ( playerGroup.y > -136 or ( playerGroup.y == -424 and background.y > 466 and background.y < 846 )) then
 				if (playerGroup.x > -188) then -- 숫자 조절
 					playerGroup.x = playerGroup.x - moveSpeed
-			   end
+			end
 			elseif (playerGroup.x > -780) then -- 숫자 조절
 				playerGroup.x = playerGroup.x - moveSpeed
 			end
+
 			left.alpha = 0.7
 
-        elseif movingDirection == "right" then -----------------------------
+			if(playerGroup.x > -100 and playerGroup.x < 70 and background.y > 90 and background.y < 130) then-- 체리 상호작용 위치
+				cursor.alpha = 0
+				finger.alpha = 1
+			elseif (-488 < playerGroup.x and playerGroup.x < -304 and playerGroup.y < -460) then --열쇠 게임 그림 상호작용
+				cursor.alpha = 0
+				finger_key.alpha = 1
+			elseif ( playerGroup.y == -424 or playerGroup.y == -428) then
+				if pic == 1 then
+					if ( background.y > 770 and background.y < 878) then
+						cursor.alpha = 0
+						finger_picture.alpha = 1
+						finger.alpha = 0
+						finger_key.alpha = 0
+					else
+						cursor.alpha = 1
+						finger_picture.alpha = 0
+						finger.alpha = 0
+						finger_key.alpha = 0
+					end
+				end
+			else
+				cursor.alpha = 1
+				finger.alpha = 0
+				finger_key.alpha = 0
+				finger_picture.alpha = 0
+			end
+		elseif movingDirection == "right" then -----------------------------
 			-- 이전 모습 삭제
 			if motionRight == 1 then -- 1~4
 				player[4][4].alpha = 0
@@ -379,57 +458,54 @@ function scene:create( event )
 			end
 
 			-- 현재 모습 
-		 	player[4][motionRight].alpha = 1
+			player[4][motionRight].alpha = 1
 
-		 	d = d + 0.2 -- 움직임 속도 조절
+			d = d + 0.2 -- 움직임 속도 조절
 			if(d == 1.4) then
 				motionRight = motionRight + 1
 				d = 0
 			end
 			if motionRight == 5 then
 				motionRight = 1
-		 	end
+			end
 			
 			if ( playerGroup.y > -136 or ( playerGroup.y == -424 and background.y > 466 and background.y < 846 )) then
 				if (playerGroup.x < 196) then -- 숫자 조절
 					playerGroup.x = playerGroup.x + moveSpeed
-			    end
+				end
 			elseif (playerGroup.x < 780) then -- 숫자 조절
 				playerGroup.x = playerGroup.x + moveSpeed
 			end
+
 			right.alpha = 0.7
-        end
 
-		
-
-		--print(playerGroup.x, background.y)
-		if(playerGroup.x > -100 and playerGroup.x < 70 and background.y > 90 and background.y < 130) then-- 체리 상호작용 위치
-			cursor.alpha = 0
-			finger.alpha = 1
-		elseif (-488 < playerGroup.x and playerGroup.x < -304 and playerGroup.y < -460) then --열쇠 게임 그림 상호작용
-			cursor.alpha = 0
-			finger_key.alpha = 1
-		elseif ( playerGroup.y == -424 or playerGroup.y == -428) then
-			if pic == 1 then
-				if ( background.y > 770 and background.y < 878) then
-					cursor.alpha = 0
-					finger_picture.alpha = 1
-					finger.alpha = 0
-					finger_key.alpha = 0
-				else
-					cursor.alpha = 1
-					finger_picture.alpha = 0
-					finger.alpha = 0
-					finger_key.alpha = 0
+			if(playerGroup.x > -100 and playerGroup.x < 70 and background.y > 90 and background.y < 130) then-- 체리 상호작용 위치
+				cursor.alpha = 0
+				finger.alpha = 1
+			elseif (-488 < playerGroup.x and playerGroup.x < -304 and playerGroup.y < -460) then --열쇠 게임 그림 상호작용
+				cursor.alpha = 0
+				finger_key.alpha = 1
+			elseif ( playerGroup.y == -424 or playerGroup.y == -428) then
+				if pic == 1 then
+					if ( background.y > 770 and background.y < 878) then
+						cursor.alpha = 0
+						finger_picture.alpha = 1
+						finger.alpha = 0
+						finger_key.alpha = 0
+					else
+						cursor.alpha = 1
+						finger_picture.alpha = 0
+						finger.alpha = 0
+						finger_key.alpha = 0
+					end
 				end
+			else
+				cursor.alpha = 1
+				finger.alpha = 0
+				finger_key.alpha = 0
+				finger_picture.alpha = 0
 			end
-		else
-			cursor.alpha = 1
-			finger.alpha = 0
-			finger_key.alpha = 0
-			finger_picture.alpha = 0
 		end
-
     end
 
     local function touchEventListener(event)
@@ -476,6 +552,11 @@ function scene:create( event )
         elseif event.phase == "ended" or event.phase == "cancelled" then
             movingDirection = nil
 
+
+			if(playerGroup.y == -704 ) then
+				composer.hideOverlay("1층.game_lobby")
+				composer.gotoScene("2층.2층로비_독백전", {effect = "fade", time=1000})
+			end
 			up.alpha = 1
 			right.alpha = 1
 			left.alpha = 1
@@ -496,10 +577,6 @@ function scene:create( event )
 	local function stopMove ( event )
 		if event.phase == "began" or event.phase == "moved" then
 			movingDirection = nil
-			if(playerGroup.y == -704 ) then
-				composer.hideOverlay("1층.game_lobby")
-				composer.gotoScene("2층.2층로비_독백전", {effect = "fade", time=1000})
-			end
 
 			up.alpha = 1
 			right.alpha = 1
