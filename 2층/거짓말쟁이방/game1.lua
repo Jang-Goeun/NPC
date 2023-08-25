@@ -85,7 +85,7 @@ function scene:create( event )
 	content:setFillColor(0)
 	content.size = 35
 
-	local quest = display.newText(dialog, Data[#Data].content, display.contentWidth*0.19, display.contentHeight*0.3, font_Content, 45)
+	local quest = display.newText(dialog, Data[#Data].content, display.contentWidth*0.19, display.contentHeight*0.3, font_Content, 40)
 	quest:setFillColor(0)
 
 	if Data then

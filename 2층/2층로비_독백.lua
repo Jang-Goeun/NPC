@@ -10,10 +10,6 @@ local scene = composer.newScene()
 
 function scene:create( event )
 	local sceneGroup = self.view
-	local font_Speaker = "font.PF스타더스트.ttf"
-	local font_Content = "font.PF스타더스트 Bold.ttf"
-	local bgm = composer.getVariable("bgm")
-	--audio.play(bgm)
 	-- ↓ 배경 ----------------------------------------------------------------------------------------------------
 	local background = display.newImageRect("image/배경/배경_저택_2층로비.png", 1900, 1210)
 	background.x, background.y = display.contentWidth/2, display.contentHeight/2 - 50
@@ -29,8 +25,8 @@ function scene:create( event )
 	local explanation = display.newImage("image/UI/물음표.png")
 	explanation.x, explanation.y = 100, 80
 
-	local talk1 = display.newImage("image/대화창/대화창1.png")
-	talk1.x, talk1.y = display.contentWidth/2, display.contentHeight * 0.76
+	local talk1 = display.newImage("image/UI/대화창 ui.png")
+	talk1.x, talk1.y = display.contentWidth/2, display.contentHeight * 0.78
 
 	sceneGroup:insert(background)
 	sceneGroup:insert(back)
@@ -51,15 +47,11 @@ function scene:create( event )
 	image_pi2.name = "파이"
 	image_pi2.alpha = 0
 
-	local speaker = display.newText(dialog, "파이", display.contentWidth*0.25, display.contentHeight*0.73, display.contentWidth*0.2, display.contentHeight*0.1, font_B)
+	local speaker = display.newText(dialog, "파이", display.contentWidth*0.25, display.contentHeight*0.76, display.contentWidth*0.2, display.contentHeight*0.1, font_Speaker, 50)
 	speaker:setFillColor(0)
-	speaker.size = 50
-	speaker.font = native.newFont(font_Speaker)  -- speaker에 폰트 적용
 	
-	local content = display.newText(dialog, "고작 방 세 개? 너무 휑한 거 아니야?", display.contentWidth*0.5, display.contentHeight*0.88, display.contentWidth*0.7, display.contentHeight*0.2, font)
+	local content = display.newText(dialog, "고작 방 세 개? 너무 휑한 거 아니야?", display.contentWidth*0.5, display.contentHeight*0.902, display.contentWidth*0.7, display.contentHeight*0.2, font_Content, 45)
 	content:setFillColor(0)
-	content.size = 40
-	content.font = native.newFont(font_Content)  -- content에 폰트 적용
 
 	sceneGroup:insert(dialog)
 	sceneGroup:insert(image_pi1)

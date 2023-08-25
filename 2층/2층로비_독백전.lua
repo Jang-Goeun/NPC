@@ -9,9 +9,6 @@ local scene = composer.newScene()
 
 function scene:create( event )
 	local sceneGroup = self.view
-	local bgm =  audio.loadSound("sound/저택내부/default_bgm.mp3")
-	--audio.play(bgm)
-	composer.setVariable( "bgm", bgm )
 
 -- ↓ 시작화면 배치 -----------------------------------------------------------------------------------------------
 
@@ -28,7 +25,7 @@ function scene:create( event )
 	local back = display.newImage("image/UI/세모.png")
 	back.x, back.y = 1820, 80
 
-	local item_Change = display.newImage("image/UI/Item_Change.png")
+	local item_Change = display.newImage("image/UI/빈원형.png")
 	item_Change.x, item_Change.y = 1740, 680
 
 	-- ↓ 방향키 --------------------------------------
@@ -71,15 +68,14 @@ function scene:create( event )
 	sceneGroup:insert(item_Change)
 
 -- ↑ 시작화면 배치 ---------------------------------------------------------------------------------------------
+-- ↓ 인벤토리 함수 -------------------------------------------------------------------------------------------------
 
---[[ ↓ 상호작용 버튼 영역 ---------------------------------------------------------------------------------------------------
-	local interact_extent = display.newRect(display.contentCenterX, display.contentCenterY, 300, 150)
-	interact_extent.x, interact_extent.y = display.contentWidth * 0.5, display.contentHeight * 0.9
-	interact_extent.alpha = 1
+	local function inven( event )
+		composer.showOverlay("inventoryScene", {isModal = true})
+	end
+	inventory:addEventListener("tap", inven)
 
-	sceneGroup:insert(interact_extent)
--- ↑ 상호작용 버튼 영역 ---------------------------------------------------------------------------------------------------]]
-
+-- ↑ 인벤토리 함수 ---------------------------------------------------------------------------------------------
 -- ↓ 상호작용 버튼 ---------------------------------------------------------------------------------------------------
 	interact_button = display.newImage("image/상호작용버튼/interact_button-1.png")
 	interact_button.x, interact_button.y = 1560, 810

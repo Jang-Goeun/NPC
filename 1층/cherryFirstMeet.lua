@@ -27,7 +27,7 @@ function scene:create( event )
 	question.x, question.y = 100, 80
 
 	local chatBox = display.newImage("image/UI/대화창 ui.png")
-	chatBox.x, chatBox.y = display.contentWidth/2, display.contentHeight * 0.76
+	chatBox.x, chatBox.y = display.contentWidth/2, display.contentHeight * 0.78
 
 	sceneGroup:insert(restart)
 	sceneGroup:insert(inventory)
@@ -46,11 +46,11 @@ function scene:create( event )
 	image_pi.name = "파이"
 	image_pi.alpha = 0
 
-	local speaker = display.newText(dialog, "체리", display.contentWidth*0.25, display.contentHeight*0.73, display.contentWidth*0.2, display.contentHeight*0.1, font_Speaker)
+	local speaker = display.newText(dialog, "체리", display.contentWidth*0.25, display.contentHeight*0.76, display.contentWidth*0.2, display.contentHeight*0.1, font_Speaker)
 	speaker:setFillColor(0)
 	speaker.size = 50
 	
-	local content = display.newText(dialog, "어서 와~ 모험의 저택, ‘Hunt’에 온 걸 환영...", display.contentWidth*0.5, display.contentHeight*0.88, display.contentWidth*0.7, display.contentHeight*0.2, font_Content)
+	local content = display.newText(dialog, "어서 와~ 모험의 저택, ‘Hunt’에 온 걸 환영...", display.contentWidth*0.5, display.contentHeight*0.902, display.contentWidth*0.7, display.contentHeight*0.2, font_Content)
 	content:setFillColor(0)
 	content.size = 40
 

@@ -59,7 +59,7 @@ end
 
 -- event listeners for tab buttons:
 local function onFirstView( event )
-	composer.gotoScene( "2층.거짓말쟁이방_black" )
+	composer.gotoScene( "1층.game_start_loading" )
 end
 
 onFirstView()	-- invoke first tab button's onPress event manually

@@ -26,7 +26,7 @@ function scene:create( event )
 	-- 파이
 	local pi_X = composer.getVariable("pi_X")
 	local pi = display.newImageRect("image/캐릭터/pixil(뒤)-0.png", 120, 120)
-	pi.x, pi.y = pi_X, 800
+	pi.x, pi.y = pi_X, 570
 	sceneGroup:insert(pi)
 
 	-- ↓ ui정리 ------------------------------------------------------------------------------------------------------------
@@ -41,10 +41,10 @@ function scene:create( event )
 	question.x, question.y = 100, 80
 
 	local chatBox = display.newImage("image/UI/대화창 ui.png")
-	chatBox.x, chatBox.y = display.contentWidth/2, display.contentHeight * 0.76
+	chatBox.x, chatBox.y = display.contentWidth/2, display.contentHeight * 0.78
 
 	local chatBox_N = display.newImage("image/UI/대화창 ui.png")
-	chatBox_N.x, chatBox_N.y = display.contentWidth/2, display.contentHeight * 0.76
+	chatBox_N.x, chatBox_N.y = display.contentWidth/2, display.contentHeight * 0.78
 	chatBox_N.alpha = 0
 
 	sceneGroup:insert(restart)
@@ -63,7 +63,7 @@ function scene:create( event )
 
 	-- ↑ ui정리 -------------------------------------------------------------------------------------------------
 
-	local choiceSound = audio.loadSound("sound/저택내부/체리 선택지 2.mp3")
+	local choiceSound = audio.loadSound("sound/체리 선택지 2.mp3")
 
 	-- json에서 정보 읽기
 	local Data = jsonParse("1층/json/cherry_distractor.json")
@@ -80,11 +80,11 @@ function scene:create( event )
 	image_pi.alpha = 0
 
 	local speaker
-	speaker = display.newText(dialog, Data[1].speaker , display.contentWidth*0.25, display.contentHeight*0.73, display.contentWidth*0.2, display.contentHeight*0.1, font_Speaker)
+	speaker = display.newText(dialog, Data[1].speaker , display.contentWidth*0.25, display.contentHeight*0.76, display.contentWidth*0.2, display.contentHeight*0.1, font_Speaker)
 	speaker.size = 50
 	speaker:setFillColor(0)
 	
-	local content = display.newText(dialog, Data[1].content, display.contentWidth*0.5, display.contentHeight*0.88, display.contentWidth*0.7, display.contentHeight*0.2, font_Content)
+	local content = display.newText(dialog, Data[1].content, display.contentWidth*0.5, display.contentHeight*0.902, display.contentWidth*0.7, display.contentHeight*0.2, font_Content)
 	content.size = 40
 	content:setFillColor(0)
 

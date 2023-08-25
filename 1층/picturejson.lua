@@ -11,11 +11,31 @@ function scene:create( event )
 	local sceneGroup = self.view
 
 	-- ↓ 배경 ----------------------------------------------------------------------------------------------------
-	local backgroundY = composer.getVariable("backgroundY")
+	local backgroundY = composer.getVariable("backgroundY")	
+	local pictureY = composer.getVariable("pictureY")
 
 	local background = display.newImageRect("image/배경/배경_저택_1층.png", 2000, 2000)
 	background.x, background.y = display.contentWidth/2, backgroundY
 	sceneGroup:insert(background)
+	
+	-- 파이
+	local pi_X = composer.getVariable("pi_X")
+	local pi = display.newImageRect("image/캐릭터/pixil(앞)-0.png", 120, 120)
+	pi.x, pi.y = pi_X, display.contentHeight/2 + 30
+	pi.alpha = 0
+
+	sceneGroup:insert(pi)
+
+	-- 액자
+	local frame = {}
+	for i = 1, 4 do
+		frame[i] = display.newImageRect("image/오브제 1층액자.png", 130, 130)
+		sceneGroup:insert(frame[i])
+	end
+	frame[1].x, frame[1].y =  display.contentWidth * 0.16, pictureY
+	frame[2].x, frame[2].y =  display.contentWidth * 0.29, pictureY
+	frame[3].x, frame[3].y =  display.contentWidth * 0.72, pictureY
+	frame[4].x, frame[4].y =  display.contentWidth * 0.85, pictureY
 
 	-- ↓ ui정리 ------------------------------------------------------------------------------------------------------------
 	
@@ -29,15 +49,17 @@ function scene:create( event )
 	question.x, question.y = 100, 80
 
 	local chatBox = display.newImage("image/UI/대화창 ui.png")
-	chatBox.x, chatBox.y = display.contentWidth/2, display.contentHeight * 0.76
+	chatBox.x, chatBox.y = display.contentWidth/2, display.contentHeight * 0.78
 
-	local quest = display.newImageRect("image/UI/퀘스트창.png", 1400, 400)
-	quest.x, quest.y = display.contentWidth/2, display.contentHeight * 0.76
-	quest.alpha = 0
+	local questBox = display.newImage("image/UI/퀘스트창.png")
+	questBox.x, questBox.y = display.contentWidth*0.255, display.contentHeight*0.28
+	questBox:scale(1.09, 0.73)
+	questBox.alpha = 0
 
 	sceneGroup:insert(restart)
 	sceneGroup:insert(inventory)
 	sceneGroup:insert(question)
+	sceneGroup:insert(questBox)
 
 	-- ↑ ui정리 -------------------------------------------------------------------------------------------------
 
@@ -46,13 +68,16 @@ function scene:create( event )
 	local image_pi = display.newImage("image/캐릭터/파이 기본.png")
 	image_pi.x, image_pi.y = display.contentWidth*0.2, display.contentHeight*0.5
 
-	local speaker = display.newText(dialog, "파이", display.contentWidth*0.25, display.contentHeight*0.73, display.contentWidth*0.2, display.contentHeight*0.1, font_Speaker)
+	local speaker = display.newText(dialog, "파이", display.contentWidth*0.25, display.contentHeight*0.76, display.contentWidth*0.2, display.contentHeight*0.1, font_Speaker)
 	speaker:setFillColor(0)
 	speaker.size = 50
 	
-	local content = display.newText(dialog, "그림이... 오래된 게임이라지만 참 볼품없네.", display.contentWidth*0.5, display.contentHeight*0.88, display.contentWidth*0.7, display.contentHeight*0.2, font_Content)
+	local content = display.newText(dialog, "그림이... 오래된 게임이라지만 참 볼품없네.", display.contentWidth*0.5, display.contentHeight*0.902, display.contentWidth*0.7, display.contentHeight*0.2, font_Content)
 	content:setFillColor(0)
 	content.size = 40
+
+	local quest = display.newText(dialog, "", display.contentWidth*0.255, display.contentHeight*0.3, font_Content, 40)
+	quest:setFillColor(0)
 
 	sceneGroup:insert(dialog)
 	sceneGroup:insert(image_pi)
@@ -70,6 +95,15 @@ function scene:create( event )
 
 	local function nextScript( event )
 		index = index + 1
+		if ( index == #Data ) then
+			audio.play(questSound)
+			pi.alpha = 1
+			question.alpha = 1
+			questBox.alpha = 0.6
+			chatBox.alpha = 0
+			image_pi.alpha = 0
+		end
+
 		if(index > #Data) then 
 			composer.hideOverlay("1층.picturejson")
 			composer.gotoScene( "1층.game_lobby" ) 
@@ -78,17 +112,12 @@ function scene:create( event )
 		
 		speaker.text = Data[index].speaker
 		content.text = Data[index].content
+		quest.text = Data[index].quest
 
-		if index == 3 then
-			image_pi.alpha = 0
-			chatBox.alpha = 0
-			quest.alpha = 1
-			content.x, content.y = display.contentWidth*0.55, display.contentHeight*0.88
-			content.size = 50
-		end
 	end
 	chatBox:addEventListener("tap", nextScript)
-	quest:addEventListener("tap", nextScript)
+	questBox:addEventListener("tap", nextScript)
+	question:addEventListener("tap", nextScript)
 	-- image_cherry::addEventListener("tap", nextScript)
 	-- image_pi::addEventListener("tap", nextScript)
 

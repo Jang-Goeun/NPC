@@ -26,7 +26,7 @@ function scene:create( event )
 	-- 파이
 	local pi_X = composer.getVariable("pi_X")
 	local pi = display.newImageRect("image/캐릭터/pixil(뒤)-0.png", 120, 120)
-	pi.x, pi.y = pi_X, 800
+	pi.x, pi.y = pi_X, 570
 	sceneGroup:insert(pi)
 
 	-- ↓ ui정리 ------------------------------------------------------------------------------------------------------------
