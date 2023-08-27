@@ -15,6 +15,7 @@ function scene:create( event )
 	background:setFillColor(0) -- 검정 화면
 	sceneGroup:insert(background)
 
+	game1 = 1
 	local count = 2
 	local function counter( event )
 		count = count - 1
@@ -22,6 +23,8 @@ function scene:create( event )
 
 		if count == 1 then
 			print("///////")
+			audio.pause(3)
+			audio.resume(2)
 			composer.hideOverlay("black")
 			composer.gotoScene("2층.2층로비", {effect = "fade"})
 		end

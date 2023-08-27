@@ -18,7 +18,7 @@ function scene:create( event )
 	local room = display.newImage( "image/배경/배경_저택_거짓말쟁이 스포트라이트.png", display.contentWidth*0.5, display.contentHeight*0.5)
 	room:scale(0.9, 0.9) -- 게임 방
 
-	local personGroup = composer.getVariable( "personGroup" )
+	local personGroup = composer.getVariable( "personGroup3" )
 	local truth_teller = composer.getVariable( "truth_teller3")
 
 	-- ↓ 하트 ----------------------------------------------------------------------------------------------------

@@ -14,7 +14,7 @@ function scene:create( event )
 	local background = display.newRect(display.contentCenterX, display.contentCenterY, display.contentWidth, display.contentHeight)
 	background:setFillColor(0) -- 검정 화면
 	
-	local personGroup = composer.getVariable( "personGroup" )
+	local personGroup = composer.getVariable( "personGroup3" )
 
 	sceneGroup:insert(personGroup)
 	sceneGroup:insert(background)

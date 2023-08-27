@@ -30,6 +30,9 @@ function scene:create( event )
 	local item_Change = display.newImage("image/UI/빈원형.png")
 	item_Change.x, item_Change.y = 1740, 680
 
+	
+	local personGroup = composer.getVariable( "personGroup2")
+
 	--local truth_teller = math.random(1, 5)
 	local truth_teller2 = 2
 	composer.setVariable( "truth_teller2", truth_teller2 )
@@ -76,6 +79,7 @@ function scene:create( event )
 	-- 레이어 정리
 	sceneGroup:insert(background)
 	sceneGroup:insert(room)
+	sceneGroup:insert(personGroup)
 	sceneGroup:insert(heartGroup)
 	sceneGroup:insert(explanation)
 	sceneGroup:insert(inventory)
@@ -83,30 +87,6 @@ function scene:create( event )
 	sceneGroup:insert(item_Change)
 
 -- ↑ 시작화면 배치 ---------------------------------------------------------------------------------------------
-
--- ↓ 사람 랜덤 배치 ------------------------------------------------------------------------------------------
-
-	local personGroup = display.newGroup();
-	local person = {}
-	local w = {0.24, 0.37, 0.5, 0.63, 0.76}
-	local selectedIndices = {0, 0, 0, 0, 0}  -- 이전에 선택한 인덱스를 저장하는 테이블  1이면 이전에 선택한 인덱스임
-
-	for i = 1, 5 do
-		local randomIndex
-		repeat
-			randomIndex = math.random(#w)  -- 랜덤 인덱스 선택
-		until not (selectedIndices[randomIndex] == 1)  -- 선택된 인덱스가 이전에 선택된 값과 겹치지 않도록 반복
-
-		person[i] = display.newImageRect(personGroup, "image/거짓말쟁이방/liar" .. i .. ".png", 120, 120)
-		person[i].x, person[i].y = display.contentWidth * w[randomIndex], display.contentHeight * 0.3
-		selectedIndices[randomIndex] = 1
-	end
-	-- 레이어 정리
-	sceneGroup:insert(personGroup)
-
-	composer.setVariable( "personGroup", personGroup )
-
--- ↑ 사람 랜덤 배치 --------------------------------------------------------------------------------------------
 
 -- ↓ 상호작용 버튼 영역 ---------------------------------------------------------------------------------------------------
 	local interact_extentGroup = display.newGroup()
@@ -547,27 +527,22 @@ function scene:create( event )
 	local function tapinteract_buttonEventListener( event )
 		if interact_button[2].alpha == 1 then
 			audio.play(sound_liar2)
-			composer.hideOverlay("2층.거짓말쟁이방.gameround2")
 			composer.gotoScene("2층.거짓말쟁이방.gameround2폴더.gameround2_사람1") -- gameround2_사람1으로 넘어가기
 			
 		elseif interact_button[3].alpha == 1 then
 			audio.play(sound_liar1)
-			composer.hideOverlay("2층.거짓말쟁이방.gameround2")
 			composer.gotoScene("2층.거짓말쟁이방.gameround2폴더.gameround2_사람2") -- gameround2_사람2으로 넘어가기
 		
 		elseif interact_button[4].alpha == 1 then
 			audio.play(sound_liar2)
-			composer.hideOverlay("2층.거짓말쟁이방.gameround2")
 			composer.gotoScene("2층.거짓말쟁이방.gameround2폴더.gameround2_사람3") -- gameround2_사람3으로 넘어가기
 		
 		elseif interact_button[5].alpha == 1 then
 			audio.play(sound_liar1)
-			composer.hideOverlay("2층.거짓말쟁이방.gameround2")
 			composer.gotoScene("2층.거짓말쟁이방.gameround2폴더.gameround2_사람4") -- gameround2_사람4으로 넘어가기
 		
 		elseif interact_button[6].alpha == 1 then
 			audio.play(sound_liar2)
-			composer.hideOverlay("2층.거짓말쟁이방.gameround2")
 			composer.gotoScene("2층.거짓말쟁이방.gameround2폴더.gameround2_사람5") -- gameround2_사람5으로 넘어가기
 		
 		else 

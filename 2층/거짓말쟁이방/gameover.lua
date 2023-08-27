@@ -10,7 +10,7 @@ local scene = composer.newScene()
 function scene:create( event )
     local sceneGroup = self.view
 
-    local endingText = display.newText("gameover", display.contentWidth/2, display.contentHeight*0.4)
+    local endingText = display.newText("gameover", display.contentWidth/2, display.contentHeight*0.4, font_Speaker)
     endingText.size = 200
 
     function endingText:tap( event )
@@ -23,6 +23,7 @@ function scene:create( event )
 
     function endingText:tap( event )
 		composer.hideOverlay("2층.거짓말쟁이방.gameover")
+		audio.pause( 3 )
 		composer.gotoScene('2층.2층로비', {effect = "fade"})
 	end
 end

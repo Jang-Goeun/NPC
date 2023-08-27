@@ -36,7 +36,7 @@ function scene:create( event )
 	-- 액자
 	local frame = {}
 	for i = 1, 4 do
-		frame[i] = display.newImageRect("image/오브제 1층액자.png", 130, 130)
+		frame[i] = display.newImageRect("image/저택그림/액자"..i..".png", 130, 130)
 		sceneGroup:insert(frame[i])
 		obsGroup:insert(frame[i])
 	end

@@ -114,6 +114,7 @@ function scene:create( event )
 -- ↑ 상호작용 버튼 ---------------------------------------------------------------------------------------------------
 
 -- ↓ 플레이어 ---------------------------------------------------------------------------------------------------
+
 	local playerGroup2 = display.newGroup()
 	local player = {} 
 
@@ -504,14 +505,29 @@ function scene:create( event )
 
 local function tapinteract_buttonEventListener( event )
 	if interact_button[2].alpha == 1 then
-		composer.gotoScene("2층.거짓말쟁이방_black") -- 거짓말쟁이방
-	
+		if game1 == 0 then
+			audio.pause( 2 )
+			audio.play( liarroomSound, { channel = 3, loops = -1})
+			composer.gotoScene("2층.거짓말쟁이방_black") -- 거짓말쟁이방
+		else
+			composer.gotoScene("2층.2층로비_성공한게임스크립트") -- 거짓말쟁이방
+		end	
 	elseif interact_button[3].alpha == 1 then
-		composer.gotoScene("2층.투명미로_black") -- 투명미로
-	
+		if game2 == 0 then
+			audio.pause( 3 )
+			--audio.play( default_bgm, { channel = 4, loops = -1})
+			composer.gotoScene("2층.투명미로_black") -- 투명미로
+		else
+			composer.gotoScene("2층.2층로비_성공한게임스크립트") -- 거짓말쟁이방
+		end	
 	elseif interact_button[4].alpha == 1 then
-		composer.gotoScene("2층.예술가의방_black") -- 예술가의방
-
+		if game3 == 0 then
+			audio.pause( 4 )
+			--audio.play( default_bgm, { channel = 5, loops = -1})
+			composer.gotoScene("2층.예술가의방_black") -- 예술가의방
+		else
+			composer.gotoScene("2층.2층로비_성공한게임스크립트") -- 거짓말쟁이방
+		end	
 	else 
 		print("상호작용 버튼을 탭함")
 	end

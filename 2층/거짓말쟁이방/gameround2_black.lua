@@ -10,11 +10,33 @@ local scene = composer.newScene()
 
 function scene:create( event )
 	local sceneGroup = self.view
+-- ↓ 사람 랜덤 배치 ------------------------------------------------------------------------------------------
 
+	local personGroup = display.newGroup();
+	local person = {}
+	local w = {0.24, 0.37, 0.5, 0.63, 0.76}
+	local selectedIndices = {0, 0, 0, 0, 0}  -- 이전에 선택한 인덱스를 저장하는 테이블  1이면 이전에 선택한 인덱스임
+
+	for i = 1, 5 do
+		local randomIndex
+		repeat
+			randomIndex = math.random(#w)  -- 랜덤 인덱스 선택
+		until not (selectedIndices[randomIndex] == 1)  -- 선택된 인덱스가 이전에 선택된 값과 겹치지 않도록 반복
+
+		person[i] = display.newImageRect(personGroup, "image/거짓말쟁이방/liar" .. i .. ".png", 120, 120)
+		person[i].x, person[i].y = display.contentWidth * w[randomIndex], display.contentHeight * 0.3
+		selectedIndices[randomIndex] = 1
+	end
+	-- 레이어 정리
+	sceneGroup:insert(personGroup)
+
+	composer.setVariable( "personGroup3", personGroup )
+
+-- ↑ 사람 랜덤 배치 --------------------------------------------------------------------------------------------
 	local background = display.newRect(display.contentCenterX, display.contentCenterY, display.contentWidth, display.contentHeight)
 	background:setFillColor(0) -- 검정 화면
 	
-	local gameText = display.newText("Round 3", display.contentWidth/2, display.contentHeight*0.4)
+	local gameText = display.newText("Round 3", display.contentWidth/2, display.contentHeight*0.4, font_Speaker)
     gameText.size = 200
 	
 	local heartGroup = composer.getVariable( "heartGroup")

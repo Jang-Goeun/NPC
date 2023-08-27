@@ -16,7 +16,7 @@ function scene:create( event )
 	local background = display.newRect(display.contentCenterX, display.contentCenterY, display.contentWidth, display.contentHeight)
 	background:setFillColor(0) -- 검정 화면
 
-	local gameText = display.newText("Round 1", display.contentWidth/2, display.contentHeight*0.4)
+	local gameText = display.newText("Round 1", display.contentWidth/2, display.contentHeight*0.4, font_Speaker)
     gameText.size = 200
 	
 	sceneGroup:insert(heartGroup)

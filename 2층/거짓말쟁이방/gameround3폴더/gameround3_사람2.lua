@@ -18,12 +18,12 @@ function scene:create( event )
 	local room = display.newImage( "image/배경/배경_저택_거짓말쟁이 스포트라이트.png", display.contentWidth*0.5, display.contentHeight*0.5)
 	room:scale(0.9, 0.9) -- 게임 방
 
-	local personGroup = composer.getVariable( "personGroup" )
+	local personGroup = composer.getVariable( "personGroup3" )
 	local truth_teller = composer.getVariable( "truth_teller")
 
 	-- ↓ 하트 ----------------------------------------------------------------------------------------------------
 	
-	local heartGroup = composer.getVariable( "heartGroup3")
+	local heartGroup = composer.getVariable( "heartGroup")
 
 	-- ↓ 대화창 ----------------------------------------------------------------------------------------------------
 	local talk1 = display.newImage("image/UI/대화창 ui.png")
@@ -47,8 +47,8 @@ function scene:create( event )
 	sceneGroup:insert(background)
 	sceneGroup:insert(room)
 	sceneGroup:insert(personGroup)
-	sceneGroup:insert(heartGroup)
 	sceneGroup:insert(character)
+	sceneGroup:insert(heartGroup)
 	sceneGroup:insert(talk1)
 	sceneGroup:insert(talk3)
 	sceneGroup:insert(talk4)
