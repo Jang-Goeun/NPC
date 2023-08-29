@@ -25,7 +25,7 @@ function scene:create( event )
 	local back = display.newImage("image/UI/세모.png")
 	back.x, back.y = 1820, 80
 
-	local item_Change = display.newImage("image/UI/Item_Change.png")
+	local item_Change = display.newImage("image/UI/빈원형.png")
 	item_Change.x, item_Change.y = 1740, 680
 
 	-- ↓ 방향키 --------------------------------------
@@ -101,7 +101,7 @@ function scene:create( event )
 	interact_button[1] = display.newImage("image/상호작용버튼/interact_button-1.png")
 	interact_button[1].x, interact_button[1].y = 1560, 810
 	interact_button[1].alpha = 0
-
+	sceneGroup:insert(interact_button[1])
 	for i = 2, 4 do
 		interact_button[i] = display.newImage("image/상호작용버튼/interact_button-"..i..".png")
 		interact_button[i].x, interact_button[i].y = 1560, 810
@@ -203,35 +203,34 @@ function scene:create( event )
 				motionUp = 1
 			end
 
-			print(playerGroup2.x, background.contentHeight, playerGroup2.contentHeight * 10.183, playerGroup2.y)
-			if ( playerGroup2.x < -612 or  playerGroup2.x > 624) then
+			if ( playerGroup2.x < -620 or  playerGroup2.x > 640) then
 				if playerGroup2.y > -452 then
 					playerGroup2.y = playerGroup2.y - moveSpeed
 				end	
-			elseif playerGroup2.y > background.contentHeight - playerGroup2.contentHeight * 16.75 then
+			elseif playerGroup2.y > -800 then
 				playerGroup2.y = playerGroup2.y - moveSpeed
 			end
 
 			up.alpha = 0.5
 			
-			if (playerGroup2.x < interact_extentGroup[1].x - playerGroup2.contentWidth * 7.5) then
-				if (playerGroup2.y < interact_extentGroup[1].y - playerGroup2.contentHeight * 8) and (playerGroup2.y > interact_extentGroup[1].y - playerGroup2.contentHeight * 8.91) then
+			if (playerGroup2.x < -573) then
+				if (playerGroup2.y < -366) and (playerGroup2.y > -475.2) then
 					interact_button[1].alpha = 0
 					interact_button[2].alpha = 1
 				else
 					interact_button[1].alpha = 1
 					interact_button[2].alpha = 0
 				end
-			elseif(playerGroup2.x > interact_extentGroup[3].x - playerGroup2.contentWidth * 8.4) then
-				if (playerGroup2.y < interact_extentGroup[1].y - playerGroup2.contentHeight * 8) and (playerGroup2.y > interact_extentGroup[1].y - playerGroup2.contentHeight * 8.91) then
+			elseif(playerGroup2.x > 604) then
+				if (playerGroup2.y < -366) and (playerGroup2.y > -475.2) then
 					interact_button[1].alpha = 0
 					interact_button[3].alpha = 1
 				else
 					interact_button[1].alpha = 1
 					interact_button[3].alpha = 0
 				end
-			elseif (playerGroup2.y < interact_extentGroup[2].y - playerGroup2.contentHeight * 7.7) then
-				if (playerGroup2.x > interact_extentGroup[2].x - playerGroup2.contentWidth * 8.7) and (playerGroup2.x < interact_extentGroup[2].x - playerGroup2.contentWidth * 7.3) then
+			elseif (playerGroup2.y < -708) then
+				if (playerGroup2.x > -84) and (playerGroup2.x < 84) then
 					interact_button[1].alpha = 0
 					interact_button[4].alpha = 1
 				else
@@ -263,34 +262,39 @@ function scene:create( event )
 				motionDown = 1
 			end
 
-			if ( playerGroup2.x < -612 or  playerGroup2.x > 624) then
+			print( playerGroup2.x, playerGroup2.y)
+			if ( playerGroup2.x < -620 or  playerGroup2.x > 640) then
 				if playerGroup2.y < -384 then
 					playerGroup2.y = playerGroup2.y + moveSpeed
 				end	
-			elseif playerGroup2.y < background.contentHeight - playerGroup2.contentHeight * 10.183 then
+			elseif ( playerGroup2.x > -124 and playerGroup2.x < 124 ) then
+				if playerGroup2.y < 36 then
+					playerGroup2.y = playerGroup2.y + moveSpeed
+				end
+			elseif playerGroup2.y < -11.96 then
 				playerGroup2.y = playerGroup2.y + moveSpeed
 			end
 
 			down.alpha = 0.5
 
-			if (playerGroup2.x < interact_extentGroup[1].x - playerGroup2.contentWidth * 7.5) then
-				if (playerGroup2.y < interact_extentGroup[1].y - playerGroup2.contentHeight * 8) and (playerGroup2.y > interact_extentGroup[1].y - playerGroup2.contentHeight * 8.91) then
+			if (playerGroup2.x < -573) then
+				if (playerGroup2.y < -366) and (playerGroup2.y > -475.2) then
 					interact_button[1].alpha = 0
 					interact_button[2].alpha = 1
 				else
 					interact_button[1].alpha = 1
 					interact_button[2].alpha = 0
 				end
-			elseif(playerGroup2.x > interact_extentGroup[3].x - playerGroup2.contentWidth * 8.4) then
-				if (playerGroup2.y < interact_extentGroup[1].y - playerGroup2.contentHeight * 8) and (playerGroup2.y > interact_extentGroup[1].y - playerGroup2.contentHeight * 8.91) then
+			elseif(playerGroup2.x > 604) then
+				if (playerGroup2.y < -366) and (playerGroup2.y > -475.2) then
 					interact_button[1].alpha = 0
 					interact_button[3].alpha = 1
 				else
 					interact_button[1].alpha = 1
 					interact_button[3].alpha = 0
 				end
-			elseif (playerGroup2.y < interact_extentGroup[2].y - playerGroup2.contentHeight * 7.7) then
-				if (playerGroup2.x > interact_extentGroup[2].x - playerGroup2.contentWidth * 8.7) and (playerGroup2.x < interact_extentGroup[2].x - playerGroup2.contentWidth * 7.3) then
+			elseif (playerGroup2.y < -708) then
+				if (playerGroup2.x > -84) and (playerGroup2.x < 84) then
 					interact_button[1].alpha = 0
 					interact_button[4].alpha = 1
 				else
@@ -323,32 +327,37 @@ function scene:create( event )
 			end
 
 			if ( playerGroup2.y < -392 and playerGroup2.y > -464 ) then
-				if playerGroup2.x > background.contentWidth - playerGroup2.contentWidth * 22 then
+				if playerGroup2.x > -740 then
 					playerGroup2.x = playerGroup2.x - moveSpeed
 				end
-			elseif playerGroup2.x > background.contentWidth - playerGroup2.contentWidth * 21 then
+			elseif ( playerGroup2.y > 0 ) then
+				if playerGroup2.x > -120 then
+					playerGroup2.x = playerGroup2.x - moveSpeed
+				end
+			elseif playerGroup2.x > -620 then
 				playerGroup2.x = playerGroup2.x - moveSpeed
 			end
+
 			left.alpha = 0.5
 
-			if (playerGroup2.x < interact_extentGroup[1].x - playerGroup2.contentWidth * 7.5) then
-				if (playerGroup2.y < interact_extentGroup[1].y - playerGroup2.contentHeight * 8) and (playerGroup2.y > interact_extentGroup[1].y - playerGroup2.contentHeight * 8.91) then
+			if (playerGroup2.x < -573) then
+				if (playerGroup2.y < -366) and (playerGroup2.y > -475.2) then
 					interact_button[1].alpha = 0
 					interact_button[2].alpha = 1
 				else
 					interact_button[1].alpha = 1
 					interact_button[2].alpha = 0
 				end
-			elseif(playerGroup2.x > interact_extentGroup[3].x - playerGroup2.contentWidth * 8.4) then
-				if (playerGroup2.y < interact_extentGroup[1].y - playerGroup2.contentHeight * 8) and (playerGroup2.y > interact_extentGroup[1].y - playerGroup2.contentHeight * 8.91) then
+			elseif(playerGroup2.x > 604) then
+				if (playerGroup2.y < -366) and (playerGroup2.y > -475.2) then
 					interact_button[1].alpha = 0
 					interact_button[3].alpha = 1
 				else
 					interact_button[1].alpha = 1
 					interact_button[3].alpha = 0
 				end
-			elseif (playerGroup2.y < interact_extentGroup[2].y - playerGroup2.contentHeight * 7.7) then
-				if (playerGroup2.x > interact_extentGroup[2].x - playerGroup2.contentWidth * 8.7) and (playerGroup2.x < interact_extentGroup[2].x - playerGroup2.contentWidth * 7.3) then
+			elseif (playerGroup2.y < -708) then
+				if (playerGroup2.x > -84) and (playerGroup2.x < 84) then
 					interact_button[1].alpha = 0
 					interact_button[4].alpha = 1
 				else
@@ -382,32 +391,36 @@ function scene:create( event )
 			end
 
 			if ( playerGroup2.y < -392 and playerGroup2.y > -464 ) then
-				if playerGroup2.x < background.contentWidth - playerGroup2.contentWidth * 9.6 then
+				if playerGroup2.x < 748 then
 					playerGroup2.x = playerGroup2.x + moveSpeed
 				end
-			elseif playerGroup2.x < background.contentWidth - playerGroup2.contentWidth * 10.5 then
+			elseif ( playerGroup2.y > 0 ) then
+				if playerGroup2.x < 124 then
+					playerGroup2.x = playerGroup2.x - moveSpeed
+				end
+			elseif playerGroup2.x < 640 then
 				playerGroup2.x = playerGroup2.x + moveSpeed
 			end
 			right.alpha = 0.5
 
-			if (playerGroup2.x < interact_extentGroup[1].x - playerGroup2.contentWidth * 7.5) then
-				if (playerGroup2.y < interact_extentGroup[1].y - playerGroup2.contentHeight * 8) and (playerGroup2.y > interact_extentGroup[1].y - playerGroup2.contentHeight * 8.91) then
+			if (playerGroup2.x < -573) then
+				if (playerGroup2.y < -366) and (playerGroup2.y > -475.2) then
 					interact_button[1].alpha = 0
 					interact_button[2].alpha = 1
 				else
 					interact_button[1].alpha = 1
 					interact_button[2].alpha = 0
 				end
-			elseif(playerGroup2.x > interact_extentGroup[3].x - playerGroup2.contentWidth * 8.4) then
-				if (playerGroup2.y < interact_extentGroup[1].y - playerGroup2.contentHeight * 8) and (playerGroup2.y > interact_extentGroup[1].y - playerGroup2.contentHeight * 8.91) then
+			elseif(playerGroup2.x > 604) then
+				if (playerGroup2.y < -366) and (playerGroup2.y > -475.2) then
 					interact_button[1].alpha = 0
 					interact_button[3].alpha = 1
 				else
 					interact_button[1].alpha = 1
 					interact_button[3].alpha = 0
 				end
-			elseif (playerGroup2.y < interact_extentGroup[2].y - playerGroup2.contentHeight * 7.7) then
-				if (playerGroup2.x > interact_extentGroup[2].x - playerGroup2.contentWidth * 8.7) and (playerGroup2.x < interact_extentGroup[2].x - playerGroup2.contentWidth * 7.3) then
+			elseif (playerGroup2.y < -708) then
+				if (playerGroup2.x > -84) and (playerGroup2.x < 84) then
 					interact_button[1].alpha = 0
 					interact_button[4].alpha = 1
 				else
@@ -468,6 +481,14 @@ function scene:create( event )
 		elseif event.phase == "ended" or event.phase == "cancelled" then
 			movingDirection = nil
 
+			if(playerGroup2.y == 36 and game1 == 1 and game2 == 1 and game3 == 1 ) then
+				composer.hideOverlay("2층.2층로비")
+				composer.gotoScene("1층.game_lobby", {effect = "fade", time=1000})
+			elseif (playerGroup2.y == 36) then
+				composer.hideOverlay("2층.2층로비")
+				composer.gotoScene("2층.2층로비_1층으로X")
+			end
+
 			up.alpha = 1
 			right.alpha = 1
 			left.alpha = 1
@@ -512,7 +533,7 @@ local function tapinteract_buttonEventListener( event )
 		else
 			composer.gotoScene("2층.2층로비_성공한게임스크립트") -- 거짓말쟁이방
 		end	
-	elseif interact_button[3].alpha == 1 then
+	elseif interact_button[4].alpha == 1 then
 		if game2 == 0 then
 			audio.pause( 3 )
 			--audio.play( default_bgm, { channel = 4, loops = -1})
@@ -520,7 +541,7 @@ local function tapinteract_buttonEventListener( event )
 		else
 			composer.gotoScene("2층.2층로비_성공한게임스크립트") -- 거짓말쟁이방
 		end	
-	elseif interact_button[4].alpha == 1 then
+	elseif interact_button[3].alpha == 1 then
 		if game3 == 0 then
 			audio.pause( 4 )
 			--audio.play( default_bgm, { channel = 5, loops = -1})

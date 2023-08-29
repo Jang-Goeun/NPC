@@ -50,6 +50,7 @@ darkSound =  audio.loadSound("sound/게임 시스템/암전 될 때 소리.mp3")
 sound_liar1 =  audio.loadSound("sound/거짓말쟁이 1.mp3")
 sound_liar2 =  audio.loadSound("sound/거짓말쟁이 2.mp3")
 dieSound =  audio.loadSound("sound/베는, 찔리는 소리 2.mp3")
+sound_artist = audio.loadSound("sound/예술가의방.mp3")
 
 itemNum = {}
 
@@ -73,7 +74,7 @@ end
 
 -- event listeners for tab buttons:
 local function onFirstView( event )
-	composer.gotoScene( "2층.2층로비" )
+	composer.gotoScene( "2층.예술가의방.intro" )
 end
 
 onFirstView()	-- invoke first tab button's onPress event manually
