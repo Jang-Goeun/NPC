@@ -10,7 +10,7 @@ local scene = composer.newScene()
 function scene:create( event )
 	local sceneGroup = self.view
 
-	audio.play( default_bgm, { channel = 2, loops = -1})
+	audio.play( mansionSound, { channel = 2, loops = -1})
 	-- ↓ 배경 ----------------------------------------------------------------------------------------------------
 	local background = display.newImageRect("image/배경/배경_저택_1층.png", display.contentWidth/2, display.contentHeight)
 	background.x, background.y = display.contentWidth/2, display.contentHeight/2

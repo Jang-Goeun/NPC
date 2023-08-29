@@ -128,7 +128,6 @@ function scene:create( event )
 			if c == 1 and doublecheck == 1 then
 				display.remove(dialog)
 				composer.setVariable( "heartGroup" , heartGroup)
-				audio.play(darkSound)
 				composer.gotoScene("2층.거짓말쟁이방.gameround1_black")
 				return
 			elseif wrong == 1 then
@@ -142,8 +141,9 @@ function scene:create( event )
 		
 		if heartGroup.numChildren == 0 then
 			display.remove(dialog)
-			audio.play(darkSound)
-			composer.gotoScene("2층.거짓말쟁이방.gameover")
+			audio.pause(darkSound)
+			composer.setVariable( "gameOverNumber" , 4)
+			composer.gotoScene("gameOver")
 		end
 
 		if i == 1 then

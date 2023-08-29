@@ -163,7 +163,7 @@ function scene:create( event )
 			player[2][motionUp].alpha = 1
 		
 			d = d + 0.2 -- 움직임 속도 조절
-			if(d == 0.8) then
+			if(d == 0.8 or d > 8) then
 				motionUp = motionUp + 1
 				d = 0
 			end
@@ -187,7 +187,7 @@ function scene:create( event )
 			player[1][motionDown].alpha = 1
 
 			d = d + 0.2 -- 움직임 속도 조절
-			if(d == 0.8) then
+			if(d == 0.8 or d > 8) then
 				motionDown = motionDown + 1
 				d = 0
 			end
@@ -211,7 +211,7 @@ function scene:create( event )
 			player[3][motionLeft].alpha = 1
 
 			d = d + 0.2 -- 움직임 속도 조절
-			if(d == 1) then
+			if(d == 1 or d > 1) then
 				motionLeft = motionLeft + 1
 				d = 0
 			end
@@ -235,7 +235,7 @@ function scene:create( event )
 			player[4][motionRight].alpha = 1
 
 			d = d + 0.2 -- 움직임 속도 조절
-			if(d == 1) then
+			if(d == 1 or d > 1) then
 				motionRight = motionRight + 1
 				d = 0
 			end

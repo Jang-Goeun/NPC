@@ -9,6 +9,8 @@ local scene = composer.newScene()
 
 function scene:create( event )
 	local sceneGroup = self.view
+	audio.play(darkSound)
+	audio.setVolume(0.3, {channel = 3})
 -- ↓ 시작화면 배치 -----------------------------------------------------------------------------------------------
 
 	-- ↓ 배경 ----------------------------------------------------------------------------------------------------
@@ -203,7 +205,6 @@ function scene:create( event )
 			
 			if playerGroup.x > room.contentWidth - playerGroup.contentWidth * 15.7 then
 				if playerGroup.x == room.contentWidth - playerGroup.contentWidth * 15.6 then
-					audio.play(darkSound)
 					composer.hideOverlay("2층.거짓말쟁이방.start")
 					composer.gotoScene("2층.거짓말쟁이방.start_black") -- start_black으로 넘어가기
 				end

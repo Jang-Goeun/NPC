@@ -1,65 +1,37 @@
 -----------------------------------------------------------------------------------------
 --
--- view2.lua
+-- 2층로비_독백.lua
 --
 -----------------------------------------------------------------------------------------
+
 
 local composer = require( "composer" )
 local scene = composer.newScene()
 
 function scene:create( event )
 	local sceneGroup = self.view
-
 	-- ↓ 배경 ----------------------------------------------------------------------------------------------------
-	local backgroundY = composer.getVariable("backgroundY")	
-	local pictureY = composer.getVariable("pictureY")
-
-	local background = display.newImageRect("image/배경/배경_저택_1층.png", 2000, 2000)
-	background.x, background.y = display.contentWidth/2, backgroundY
-	sceneGroup:insert(background)
-	
-	-- 파이
-	local pi_X = composer.getVariable("pi_X")
-	local pi = display.newImageRect("image/캐릭터/pixil(앞)-0.png", 120, 120)
-	pi.x, pi.y = pi_X, display.contentHeight/2 + 30
-	pi.alpha = 0
-
-	sceneGroup:insert(pi)
-
-	-- 액자
-	local frame = {}
-	for i = 1, 4 do
-		frame[i] = display.newImageRect("image/저택그림/액자"..i..".png", 130, 130)
-		sceneGroup:insert(frame[i])
-	end
-	frame[1].x, frame[1].y =  display.contentWidth * 0.16, pictureY
-	frame[2].x, frame[2].y =  display.contentWidth * 0.29, pictureY
-	frame[3].x, frame[3].y =  display.contentWidth * 0.72, pictureY
-	frame[4].x, frame[4].y =  display.contentWidth * 0.85, pictureY
+	local background = display.newImageRect("image/배경/배경_저택_2층로비.png", 1900, 1210)
+	background.x, background.y = display.contentWidth/2, display.contentHeight/2 - 50
 
 	-- ↓ ui정리 ------------------------------------------------------------------------------------------------------------
 	
-	local restart = display.newImage("image/UI/세모.png")
-	restart.x, restart.y = 1820, 80
+	local back = display.newImage("image/UI/세모.png")
+	back.x, back.y = 1820, 80
 
 	local inventory = display.newImage("image/UI/인벤토리.png")
 	inventory.x, inventory.y = 240, 80
 
-	local question = display.newImage("image/UI/물음표.png")
-	question.x, question.y = 100, 80
+	local explanation = display.newImage("image/UI/물음표.png")
+	explanation.x, explanation.y = 100, 80
 
-	local chatBox = display.newImage("image/UI/대화창 ui.png")
-	chatBox.x, chatBox.y = display.contentWidth/2, display.contentHeight * 0.78
+	local talk1 = display.newImage("image/UI/대화창 ui.png")
+	talk1.x, talk1.y = display.contentWidth/2, display.contentHeight * 0.78
 
-	local questBox = display.newImage("image/UI/퀘스트창.png")
-	questBox.x, questBox.y = display.contentWidth*0.265, display.contentHeight*0.28
-	questBox:scale(1.09, 0.73)
-	questBox.alpha = 0
-
-	sceneGroup:insert(restart)
+	sceneGroup:insert(background)
+	sceneGroup:insert(back)
 	sceneGroup:insert(inventory)
-	sceneGroup:insert(question)
-	sceneGroup:insert(questBox)
+	sceneGroup:insert(explanation)
 
 	-- ↑ ui정리 -------------------------------------------------------------------------------------------------
 
@@ -67,59 +39,39 @@ function scene:create( event )
 
 	local image_pi = display.newImage("image/캐릭터/파이 기본.png")
 	image_pi.x, image_pi.y = display.contentWidth*0.2, display.contentHeight*0.5
+	image_pi.name = "파이"
 
-	local speaker = display.newText(dialog, "파이", display.contentWidth*0.25, display.contentHeight*0.76, display.contentWidth*0.2, display.contentHeight*0.1, font_Speaker)
+	local speaker = display.newText(dialog, "파이", display.contentWidth*0.25, display.contentHeight*0.76, display.contentWidth*0.2, display.contentHeight*0.1, font_Speaker, 50)
 	speaker:setFillColor(0)
-	speaker.size = 50
 	
-	local content = display.newText(dialog, "그림이... 오래된 게임이라지만 참 볼품없네.", display.contentWidth*0.5, display.contentHeight*0.902, display.contentWidth*0.7, display.contentHeight*0.2, font_Content)
+	local content = display.newText(dialog, "모든 아이템을 다 얻었어", display.contentWidth*0.5, display.contentHeight*0.902, display.contentWidth*0.7, display.contentHeight*0.2, font_Content, 45)
 	content:setFillColor(0)
-	content.size = 40
-
-	local quest = display.newText(dialog, "", display.contentWidth*0.265, display.contentHeight*0.3, font_Content, 40)
-	quest:setFillColor(0)
 
 	sceneGroup:insert(dialog)
 	sceneGroup:insert(image_pi)
-	sceneGroup:insert(chatBox)
-	sceneGroup:insert(quest)
+	sceneGroup:insert(talk1)
 	sceneGroup:insert(speaker)
 	sceneGroup:insert(content)
 
 
 	-- json에서 정보 읽기
-	local Data = jsonParse("1층/json/picture.json")
+	local Data = jsonParse("2층/2층_json/2층_파이_fullitem.json")
 
 	-- json에서 읽은 정보 적용하기
 	local index = 0
 
 	local function nextScript( event )
 		index = index + 1
-		if ( index == #Data ) then
-			audio.play(questSound)
-			pi.alpha = 1
-			question.alpha = 1
-			questBox.alpha = 0.6
-			chatBox.alpha = 0
-			image_pi.alpha = 0
-		end
 
 		if(index > #Data) then 
-			composer.hideOverlay("1층.picturejson")
-			composer.gotoScene( "1층.game_lobby" ) 
+			composer.gotoScene( "2층.2층로비" ) 
 			return
 		end
 		
 		speaker.text = Data[index].speaker
 		content.text = Data[index].content
-		quest.text = Data[index].quest
-
 	end
-	chatBox:addEventListener("tap", nextScript)
-	questBox:addEventListener("tap", nextScript)
-	question:addEventListener("tap", nextScript)
-	-- image_cherry::addEventListener("tap", nextScript)
-	-- image_pi::addEventListener("tap", nextScript)
+	talk1:addEventListener("tap", nextScript)
 
 end
 
@@ -146,7 +98,7 @@ function scene:hide( event )
 		--
 		-- INSERT code here to pause the scene
 		-- e.g. stop timers, stop animation, unload sounds, etc.)
-		composer.removeScene( "1층.picturejson" )
+		composer.removeScene( "2층로비_독백" )
 	elseif phase == "did" then
 		-- Called when the scene is now off screen
 	end

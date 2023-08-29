@@ -1,6 +1,6 @@
 -----------------------------------------------------------------------------------------
 --
--- ending.lua
+-- view2.lua
 --
 -----------------------------------------------------------------------------------------
 
@@ -10,36 +10,41 @@ local scene = composer.newScene()
 function scene:create( event )
 	local sceneGroup = self.view
 
-	local background = display.newRect(display.contentCenterX, display.contentCenterY, display.contentWidth, display.contentHeight)
+	-- ↓ 배경 ----------------------------------------------------------------------------------------------------
+	local backgroundY = composer.getVariable("backgroundY")
+
+	local background = display.newImageRect("image/배경/배경_저택_1층.png", 2000, 2000)
+	background.x, background.y = display.contentWidth/2, backgroundY
 	sceneGroup:insert(background)
 
- 	local endingText = display.newText("실패", display.contentWidth*0.5, display.contentHeight*0.52, font_Content)
- 	endingText.size = 200
 
-	endingText:setFillColor(1, 0.185, 0.5)
-	sceneGroup:insert(endingText)
+	-- ↓ ui정리 ------------------------------------------------------------------------------------------------------------
 
-	local retryText = display.newText("다시하기", display.contentWidth*0.5, display.contentHeight*0.72, font_Content)
- 	retryText.size = 80
-	retryText:setFillColor(1, 0.185, 0.5)
-	sceneGroup:insert(retryText)
+	local inventory = display.newImage("image/UI/인벤토리.png")
+	inventory.x, inventory.y = 240, 80
 
-	local Text = display.newText("나가기", display.contentWidth*0.5, display.contentHeight*0.82, font_Content)
- 	Text.size = 80
-	Text:setFillColor(1, 0.185, 0.5)
-	sceneGroup:insert(Text)
+	local restart = display.newImage("image/UI/세모.png")
+	restart.x, restart.y = 1820, 80
 
+	local question = display.newImage("image/UI/물음표.png")
+	question.x, question.y = 100, 80
 
-	local function re ( event )
-		composer.gotoScene( "emptyScreen" )
+	sceneGroup:insert(restart)
+	sceneGroup:insert(inventory)
+	sceneGroup:insert(question)
+
+	local image = display.newImage("image/저택그림/액자3.png")
+	image.x, image.y = display.contentCenterX, display.contentCenterY
+
+	sceneGroup:insert(image)
+
+	-- ↑ ui정리 -------------------------------------------------------------------------------------------------
+
+	local function back(event)
+		composer.hideOverlay("1층.key_lockingImage_3")
+		composer.gotoScene("1층.game_lobby")
 	end
-	retryText:addEventListener("tap", re)
-
-	local function go ( event )
-		composer.gotoScene( "computerScreen" )
-	end
-	Text:addEventListener("tap", go)
-
+	background:addEventListener("tap", back)
 end
 
 function scene:show( event )
@@ -53,7 +58,6 @@ function scene:show( event )
 		-- 
 		-- INSERT code here to make the scene come alive
 		-- e.g. start timers, begin animation, play audio, etc.
-
 	end	
 end
 
@@ -66,10 +70,9 @@ function scene:hide( event )
 		--
 		-- INSERT code here to pause the scene
 		-- e.g. stop timers, stop animation, unload sounds, etc.)
-		composer.removeScene( "failEnding" )
+		composer.removeScene( "1층.key_lockingImage_3" )
 	elseif phase == "did" then
 		-- Called when the scene is now off screen
-
 	end
 end
 

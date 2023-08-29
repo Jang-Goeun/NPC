@@ -26,7 +26,11 @@ function scene:create( event )
 			audio.pause(3)
 			audio.resume(2)
 			composer.hideOverlay("black")
-			composer.gotoScene("2층.2층로비", {effect = "fade"})
+			if (game1 ==1 and game2 == 1 and game3 == 1) then
+				composer.gotoScene("2층.2층로비_fullitem", {effect = "fade"})
+			else 
+				composer.gotoScene("2층.2층로비", {effect = "fade"})
+			end
 		end
 		
 	end

@@ -17,11 +17,6 @@ function scene:create( event )
 	background.x, background.y = display.contentWidth/2, backgroundY
 	sceneGroup:insert(background)
 
-	--[[ 파이
-	local pi_X = composer.getVariable("pi_X")
-	local pi = display.newImageRect("image/캐릭터/pixil(뒤)-0.png", 120, 120)
-	pi.x, pi.y = pi_X, 995
-	sceneGroup:insert(pi)]]
 
 	-- ↓ ui정리 ------------------------------------------------------------------------------------------------------------
 
@@ -38,98 +33,15 @@ function scene:create( event )
 	sceneGroup:insert(inventory)
 	sceneGroup:insert(question)
 
+	local image = display.newImage("image/저택그림/액자1.png")
+	image.x, image.y = display.contentCenterX, display.contentCenterY
 
-	-- 게임 관련
-	local sim = composer.getVariable("sim")
-	if sim == nil then
-		sim = 1
-	end
-
-	local image_in = display.newImage("image/자물쇠/자물쇠게임_안.png")
-	image_in.x, image_in.y = display.contentCenterX, display.contentCenterY
-
-	local volume = display.newImageRect("image/자물쇠/볼륨.png", 70, 70)
-	volume.x, volume.y = display.contentWidth* 0.64, display.contentHeight*0.55
-
-	local image_front = display.newImage("image/자물쇠/자물쇠게임_앞.png")
-	image_front.x, image_front.y = display.contentCenterX, display.contentCenterY
-
-	local wifiSim = display.newImageRect("image/자물쇠/심(와이파이).png", 38, 38)
-	wifiSim.x, wifiSim.y = display.contentWidth * 0.37, display.contentHeight * 0.165
-
-	if sim == 0 then
-		wifiSim.alpha = 0
-	end
-
-	sceneGroup:insert(image_in)
-	sceneGroup:insert(volume)
-	sceneGroup:insert(image_front)
-	sceneGroup:insert(wifiSim)
-
-	local frontGroup = display.newGroup()
-
-	frontGroup:insert(image_front)
-	frontGroup:insert(wifiSim)
+	sceneGroup:insert(image)
 
 	-- ↑ ui정리 -------------------------------------------------------------------------------------------------
 
-	-- ↓ 함수 정리 ------------------------------------------------------------------------------------------------------------
-
-	local function open( event )
-		if( event.phase == "began" ) then
-			event.target.isFocus = true
-			-- 드래그 시작할 때
-			event.target.initX = event.target.x
-
-		elseif ( event.phase == "moved" ) then
-			
-			if ( event.target.isFocus ) then
-				-- 드래그 중일 때
-				event.target.x = event.xStart + event.xDelta
-				wifiSim.x = display.contentWidth * 0.37  + event.xDelta
-				
-			end
-			
-		elseif ( event.phase == "ended" or event.phase == "cancelled"  ) then
-			if ( event.target.x > display.contentWidth*0.6 ) then
-				image_front.alpha = 0
-				wifiSim.alpha = 0
-				volume.alpha = 1
-			else
-				event.target.x = event.target.initX
-				wifiSim.x = display.contentWidth * 0.37
-			end
-		end
-		return true
-	end
-	image_front:addEventListener( "touch" , open )
-
-	-- 소리 나오는거 
-	local function vol(event)
-
-	end
-	volume:addEventListener("tap", vol)
-
-	-- 심 얻음
-	local function wifi(event)
-		sim = 0
-		wifiSim.alpha = 0
-		composer.setVariable("wifisim", 1)
-		showItemNumber = showItemNumber + 1
-	end
-	wifiSim:addEventListener("tap", wifi)
-
-	-- ↓ 인벤토리 함수 -------------------------------------------------------------------------------------------------
-
-	local function inven( event )
-		composer.showOverlay("inventoryScene", {isModal = true})
-	end
-	inventory:addEventListener("tap", inven)
-
-	-- 나가기
 	local function back(event)
-		composer.setVariable("sim", sim)
-		composer.hideOverlay("1층.key_lockingImage")
+		composer.hideOverlay("1층.key_lockingImage_1")
 		composer.gotoScene("1층.game_lobby")
 	end
 	background:addEventListener("tap", back)
@@ -158,7 +70,7 @@ function scene:hide( event )
 		--
 		-- INSERT code here to pause the scene
 		-- e.g. stop timers, stop animation, unload sounds, etc.)
-		composer.removeScene( "1층.key_lockingImage" )
+		composer.removeScene( "1층.key_lockingImage_1" )
 	elseif phase == "did" then
 		-- Called when the scene is now off screen
 	end

@@ -14,8 +14,8 @@ function scene:create( event )
 	local background = display.newImage("image/로딩창/게임로딩바.png")
 	background.x, background.y = display.contentCenterX, display.contentHeight * 0.5
 
-	local loading = display.newImageRect("image/로딩창/로딩바만.png", 190, 65)
-	loading.x, loading.y = display.contentWidth * 0.252, display.contentHeight * 0.745
+	local loading = display.newImageRect("image/로딩창/로딩바만.png", 192, 65)
+	loading.x, loading.y = display.contentWidth * 0.25, display.contentHeight * 0.745
 	loading.anchorX = -1
 
 	sceneGroup:insert(background)
@@ -28,7 +28,7 @@ function scene:create( event )
 	local go = 5
 	local function counter( event )
 		if go > 1 then
-			loading.width = (7 - go) * 190
+			loading.width = (7 - go) * 192
 		end
 		go = go - 1
 		if(go == -1) then

@@ -50,7 +50,7 @@ function scene:create( event )
 	question.alpha = 0
 
 	local questBox = display.newImage("image/UI/퀘스트창.png")
-	questBox.x, questBox.y = display.contentWidth*0.19, display.contentHeight*0.28
+	questBox.x, questBox.y = display.contentWidth*0.195, display.contentHeight*0.28
 	questBox:scale(0.73, 0.73)
 	questBox.alpha = 0
 
@@ -85,7 +85,7 @@ function scene:create( event )
 	content:setFillColor(0)
 	content.size = 35
 
-	local quest = display.newText(dialog, Data[#Data].content, display.contentWidth*0.19, display.contentHeight*0.3, font_Content, 40)
+	local quest = display.newText(dialog, Data[#Data].content, display.contentWidth*0.195, display.contentHeight*0.3, font_Content, 40)
 	quest:setFillColor(0)
 
 	if Data then

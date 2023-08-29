@@ -29,15 +29,15 @@ function scene:create( event )
 
 	local tipInfo = display.newGroup()
 
-	local image = display.newImageRect(Data[number].image, 200, 200)
-	image.x, image.y = display.contentWidth * 0.17 , display.contentHeight * 0.3
+	local image = display.newImageRect(Data[number].image, 160, 160)
+	image.x, image.y = display.contentWidth * 0.17 , display.contentHeight * 0.26
 
 	local options = {
     text = Data[number].content,
-    x = display.contentWidth * 0.24,
-    y = display.contentHeight * 0.44,
-    width = 500,
-    font = font,
+    x = display.contentWidth * 0.28,
+    y = display.contentHeight * 0.42,
+    width = 650,
+    font = font_Content,
     fontSize = 40,
     align = "left" }
 

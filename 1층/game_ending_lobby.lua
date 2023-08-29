@@ -1,6 +1,6 @@
 -----------------------------------------------------------------------------------------
 --
--- 게임1층로비
+-- 게임1층엔딩로비
 --
 -----------------------------------------------------------------------------------------
 
@@ -15,21 +15,14 @@ function scene:create( event )
 	sceneGroup:insert(tempBackground)
 
 	local background = display.newImageRect("image/배경/배경_저택_1층.png", 2000,2000)
-	background.x, background.y = display.contentWidth/2, display.contentHeight*0.08
+	background.x, background.y = display.contentWidth/2, display.contentHeight*0.9
 	sceneGroup:insert(background)
-
-	--벽
-	--local wall1 = display.newRect(background.x * 0.5, background.y, 550,280)
-	--local wall2 = display.newRect(background.x * 1.5, background.y, 550,280)
 
 	-- 체리
 	local cherry = display.newImageRect("image/캐릭터/체리_도트_기본모습.png", 120, 120)
-	cherry.x, cherry.y = display.contentWidth/2, 380
+	cherry.x, cherry.y = display.contentWidth/2, 1350
 
 	local nearCherry = 0
-
-	--desk
-	--local desk = display.newRect(background.x, background.y, 550,150)
 
 	local obsGroup = display.newGroup()
 
@@ -40,10 +33,10 @@ function scene:create( event )
 		sceneGroup:insert(frame[i])
 		obsGroup:insert(frame[i])
 	end
-	frame[1].x, frame[1].y =  display.contentWidth * 0.16, -600
-	frame[2].x, frame[2].y =  display.contentWidth * 0.29, -600
-	frame[3].x, frame[3].y =  display.contentWidth * 0.72, -600
-	frame[4].x, frame[4].y =  display.contentWidth * 0.85, -600
+	frame[1].x, frame[1].y =  display.contentWidth * 0.16, 300
+	frame[2].x, frame[2].y =  display.contentWidth * 0.29, 300
+	frame[3].x, frame[3].y =  display.contentWidth * 0.72, 300
+	frame[4].x, frame[4].y =  display.contentWidth * 0.85, 300
 
 	--obsGroup:insert(wall1)
 	--obsGroup:insert(wall2)
@@ -128,7 +121,7 @@ function scene:create( event )
 	for i = 1, 4 do
 		player[1][i] = display.newImageRect("image/캐릭터/pixil(앞)-"..(i - 1)..".png", 120, 120)
 		player[1][i].alpha = 0
-		player[1][i].x, player[1][i].y = display.contentCenterX , 1000
+		player[1][i].x, player[1][i].y = display.contentCenterX , 100
 
 		playerGroup:insert(player[1][i])
 	end
@@ -136,7 +129,7 @@ function scene:create( event )
 	for i = 1, 4 do
 		player[2][i] = display.newImageRect("image/캐릭터/pixil(뒤)-"..(i - 1)..".png", 120, 120)
 		player[2][i].alpha = 0
-		player[2][i].x, player[2][i].y = display.contentCenterX , 1000
+		player[2][i].x, player[2][i].y = display.contentCenterX , 100
 
 		playerGroup:insert(player[2][i])
 	end
@@ -144,7 +137,7 @@ function scene:create( event )
 	for i = 1, 4 do
 		player[3][i] = display.newImageRect("image/캐릭터/pixil(왼)-"..(i - 1)..".png", 120, 120)
 		player[3][i].alpha = 0
-		player[3][i].x, player[3][i].y = display.contentCenterX , 1000
+		player[3][i].x, player[3][i].y = display.contentCenterX , 100
 
 		playerGroup:insert(player[3][i])
 	end
@@ -152,14 +145,14 @@ function scene:create( event )
 	for i = 1, 4 do
 		player[4][i] = display.newImageRect("image/캐릭터/pixil(오른)-"..(i - 1)..".png", 120, 120)
 		player[4][i].alpha = 0
-		player[4][i].x, player[4][i].y = display.contentCenterX , 1000
+		player[4][i].x, player[4][i].y = display.contentCenterX , 100
 		playerGroup:insert(player[4][i])
 	end
 
 	sceneGroup:insert(obsGroup)
 	sceneGroup:insert(playerGroup)
 
-	player[2][1].alpha = 1 -- 처음 모습
+	player[1][1].alpha = 1 -- 처음 모습
 
 	
 	sceneGroup:insert(restart)
@@ -214,21 +207,10 @@ function scene:create( event )
 	finger_picture:addEventListener("tap", picture)
 
 	-- ↓ 열쇠 상호작용 함수 -------------------------------------------------------------------------------------------------
-	local keyPicture 
+
 	local function interKey( event )
-		if keyPicture == 1 then
-			composer.setVariable("backgroundY", background.y)
-			composer.gotoScene("1층.key_lockingImage_1")
-		elseif  keyPicture == 2 then
-			composer.setVariable("backgroundY", background.y)
-			composer.gotoScene("1층.key_lockingImage_2")
-		elseif  keyPicture == 3 then
-			composer.setVariable("backgroundY", background.y)
-			composer.gotoScene("1층.key_lockingImage_3")
-		elseif  keyPicture == 4 then
-			composer.setVariable("backgroundY", background.y)
-			composer.gotoScene("1층.key_lockingImage_4")
-		end 
+		composer.setVariable("backgroundY", background.y)
+		composer.gotoScene("1층.key_lockingImage")
 	end
 	finger_key:addEventListener("tap", interKey)
 
@@ -294,26 +276,26 @@ function scene:create( event )
 			end
 			
 			print(playerGroup.x, playerGroup.y, background.x, background.y)
-			if ( playerGroup.y < -420 and background.y < 998) then -- 여기 숫자 각 맵에 맞게 조절하시면 됩니다. ex) -608
-				if ( (playerGroup.y == -424 or playerGroup.y == -428) and playerGroup.x > -192 and playerGroup.x < 200) then
-					if ( playerGroup.x > -64 and playerGroup.x < 64) then
-						if(background.y > 398 or background.y < 202)then
-							moveCamera(-moveSpeed)
-						end
-					else
+			if ((playerGroup.y > 396 and playerGroup.y < 404 )and background.y < 976 ) then -- 여기 숫자 각 맵에 맞게 조절하시면 됩니다. ex) -608
+				if ( playerGroup.x < -188 or playerGroup.x > 196 ) then
+					if( background.y > 784 ) then
+						moveCamera(-moveSpeed)
+					elseif( background.y < 388 ) then
 						moveCamera(-moveSpeed)
 					end
-				elseif ( background.y < 434 ) then
+				elseif ( background.y > 84) then
 						moveCamera(-moveSpeed)
-				elseif ((playerGroup.y == -424 or playerGroup.y == -428) and background.y > 850 and background.y < 998) then
+				else
 					moveCamera(-moveSpeed)
 				end
-			elseif ( playerGroup.x < -192 or playerGroup.x > 200) then
-				if (playerGroup.y > -600) then
+			elseif ( playerGroup.y > 100 or playerGroup.y > 400) then
+				if ( playerGroup.x < -188 or playerGroup.x > 196 ) then
+					if( playerGroup.y > 260 ) then
+						playerGroup.y = playerGroup.y - moveSpeed
+					end
+				else
 					playerGroup.y = playerGroup.y - moveSpeed
 				end
-			elseif (playerGroup.y >= -700) then
-				playerGroup.y = playerGroup.y - moveSpeed
 			end
 
 			up.alpha = 0.7
@@ -321,20 +303,7 @@ function scene:create( event )
 			if(playerGroup.x > -100 and playerGroup.x < 80 and background.y > 90 and background.y < 210) then-- 체리 상호작용 위치
 				cursor.alpha = 0
 				finger.alpha = 1
-			elseif (-740 < playerGroup.x and playerGroup.x < -572 and playerGroup.y < -460) then --열쇠 게임 그림 상호작용
-				keyPicture = 1
-				cursor.alpha = 0
-				finger_key.alpha = 1
-			elseif (-488 < playerGroup.x and playerGroup.x < -304 and playerGroup.y < -460) then --열쇠 게임 그림 상호작용
-				keyPicture = 2
-				cursor.alpha = 0
-				finger_key.alpha = 1
-			elseif (332 < playerGroup.x and playerGroup.x < 504 and playerGroup.y < -460) then --열쇠 게임 그림 상호작용
-				keyPicture = 3
-				cursor.alpha = 0
-				finger_key.alpha = 1
-			elseif (588 < playerGroup.x and playerGroup.x < 764 and playerGroup.y < -460) then --열쇠 게임 그림 상호작용
-				keyPicture = 4
+			elseif (-480 < playerGroup.x and playerGroup.x < -324 and playerGroup.y < 400) then --열쇠 게임 그림 상호작용
 				cursor.alpha = 0
 				finger_key.alpha = 1
 			elseif ( playerGroup.y == -424 or playerGroup.y == -428) then
@@ -376,25 +345,22 @@ function scene:create( event )
 				motionDown = 1
 			end
 
-			if (background.y > 90 and playerGroup.y > -430) then -- 여기 숫자 각 맵에 맞게 조절하시면 됩니다. ex) -608
+			print(playerGroup.x, playerGroup.y, background.x, background.y)
+			if (playerGroup.y > 396 and background.y > 80) then -- 여기 숫자 각 맵에 맞게 조절하시면 됩니다. ex) -608
 				if ( playerGroup.x < -188 or playerGroup.x > 196 ) then
-					if( background.y > 854 ) then
+					if( background.y > 784 ) then
 						moveCamera(moveSpeed)
-					elseif ( background.y < 462) then
+					elseif( background.y < 396 ) then
 						moveCamera(moveSpeed)
 					end
+				elseif ( background.y > 84) then
+						moveCamera(moveSpeed)
 				else
-					if ( playerGroup.x > -64 and playerGroup.x < 64) then
-						if(background.y > 402 or background.y < 206)then
-							moveCamera(moveSpeed)
-						end
-					else
-						moveCamera(moveSpeed)
-					end
+					moveCamera(moveSpeed)
 				end
-			elseif ( playerGroup.y < 0 ) then
+			elseif ( playerGroup.y < 400 or playerGroup.y < 876 ) then
 				if ( playerGroup.x < -188 or playerGroup.x > 196 ) then
-					if( playerGroup.y < -136 ) then
+					if ( playerGroup.y < 752 ) then
 						playerGroup.y = playerGroup.y + moveSpeed
 					end
 				else
@@ -407,20 +373,7 @@ function scene:create( event )
 			if(playerGroup.x > -100 and playerGroup.x < 80 and background.y > 90 and background.y < 210) then-- 체리 상호작용 위치
 				cursor.alpha = 0
 				finger.alpha = 1
-			elseif (-740 < playerGroup.x and playerGroup.x < -572 and playerGroup.y < -460) then --열쇠 게임 그림 상호작용
-				keyPicture = 1
-				cursor.alpha = 0
-				finger_key.alpha = 1
-			elseif (-488 < playerGroup.x and playerGroup.x < -304 and playerGroup.y < -460) then --열쇠 게임 그림 상호작용
-				keyPicture = 2
-				cursor.alpha = 0
-				finger_key.alpha = 1
-			elseif (332 < playerGroup.x and playerGroup.x < 504 and playerGroup.y < -460) then --열쇠 게임 그림 상호작용
-				keyPicture = 3
-				cursor.alpha = 0
-				finger_key.alpha = 1
-			elseif (588 < playerGroup.x and playerGroup.x < 764 and playerGroup.y < -460) then --열쇠 게임 그림 상호작용
-				keyPicture = 4
+			elseif (-480 < playerGroup.x and playerGroup.x < -324 and playerGroup.y < 400) then --열쇠 게임 그림 상호작용
 				cursor.alpha = 0
 				finger_key.alpha = 1
 			elseif ( playerGroup.y == -424 or playerGroup.y == -428) then
@@ -461,19 +414,13 @@ function scene:create( event )
 			if motionLeft == 5 then
 				motionLeft = 1
 			end
-
-			if ( playerGroup.y > -136 or ( playerGroup.y == -424 and background.y > 466 and background.y < 846 )) then
+			print(playerGroup.x, playerGroup.y, background.x, background.y)
+			if ( playerGroup.y < 260 or ( playerGroup.y == 400 and background.y > 392 and background.y < 772 )) then
 				if (playerGroup.x > -188) then -- 숫자 조절
 					playerGroup.x = playerGroup.x - moveSpeed
-				end
+			end
 			elseif (playerGroup.x > -780) then -- 숫자 조절
-				if (playerGroup.y == -424 and (background.y > 206 and background.y < 398)) then
-					if (playerGroup.x < -64 or playerGroup.x > 64) then
-						playerGroup.x = playerGroup.x - moveSpeed
-					end
-				else	
-					playerGroup.x = playerGroup.x - moveSpeed
-				end
+				playerGroup.x = playerGroup.x - moveSpeed
 			end
 
 			left.alpha = 0.7
@@ -481,20 +428,7 @@ function scene:create( event )
 			if(playerGroup.x > -100 and playerGroup.x < 80 and background.y > 90 and background.y < 210) then-- 체리 상호작용 위치
 				cursor.alpha = 0
 				finger.alpha = 1
-			elseif (-740 < playerGroup.x and playerGroup.x < -572 and playerGroup.y < -460) then --열쇠 게임 그림 상호작용
-				keyPicture = 1
-				cursor.alpha = 0
-				finger_key.alpha = 1
-			elseif (-488 < playerGroup.x and playerGroup.x < -304 and playerGroup.y < -460) then --열쇠 게임 그림 상호작용
-				keyPicture = 2
-				cursor.alpha = 0
-				finger_key.alpha = 1
-			elseif (332 < playerGroup.x and playerGroup.x < 504 and playerGroup.y < -460) then --열쇠 게임 그림 상호작용
-				keyPicture = 3
-				cursor.alpha = 0
-				finger_key.alpha = 1
-			elseif (588 < playerGroup.x and playerGroup.x < 764 and playerGroup.y < -460) then --열쇠 게임 그림 상호작용
-				keyPicture = 4
+			elseif (-480 < playerGroup.x and playerGroup.x < -324 and playerGroup.y < 400) then --열쇠 게임 그림 상호작용
 				cursor.alpha = 0
 				finger_key.alpha = 1
 			elseif ( playerGroup.y == -424 or playerGroup.y == -428) then
@@ -537,18 +471,13 @@ function scene:create( event )
 				motionRight = 1
 			end
 			
-			if ( playerGroup.y > -136 or ( playerGroup.y == -424 and background.y > 466 and background.y < 846 )) then
+			print(playerGroup.x, playerGroup.y, background.x, background.y)
+			if (  playerGroup.y < 260 or ( playerGroup.y == 400 and background.y > 392 and background.y < 772 )) then
 				if (playerGroup.x < 196) then -- 숫자 조절
 					playerGroup.x = playerGroup.x + moveSpeed
 				end
 			elseif (playerGroup.x < 780) then -- 숫자 조절
-				if (playerGroup.y == -424 and (background.y > 206 and background.y < 398)) then
-					if (playerGroup.x < -64 or playerGroup.x > 64) then
-						playerGroup.x = playerGroup.x + moveSpeed
-					end
-				else	
-					playerGroup.x = playerGroup.x + moveSpeed
-				end
+				playerGroup.x = playerGroup.x + moveSpeed
 			end
 
 			right.alpha = 0.7
@@ -556,20 +485,7 @@ function scene:create( event )
 			if(playerGroup.x > -100 and playerGroup.x < 80 and background.y > 90 and background.y < 210) then-- 체리 상호작용 위치
 				cursor.alpha = 0
 				finger.alpha = 1
-			elseif (-740 < playerGroup.x and playerGroup.x < -572 and playerGroup.y < -460) then --열쇠 게임 그림 상호작용
-				keyPicture = 1
-				cursor.alpha = 0
-				finger_key.alpha = 1
-			elseif (-488 < playerGroup.x and playerGroup.x < -304 and playerGroup.y < -460) then --열쇠 게임 그림 상호작용
-				keyPicture = 2
-				cursor.alpha = 0
-				finger_key.alpha = 1
-			elseif (332 < playerGroup.x and playerGroup.x < 504 and playerGroup.y < -460) then --열쇠 게임 그림 상호작용
-				keyPicture = 3
-				cursor.alpha = 0
-				finger_key.alpha = 1
-			elseif (588 < playerGroup.x and playerGroup.x < 764 and playerGroup.y < -460) then --열쇠 게임 그림 상호작용
-				keyPicture = 4
+			elseif (-480 < playerGroup.x and playerGroup.x < -324 and playerGroup.y < 400) then --열쇠 게임 그림 상호작용
 				cursor.alpha = 0
 				finger_key.alpha = 1
 			elseif ( playerGroup.y == -424 or playerGroup.y == -428) then

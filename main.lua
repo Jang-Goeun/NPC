@@ -51,7 +51,7 @@ sound_liar1 =  audio.loadSound("sound/거짓말쟁이 1.mp3")
 sound_liar2 =  audio.loadSound("sound/거짓말쟁이 2.mp3")
 dieSound =  audio.loadSound("sound/베는, 찔리는 소리 2.mp3")
 sound_artist = audio.loadSound("sound/예술가의방.mp3")
-
+mansionSound = audio.loadSound("sound/저택 브금.mp3")
 itemNum = {}
 
 game1 = 0 --거짓말쟁이방
@@ -74,7 +74,7 @@ end
 
 -- event listeners for tab buttons:
 local function onFirstView( event )
-	composer.gotoScene( "2층.예술가의방.intro" )
+	composer.gotoScene( "1층.game_start_loading" )
 end
 
 onFirstView()	-- invoke first tab button's onPress event manually

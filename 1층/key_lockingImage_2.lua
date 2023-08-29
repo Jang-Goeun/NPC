@@ -10,17 +10,28 @@ local scene = composer.newScene()
 function scene:create( event )
 	local sceneGroup = self.view
 
+	local backImage = {}
+	backImage[1] = display.newRect(280, 610, 520, 937)
+	backImage[1]:setFillColor(0, 0, 0)
+	backImage[2] = display.newRect(1640, 610, 520, 937)
+	backImage[2]:setFillColor(0, 0, 0)
+
+	sceneGroup:insert(backImage[1])
+	sceneGroup:insert(backImage[2])
+
 	-- ↓ 배경 ----------------------------------------------------------------------------------------------------
 	local backgroundY = composer.getVariable("backgroundY")
 
 	local background = display.newImageRect("image/배경/배경_저택_1층.png", 2000, 2000)
+	-- local background = display.newImage("image/배경/배경화면.png")
 	background.x, background.y = display.contentWidth/2, backgroundY
 	sceneGroup:insert(background)
 
-	--[[ 파이
+	--[[파이
 	local pi_X = composer.getVariable("pi_X")
+	local pi_Y = composer.getVariable("pi_Y")
 	local pi = display.newImageRect("image/캐릭터/pixil(뒤)-0.png", 120, 120)
-	pi.x, pi.y = pi_X, 995
+	pi.x, pi.y = pi_X, pi_Y
 	sceneGroup:insert(pi)]]
 
 	-- ↓ ui정리 ------------------------------------------------------------------------------------------------------------
@@ -70,6 +81,8 @@ function scene:create( event )
 
 	frontGroup:insert(image_front)
 	frontGroup:insert(wifiSim)
+	sceneGroup:insert(frontGroup)
+	
 
 	-- ↑ ui정리 -------------------------------------------------------------------------------------------------
 
@@ -95,6 +108,7 @@ function scene:create( event )
 				image_front.alpha = 0
 				wifiSim.alpha = 0
 				volume.alpha = 1
+				composer.setVariable("isLockingImage", true)
 			else
 				event.target.x = event.target.initX
 				wifiSim.x = display.contentWidth * 0.37
@@ -104,9 +118,9 @@ function scene:create( event )
 	end
 	image_front:addEventListener( "touch" , open )
 
-	-- 소리 나오는거 
+	-- 소리(힌트)
 	local function vol(event)
-
+		audio.play(keySound)
 	end
 	volume:addEventListener("tap", vol)
 
@@ -114,8 +128,9 @@ function scene:create( event )
 	local function wifi(event)
 		sim = 0
 		wifiSim.alpha = 0
+		audio.play(itemGetSound)
 		composer.setVariable("wifisim", 1)
-		showItemNumber = showItemNumber + 1
+		itemNum[2] = true
 	end
 	wifiSim:addEventListener("tap", wifi)
 
@@ -132,7 +147,10 @@ function scene:create( event )
 		composer.hideOverlay("1층.key_lockingImage_2")
 		composer.gotoScene("1층.game_lobby")
 	end
-	background:addEventListener("tap", back)
+	backImage[1]:addEventListener("tap", back)
+	backImage[2]:addEventListener("tap", back)
+
+
 end
 
 function scene:show( event )
@@ -158,6 +176,7 @@ function scene:hide( event )
 		--
 		-- INSERT code here to pause the scene
 		-- e.g. stop timers, stop animation, unload sounds, etc.)
+		composer.setVariable("isLockingImage", false)
 		composer.removeScene( "1층.key_lockingImage_2" )
 	elseif phase == "did" then
 		-- Called when the scene is now off screen
