@@ -1,42 +1,42 @@
 -----------------------------------------------------------------------------------------
 --
--- clear_black.lua
+-- view2.lua
 --
 -----------------------------------------------------------------------------------------
-
 
 local composer = require( "composer" )
 local scene = composer.newScene()
 
 function scene:create( event )
 	local sceneGroup = self.view
+    local backgroundY = composer.getVariable("backgroundY")
 
-	local background = display.newRect(display.contentCenterX, display.contentCenterY, display.contentWidth, display.contentHeight)
-	background:setFillColor(0) -- 검정 화면
-	sceneGroup:insert(background)
+	local back = display.newImageRect("image/배경/배경_저택_1층.png", 2000, 2000)
+	back.x, back.y = display.contentWidth/2, backgroundY
+	sceneGroup:insert(back)
 
-	game1 = 1
-	local count = 2
-	local function counter( event )
-		count = count - 1
-		print(count)
+	--loading.png: 정사각형모양 배경없는 로딩아이콘
+    local background = display.newImageRect("image/로딩창/게임종료중.png", 1200, 600)
+    background.x, background.y = display.contentCenterX, display.contentCenterY - 50
+    sceneGroup:insert(background)
 
-		if count == 1 then
-			print("///////")
-			audio.pause(3)
-			audio.resume(2)
-			composer.hideOverlay("black")
-			if (game1 ==1 and game2 == 1 and game3 == 1) then
-				composer.setVariable("num", 1)
-				composer.gotoScene("2층.2층로비_ending1", {effect = "fade"})
-			else 
-				composer.gotoScene("2층.2층로비", {effect = "fade"})
-			end
-		end
-		
+	loading = display.newImageRect("image/로딩창/로딩아이콘.png", 160, 160)
+	loading.x, loading.y = display.contentCenterX, display.contentCenterY
+	sceneGroup:insert( loading )
+
+	rotateLoading()
+
+	
+	local function rotateLoading() -- 로딩창 회전시키는 함수
+		transition.to(loading, {
+			rotation = loading.rotation + 720, --2바퀴 회전
+			x = display.contentCenterX,
+			y = display.contentCenterY,
+			time = 3000, --3초간
+			onComplete = nextScene --회전끝나면, nextScene함수로 이동
+			}
+		)
 	end
-	timer.performWithDelay(1000, counter, 3)
---
 end
 
 function scene:show( event )
@@ -62,7 +62,7 @@ function scene:hide( event )
 		--
 		-- INSERT code here to pause the scene
 		-- e.g. stop timers, stop animation, unload sounds, etc.)
-		composer.removeScene("black")
+		composer.removeScene( "1층.ending" )
 	elseif phase == "did" then
 		-- Called when the scene is now off screen
 	end

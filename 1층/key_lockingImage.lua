@@ -125,12 +125,16 @@ function scene:create( event )
 		composer.showOverlay("inventoryScene", {isModal = true})
 	end
 	inventory:addEventListener("tap", inven)
-
+	local next = composer.getVariable("next")
 	-- 나가기
 	local function back(event)
 		composer.setVariable("sim", sim)
 		composer.hideOverlay("1층.key_lockingImage_2")
-		composer.gotoScene("1층.game_lobby")
+		if(next == 0) then
+			composer.gotoScene("1층.game_lobby")
+		elseif(next == 1) then
+			composer.gotoScene("1층.game_ending_lobby")
+		end
 	end
 	background:addEventListener("tap", back)
 end

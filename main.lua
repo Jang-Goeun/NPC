@@ -22,8 +22,6 @@ function jsonParse( src )
 	end
 end
 
--- -------------------------------------------------------------
-
 -- show default status bar (iOS)
 display.setStatusBar( display.DefaultStatusBar )
 
@@ -54,9 +52,10 @@ sound_artist = audio.loadSound("sound/예술가의방.mp3")
 mansionSound = audio.loadSound("sound/저택 브금.mp3")
 itemNum = {}
 
+cherry_interaction = 0
 game1 = 0 --거짓말쟁이방
-game2 = 0 --미로방
-game3 = 0 --예술가의방
+game2 = 1 --미로방
+game3 = 1 --예술가의방
 for i = 1, 6 do
 	itemNum[i] = false
 end

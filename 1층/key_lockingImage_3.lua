@@ -9,8 +9,12 @@ local scene = composer.newScene()
 
 function scene:create( event )
 	local sceneGroup = self.view
-
 	-- ↓ 배경 ----------------------------------------------------------------------------------------------------
+	
+	local black = display.newRect(display.contentCenterX, display.contentCenterY, display.contentWidth, display.contentHeight)
+	black:setFillColor(0) -- 검정 화면
+	sceneGroup:insert(black)
+	
 	local backgroundY = composer.getVariable("backgroundY")
 
 	local background = display.newImageRect("image/배경/배경_저택_1층.png", 2000, 2000)
@@ -40,11 +44,16 @@ function scene:create( event )
 
 	-- ↑ ui정리 -------------------------------------------------------------------------------------------------
 
+	local next = composer.getVariable("next")
 	local function back(event)
 		composer.hideOverlay("1층.key_lockingImage_3")
-		composer.gotoScene("1층.game_lobby")
+		if(next == 0) then
+			composer.gotoScene("1층.game_lobby")
+		elseif(next == 1) then
+			composer.gotoScene("1층.game_ending_lobby")
+		end
 	end
-	background:addEventListener("tap", back)
+	black:addEventListener("tap", back)
 end
 
 function scene:show( event )

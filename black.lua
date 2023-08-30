@@ -1,6 +1,6 @@
 -----------------------------------------------------------------------------------------
 --
--- clear_black.lua
+-- ending_black.lua
 --
 -----------------------------------------------------------------------------------------
 
@@ -23,15 +23,9 @@ function scene:create( event )
 
 		if count == 1 then
 			print("///////")
-			audio.pause(3)
-			audio.resume(2)
+			--audio.pause(3)
+			--audio.resume(2)
 			composer.hideOverlay("black")
-			if (game1 ==1 and game2 == 1 and game3 == 1) then
-				composer.setVariable("num", 1)
-				composer.gotoScene("2층.2층로비_ending1", {effect = "fade"})
-			else 
-				composer.gotoScene("2층.2층로비", {effect = "fade"})
-			end
 		end
 		
 	end

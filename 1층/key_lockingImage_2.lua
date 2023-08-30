@@ -9,6 +9,9 @@ local scene = composer.newScene()
 
 function scene:create( event )
 	local sceneGroup = self.view
+	local black = display.newRect(display.contentCenterX, display.contentCenterY, display.contentWidth, display.contentHeight)
+	black:setFillColor(0) -- 검정 화면
+	sceneGroup:insert(black)
 
 	local backImage = {}
 	backImage[1] = display.newRect(280, 610, 520, 937)
@@ -141,11 +144,16 @@ function scene:create( event )
 	end
 	inventory:addEventListener("tap", inven)
 
+	local next = composer.getVariable("next")
 	-- 나가기
 	local function back(event)
 		composer.setVariable("sim", sim)
 		composer.hideOverlay("1층.key_lockingImage_2")
-		composer.gotoScene("1층.game_lobby")
+		if(next == 0) then
+			composer.gotoScene("1층.game_lobby")
+		elseif(next == 1) then
+			composer.gotoScene("1층.game_ending_lobby")
+		end
 	end
 	backImage[1]:addEventListener("tap", back)
 	backImage[2]:addEventListener("tap", back)

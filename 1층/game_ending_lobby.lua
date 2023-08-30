@@ -58,10 +58,6 @@ function scene:create( event )
 	finger_key.x, finger_key.y = 1560, 840
 	finger_key.alpha = 0
 
-	local finger_picture = display.newImage("image/UI/손가락포인터.png")
-	finger_picture.x, finger_picture.y = 1560, 840
-	finger_picture.alpha = 0
-
 	local not_interaction = display.newImageRect("image/UI/빈원형.png", 130, 130)
 	not_interaction.x, not_interaction.y = 1740, 680
 	-- not_interaction.alpha = 0
@@ -160,7 +156,6 @@ function scene:create( event )
 	sceneGroup:insert(cursor)
 	sceneGroup:insert(finger)
 	sceneGroup:insert(finger_key)
-	sceneGroup:insert(finger_picture)
 	sceneGroup:insert(not_interaction)
 	sceneGroup:insert(interaction)
 	sceneGroup:insert(inventory)
@@ -190,46 +185,35 @@ function scene:create( event )
         
 	end
 	--------------------------------------------------
-	-- ↓ 그림 상호작용 함수 -------------------------------------------------------------------------------------------------
-	local pic = 1
-	local function picture( event )
-		if pic == 1 then
-			composer.setVariable("backgroundY", background.y)
-			composer.setVariable("pictureY", frame[1].y + obsGroup.y)
-			composer.setVariable("pi_X", display.contentCenterX + playerGroup.x)
-			composer.gotoScene( "1층.picturejson")
-			cursor.alpha = 1
-			finger_picture.alpha = 0
-			pic = pic + 1
-		end
-	end
-
-	finger_picture:addEventListener("tap", picture)
-
 	-- ↓ 열쇠 상호작용 함수 -------------------------------------------------------------------------------------------------
 
 	local function interKey( event )
+		
+		composer.setVariable("next", 1)
 		composer.setVariable("backgroundY", background.y)
-		composer.gotoScene("1층.key_lockingImage")
+		if keyPicture == 1 then
+			composer.showOverlay("1층.key_lockingImage_1")
+		elseif  keyPicture == 2 then
+			composer.showOverlay("1층.key_lockingImage_2")
+		elseif  keyPicture == 3 then
+			composer.showOverlay("1층.key_lockingImage_3")
+		elseif  keyPicture == 4 then
+			composer.showOverlay("1층.key_lockingImage_4")
+		end 
 	end
 	finger_key:addEventListener("tap", interKey)
 
 	-- ↓ 체리 상호작용 함수 -------------------------------------------------------------------------------------------------
 
 	local function interCherry( event )
-		nearCherry = nearCherry + 1
+		--itemNum[6] = ture
 
 		composer.setVariable("backgroundY", background.y)
-		composer.setVariable("pi_X", display.contentCenterX + playerGroup.x)
-		-- 파이 y좌표는 항상 playerGroup 0임 == 초기위치 800
 
-		--체리 위치 / x좌표는 항상 화면 중앙
-		composer.setVariable("cherry_Y", cherry.y + obsGroup.y)
-
-		if nearCherry == 6 then
-			composer.gotoScene( "1층.cherry_distractor" )
+		if itemNum[6] == ture then
+			composer.gotoScene( "1층.cherry_Ribbon" )
 		else
-			composer.gotoScene( "1층.cherryInteraction" )
+			composer.gotoScene( "1층.cherry_Ribbon_X" )
 		end
 	end
 	finger:addEventListener("tap", interCherry)
@@ -284,7 +268,13 @@ function scene:create( event )
 						moveCamera(-moveSpeed)
 					end
 				elseif ( background.y > 84) then
+					if (playerGroup.x > - 70 and playerGroup.x < 60) then
+						if (background.y < 100 or background.y > 240) then
+							moveCamera(-moveSpeed)
+						end
+					else
 						moveCamera(-moveSpeed)
+					end
 				else
 					moveCamera(-moveSpeed)
 				end
@@ -300,31 +290,30 @@ function scene:create( event )
 
 			up.alpha = 0.7
 
-			if(playerGroup.x > -100 and playerGroup.x < 80 and background.y > 90 and background.y < 210) then-- 체리 상호작용 위치
+			if(((background.y == 80 and playerGroup.y < 476 and playerGroup.y > 396 )or (playerGroup.y == 400 and background.y > 80 and background.y < 276)) and (playerGroup.x > -80 and playerGroup.x < 70)) then-- 체리 상호작용 위치
 				cursor.alpha = 0
 				finger.alpha = 1
-			elseif (-480 < playerGroup.x and playerGroup.x < -324 and playerGroup.y < 400) then --열쇠 게임 그림 상호작용
+			elseif (-740 < playerGroup.x and playerGroup.x < -572 and playerGroup.y < 380) then --열쇠 게임 그림 상호작용
+				keyPicture = 1
 				cursor.alpha = 0
 				finger_key.alpha = 1
-			elseif ( playerGroup.y == -424 or playerGroup.y == -428) then
-				if pic == 1 then
-					if ( background.y > 770 and background.y < 878) then
-						cursor.alpha = 0
-						finger_picture.alpha = 1
-						finger.alpha = 0
-						finger_key.alpha = 0
-					else
-						cursor.alpha = 1
-						finger_picture.alpha = 0
-						finger.alpha = 0
-						finger_key.alpha = 0
-					end
-				end
+			elseif (-488 < playerGroup.x and playerGroup.x < -304 and playerGroup.y < 380) then --열쇠 게임 그림 상호작용
+				keyPicture = 2
+				cursor.alpha = 0
+				finger_key.alpha = 1
+			elseif (332 < playerGroup.x and playerGroup.x < 504 and playerGroup.y < 380) then --열쇠 게임 그림 상호작용
+				keyPicture = 3
+				cursor.alpha = 0
+				finger_key.alpha = 1
+			elseif (588 < playerGroup.x and playerGroup.x < 764 and playerGroup.y < 380) then --열쇠 게임 그림 상호작용
+				keyPicture = 4
+				cursor.alpha = 0
+				finger_key.alpha = 1
+			
 			else
 				cursor.alpha = 1
 				finger.alpha = 0
 				finger_key.alpha = 0
-				finger_picture.alpha = 0
 			end
 		elseif movingDirection == "down" then ---------------------
 			-- 이전 모습 삭제
@@ -354,7 +343,13 @@ function scene:create( event )
 						moveCamera(moveSpeed)
 					end
 				elseif ( background.y > 84) then
+					if (playerGroup.x > - 70 and playerGroup.x < 60) then
+						if (background.y < 104 or background.y > 244) then
+							moveCamera(moveSpeed)
+						end
+					else
 						moveCamera(moveSpeed)
+					end
 				else
 					moveCamera(moveSpeed)
 				end
@@ -370,31 +365,30 @@ function scene:create( event )
 
 			down.alpha = 0.7
 
-			if(playerGroup.x > -100 and playerGroup.x < 80 and background.y > 90 and background.y < 210) then-- 체리 상호작용 위치
+			if(((background.y == 80 and playerGroup.y < 476 and playerGroup.y > 396 )or (playerGroup.y == 400 and background.y > 80 and background.y < 276)) and (playerGroup.x > -80 and playerGroup.x < 70)) then-- 체리 상호작용 위치
 				cursor.alpha = 0
 				finger.alpha = 1
-			elseif (-480 < playerGroup.x and playerGroup.x < -324 and playerGroup.y < 400) then --열쇠 게임 그림 상호작용
+			elseif (-740 < playerGroup.x and playerGroup.x < -572 and playerGroup.y < 380) then --열쇠 게임 그림 상호작용
+				keyPicture = 1
 				cursor.alpha = 0
 				finger_key.alpha = 1
-			elseif ( playerGroup.y == -424 or playerGroup.y == -428) then
-				if pic == 1 then
-					if ( background.y > 770 and background.y < 878) then
-						cursor.alpha = 0
-						finger_picture.alpha = 1
-						finger.alpha = 0
-						finger_key.alpha = 0
-					else
-						cursor.alpha = 1
-						finger_picture.alpha = 0
-						finger.alpha = 0
-						finger_key.alpha = 0
-					end
-				end
+			elseif (-488 < playerGroup.x and playerGroup.x < -304 and playerGroup.y < 380) then --열쇠 게임 그림 상호작용
+				keyPicture = 2
+				cursor.alpha = 0
+				finger_key.alpha = 1
+			elseif (332 < playerGroup.x and playerGroup.x < 504 and playerGroup.y < 380) then --열쇠 게임 그림 상호작용
+				keyPicture = 3
+				cursor.alpha = 0
+				finger_key.alpha = 1
+			elseif (588 < playerGroup.x and playerGroup.x < 764 and playerGroup.y < 380) then --열쇠 게임 그림 상호작용
+				keyPicture = 4
+				cursor.alpha = 0
+				finger_key.alpha = 1
+			
 			else
 				cursor.alpha = 1
 				finger.alpha = 0
 				finger_key.alpha = 0
-				finger_picture.alpha = 0
 			end
 		elseif movingDirection == "left" then -------------------------
 			-- 이전 모습 삭제
@@ -420,36 +414,41 @@ function scene:create( event )
 					playerGroup.x = playerGroup.x - moveSpeed
 			end
 			elseif (playerGroup.x > -780) then -- 숫자 조절
-				playerGroup.x = playerGroup.x - moveSpeed
+				if (background.y > 100 and background.y < 244) then
+					if (playerGroup.x < -68 or playerGroup.x > 60) then
+						playerGroup.x = playerGroup.x - moveSpeed
+					end
+				else
+					playerGroup.x = playerGroup.x - moveSpeed
+				end
 			end
 
 			left.alpha = 0.7
 
-			if(playerGroup.x > -100 and playerGroup.x < 80 and background.y > 90 and background.y < 210) then-- 체리 상호작용 위치
+			if(((background.y == 80 and playerGroup.y < 476 and playerGroup.y > 396 )or (playerGroup.y == 400 and background.y > 80 and background.y < 276)) and (playerGroup.x > -80 and playerGroup.x < 70)) then-- 체리 상호작용 위치
 				cursor.alpha = 0
 				finger.alpha = 1
-			elseif (-480 < playerGroup.x and playerGroup.x < -324 and playerGroup.y < 400) then --열쇠 게임 그림 상호작용
+			elseif (-740 < playerGroup.x and playerGroup.x < -572 and playerGroup.y < 380) then --열쇠 게임 그림 상호작용
+				keyPicture = 1
 				cursor.alpha = 0
 				finger_key.alpha = 1
-			elseif ( playerGroup.y == -424 or playerGroup.y == -428) then
-				if pic == 1 then
-					if ( background.y > 770 and background.y < 878) then
-						cursor.alpha = 0
-						finger_picture.alpha = 1
-						finger.alpha = 0
-						finger_key.alpha = 0
-					else
-						cursor.alpha = 1
-						finger_picture.alpha = 0
-						finger.alpha = 0
-						finger_key.alpha = 0
-					end
-				end
+			elseif (-488 < playerGroup.x and playerGroup.x < -304 and playerGroup.y < 380) then --열쇠 게임 그림 상호작용
+				keyPicture = 2
+				cursor.alpha = 0
+				finger_key.alpha = 1
+			elseif (332 < playerGroup.x and playerGroup.x < 504 and playerGroup.y < 380) then --열쇠 게임 그림 상호작용
+				keyPicture = 3
+				cursor.alpha = 0
+				finger_key.alpha = 1
+			elseif (588 < playerGroup.x and playerGroup.x < 764 and playerGroup.y < 380) then --열쇠 게임 그림 상호작용
+				keyPicture = 4
+				cursor.alpha = 0
+				finger_key.alpha = 1
+			
 			else
 				cursor.alpha = 1
 				finger.alpha = 0
 				finger_key.alpha = 0
-				finger_picture.alpha = 0
 			end
 		elseif movingDirection == "right" then -----------------------------
 			-- 이전 모습 삭제
@@ -477,36 +476,41 @@ function scene:create( event )
 					playerGroup.x = playerGroup.x + moveSpeed
 				end
 			elseif (playerGroup.x < 780) then -- 숫자 조절
-				playerGroup.x = playerGroup.x + moveSpeed
+				if (background.y > 100 and background.y < 244) then
+					if (playerGroup.x < -72 or playerGroup.x > 56) then
+						playerGroup.x = playerGroup.x + moveSpeed
+					end
+				else
+					playerGroup.x = playerGroup.x + moveSpeed
+				end
 			end
 
 			right.alpha = 0.7
 
-			if(playerGroup.x > -100 and playerGroup.x < 80 and background.y > 90 and background.y < 210) then-- 체리 상호작용 위치
+			if(((background.y == 80 and playerGroup.y < 476 and playerGroup.y > 396 ) or (playerGroup.y == 400 and background.y > 80 and background.y < 276)) and (playerGroup.x > -80 and playerGroup.x < 70)) then-- 체리 상호작용 위치
 				cursor.alpha = 0
 				finger.alpha = 1
-			elseif (-480 < playerGroup.x and playerGroup.x < -324 and playerGroup.y < 400) then --열쇠 게임 그림 상호작용
+			elseif (-740 < playerGroup.x and playerGroup.x < -572 and playerGroup.y < 380) then --열쇠 게임 그림 상호작용
+				keyPicture = 1
 				cursor.alpha = 0
 				finger_key.alpha = 1
-			elseif ( playerGroup.y == -424 or playerGroup.y == -428) then
-				if pic == 1 then
-					if ( background.y > 770 and background.y < 878) then
-						cursor.alpha = 0
-						finger_picture.alpha = 1
-						finger.alpha = 0
-						finger_key.alpha = 0
-					else
-						cursor.alpha = 1
-						finger_picture.alpha = 0
-						finger.alpha = 0
-						finger_key.alpha = 0
-					end
-				end
+			elseif (-488 < playerGroup.x and playerGroup.x < -304 and playerGroup.y < 380) then --열쇠 게임 그림 상호작용
+				keyPicture = 2
+				cursor.alpha = 0
+				finger_key.alpha = 1
+			elseif (332 < playerGroup.x and playerGroup.x < 504 and playerGroup.y < 380) then --열쇠 게임 그림 상호작용
+				keyPicture = 3
+				cursor.alpha = 0
+				finger_key.alpha = 1
+			elseif (588 < playerGroup.x and playerGroup.x < 764 and playerGroup.y < 380) then --열쇠 게임 그림 상호작용
+				keyPicture = 4
+				cursor.alpha = 0
+				finger_key.alpha = 1
+			
 			else
 				cursor.alpha = 1
 				finger.alpha = 0
 				finger_key.alpha = 0
-				finger_picture.alpha = 0
 			end
 		end
     end

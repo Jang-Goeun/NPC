@@ -216,17 +216,16 @@ function scene:create( event )
 	-- ↓ 열쇠 상호작용 함수 -------------------------------------------------------------------------------------------------
 	local keyPicture 
 	local function interKey( event )
+		
+		composer.setVariable("next", 0)
+		composer.setVariable("backgroundY", background.y)
 		if keyPicture == 1 then
-			composer.setVariable("backgroundY", background.y)
 			composer.gotoScene("1층.key_lockingImage_1")
 		elseif  keyPicture == 2 then
-			composer.setVariable("backgroundY", background.y)
 			composer.gotoScene("1층.key_lockingImage_2")
 		elseif  keyPicture == 3 then
-			composer.setVariable("backgroundY", background.y)
 			composer.gotoScene("1층.key_lockingImage_3")
 		elseif  keyPicture == 4 then
-			composer.setVariable("backgroundY", background.y)
 			composer.gotoScene("1층.key_lockingImage_4")
 		end 
 	end
@@ -641,7 +640,7 @@ function scene:create( event )
 
 
 			if(playerGroup.y == -704 ) then
-				composer.hideOverlay("1층.game_lobby")
+				composer.removeScene("1층.game_lobby")
 				composer.gotoScene("2층.2층로비_독백전", {effect = "fade", time=1000})
 			end
 			up.alpha = 1

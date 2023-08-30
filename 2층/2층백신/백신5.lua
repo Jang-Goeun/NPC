@@ -1,59 +1,72 @@
 -----------------------------------------------------------------------------------------
 --
--- view2.lua
+-- 백신5
 --
 -----------------------------------------------------------------------------------------
+
 
 local composer = require( "composer" )
 local scene = composer.newScene()
 
 function scene:create( event )
 	local sceneGroup = self.view
-
 	-- ↓ 배경 ----------------------------------------------------------------------------------------------------
-	local black = display.newRect(display.contentCenterX, display.contentCenterY, display.contentWidth, display.contentHeight)
-	black:setFillColor(0) -- 검정 화면
-	sceneGroup:insert(black)
+	local background = display.newImageRect("image/배경/배경_저택_2층로비.png", 1900, 1210)
+	background.x, background.y = display.contentWidth/2, display.contentHeight/2 - 50
 
-	local backgroundY = composer.getVariable("backgroundY")
-
-	local background = display.newImageRect("image/배경/배경_저택_1층.png", 2000, 2000)
-	background.x, background.y = display.contentWidth/2, backgroundY
-	sceneGroup:insert(background)
-
+	local pi = display.newImageRect("image/캐릭터/pixil(앞)-0.png", 120, 120)
+	pi.x, pi.y = display.contentWidth/2, display.contentHeight/2
 
 	-- ↓ ui정리 ------------------------------------------------------------------------------------------------------------
+	
+	local back = display.newImage("image/UI/세모.png")
+	back.x, back.y = 1820, 80
 
 	local inventory = display.newImage("image/UI/인벤토리.png")
 	inventory.x, inventory.y = 240, 80
 
-	local restart = display.newImage("image/UI/세모.png")
-	restart.x, restart.y = 1820, 80
+	local explanation = display.newImage("image/UI/물음표.png")
+	explanation.x, explanation.y = 100, 80
 
-	local question = display.newImage("image/UI/물음표.png")
-	question.x, question.y = 100, 80
+	local talk1 = display.newImage("image/UI/대화창 ui.png")
+	talk1.x, talk1.y = display.contentWidth/2, display.contentHeight * 0.78
 
-	sceneGroup:insert(restart)
+	local bullet = display.newImageRect("image/총알.png", 80, 80)
+	bullet.x, bullet.y = display.contentWidth/2, display.contentHeight/2 
+	bullet.alpha = 0
+
+	sceneGroup:insert(background)
+	sceneGroup:insert(pi)
+	sceneGroup:insert(back)
 	sceneGroup:insert(inventory)
-	sceneGroup:insert(question)
-
-	local image = display.newImage("image/저택그림/액자4.png")
-	image.x, image.y = display.contentCenterX, display.contentCenterY
-
-	sceneGroup:insert(image)
+	sceneGroup:insert(explanation)
 
 	-- ↑ ui정리 -------------------------------------------------------------------------------------------------
 
-	local next = composer.getVariable("next")
-	local function back(event)
-		composer.hideOverlay("1층.key_lockingImage_4")
-		if(next == 0) then
-			composer.gotoScene("1층.game_lobby")
-		elseif(next == 1) then
-			composer.gotoScene("1층.game_ending_lobby")
-		end
+	local dialog = display.newGroup()
+
+	local speaker = display.newText(dialog, "파이", display.contentWidth*0.25, display.contentHeight*0.76, display.contentWidth*0.2, display.contentHeight*0.1, font_Speaker, 50)
+	speaker:setFillColor(0)
+	
+	local content = display.newText(dialog, "제발 이거 맞고 사라져라...!", display.contentWidth*0.5, display.contentHeight*0.902, display.contentWidth*0.7, display.contentHeight*0.2, font_Content, 45)
+	content:setFillColor(0)
+
+	sceneGroup:insert(dialog)
+	sceneGroup:insert(talk1)
+	sceneGroup:insert(speaker)
+	sceneGroup:insert(content)
+
+
+	-- json에서 정보 읽기
+	local Data = jsonParse("2층/2층백신/json/백신5.json")
+
+	-- json에서 읽은 정보 적용하기
+
+	local function nextScript( event )
+		composer.gotoScene( "2층.2층로비_ending3" ) 
 	end
-	black:addEventListener("tap", back)
+	talk1:addEventListener("tap", nextScript)
+
 end
 
 function scene:show( event )
@@ -79,7 +92,7 @@ function scene:hide( event )
 		--
 		-- INSERT code here to pause the scene
 		-- e.g. stop timers, stop animation, unload sounds, etc.)
-		composer.removeScene( "1층.key_lockingImage_4" )
+		composer.removeScene( "2층.2층백신.백신5" )
 	elseif phase == "did" then
 		-- Called when the scene is now off screen
 	end

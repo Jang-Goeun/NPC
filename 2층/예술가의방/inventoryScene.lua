@@ -1,42 +1,51 @@
 -----------------------------------------------------------------------------------------
 --
--- clear_black.lua
+-- inventoryScene.lua
 --
 -----------------------------------------------------------------------------------------
-
 
 local composer = require( "composer" )
 local scene = composer.newScene()
 
 function scene:create( event )
 	local sceneGroup = self.view
+	audio.play(buttonSound)
 
-	local background = display.newRect(display.contentCenterX, display.contentCenterY, display.contentWidth, display.contentHeight)
-	background:setFillColor(0) -- 검정 화면
-	sceneGroup:insert(background)
+	-- ↓ ui정리 ------------------------------------------------------------------------------------------------------------
 
-	game1 = 1
-	local count = 2
-	local function counter( event )
-		count = count - 1
-		print(count)
+	local inventory = display.newImage("image/UI/인벤토리.png")
+	inventory.x, inventory.y = 240, 80
 
-		if count == 1 then
-			print("///////")
-			audio.pause(3)
-			audio.resume(2)
-			composer.hideOverlay("black")
-			if (game1 ==1 and game2 == 1 and game3 == 1) then
-				composer.setVariable("num", 1)
-				composer.gotoScene("2층.2층로비_ending1", {effect = "fade"})
-			else 
-				composer.gotoScene("2층.2층로비", {effect = "fade"})
-			end
-		end
-		
+	local circle = display.newCircle(240, 80, 50)
+    circle:setFillColor(1)
+    circle.alpha=0.7
+    sceneGroup:insert(circle)
+
+	sceneGroup:insert(inventory)
+
+	local back = display.newImageRect("image/UI/인벤토리(칸).png", 777.5, 415)
+	back.x, back.y = display.contentWidth * 0.275 , display.contentHeight * 0.332
+	sceneGroup:insert(back)
+
+	local gun = display.newImageRect("image/UI/총.png", 100, 100)
+    gun.x, gun.y = 230, 310
+	sceneGroup:insert(gun)
+
+
+
+	-- ↑ ui정리 -------------------------------------------------------------------------------------------------
+
+	-- ↓ 함수 정리 ------------------------------------------------------------------------------------------------------------
+
+
+	-- 인벤토리 끄기
+	local function hide( event )
+		audio.play(buttonSound)
+		composer.hideOverlay("inventoryScene")
 	end
-	timer.performWithDelay(1000, counter, 3)
---
+	inventory:addEventListener("tap", hide)
+
+
 end
 
 function scene:show( event )
@@ -62,7 +71,7 @@ function scene:hide( event )
 		--
 		-- INSERT code here to pause the scene
 		-- e.g. stop timers, stop animation, unload sounds, etc.)
-		composer.removeScene("black")
+		composer.removeScene( "1층.inventoryScene" )
 	elseif phase == "did" then
 		-- Called when the scene is now off screen
 	end

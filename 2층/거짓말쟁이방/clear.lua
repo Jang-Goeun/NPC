@@ -167,7 +167,8 @@ function scene:create( event )
 -- ↓ key획득 -----------------------------------------------------------------------------------
 	local function keytap( event )
 		if itemNum[1] == false then
-			itemNum[1] = true -- 임시
+			itemNum[1] = true
+			itemNum[4] = true -- 임시
 			audio.play(itemGetSound)
 		end
 		composer.setVariable( "personGroup" , personGroup)

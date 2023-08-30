@@ -1,9 +1,8 @@
 -----------------------------------------------------------------------------------------
 --
--- clear_black.lua
+-- 게임 엔딩
 --
 -----------------------------------------------------------------------------------------
-
 
 local composer = require( "composer" )
 local scene = composer.newScene()
@@ -11,32 +10,35 @@ local scene = composer.newScene()
 function scene:create( event )
 	local sceneGroup = self.view
 
-	local background = display.newRect(display.contentCenterX, display.contentCenterY, display.contentWidth, display.contentHeight)
-	background:setFillColor(0) -- 검정 화면
-	sceneGroup:insert(background)
-
-	game1 = 1
-	local count = 2
-	local function counter( event )
-		count = count - 1
-		print(count)
-
-		if count == 1 then
-			print("///////")
-			audio.pause(3)
-			audio.resume(2)
-			composer.hideOverlay("black")
-			if (game1 ==1 and game2 == 1 and game3 == 1) then
-				composer.setVariable("num", 1)
-				composer.gotoScene("2층.2층로비_ending1", {effect = "fade"})
-			else 
-				composer.gotoScene("2층.2층로비", {effect = "fade"})
-			end
+	local video = native.newVideo( display.contentCenterX, display.contentCenterY, 320, 480 )
+  
+	local function videoListener( event )
+		print( "Event phase: " .. event.phase )
+	
+		if event.errorCode then
+			native.showAlert( "Error!", event.errorMessage, { "OK" } )
 		end
-		
 	end
-	timer.performWithDelay(1000, counter, 3)
---
+	
+	-- Load a video and jump to 0:30
+	video:load( "video/체리엔딩+크레딧.mp4", system.DocumentsDirectory )
+	--video:seek( 30 )
+	
+	-- Add video event listener 
+	video:addEventListener( "video", videoListener )
+	
+	-- Play video
+	video:play()
+	
+	-- Stop the video and remove
+	video:pause()
+	video:removeSelf()
+	video = nil
+
+	if video == nil then
+		print( "video session ended" )
+		--composer.gotoScene("1층.game_ending_lobby")
+	 end
 end
 
 function scene:show( event )
@@ -62,7 +64,6 @@ function scene:hide( event )
 		--
 		-- INSERT code here to pause the scene
 		-- e.g. stop timers, stop animation, unload sounds, etc.)
-		composer.removeScene("black")
 	elseif phase == "did" then
 		-- Called when the scene is now off screen
 	end
