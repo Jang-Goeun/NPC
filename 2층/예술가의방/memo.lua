@@ -11,24 +11,33 @@ function scene:create( event )
 	local sceneGroup = self.view
 
 -- ↓ 배경 ----------------------------------------------------------------------------------------------------
-    local background = display.newImage("image/artist/배경_저택_예술가의방.png", display.contentCenterX, display.contentCenterY)
+    local background = display.newImage("image/배경/배경_저택_예술가의방.png", display.contentCenterX, display.contentCenterY)
 	background.x, background.y = display.contentWidth/2, display.contentHeight/2
 	sceneGroup:insert(background)
 
     local memoGroup = display.newGroup()
     local memo = {}
     
-    memo[1] = display.newImageRect("image/UI/메모지.png", 120, 150)
+    memo[1] = display.newImageRect("image/UI/메모지.png", 60, 80)
     memo[1].x, memo[1].y = 450, 180
     memoGroup:insert(memo[1])
 
 	memo[2] = display.newImageRect("image/UI/메모지.png", 401, 450)
-    memo[2].x, memo[2].y = display.contentWidth/2, 425
+    memo[2].x, memo[2].y = display.contentWidth/2, 450
     memo[2].name = "memo"
 
     local button = display.newImageRect("image/UI/버튼.png", 50, 50)
-    button.x, button.y = 1535, 220
+    button.x, button.y = 1535, 180
     sceneGroup:insert(button)
+
+    local talkGroup = display.newGroup()
+    local talk = {}
+
+    talk[1] = display.newImageRect("image/UI/대화창 ui.png", 1400, 980)
+    talk[1].x, talk[1].y = display.contentWidth/2, (display.contentHeight * 0.768)
+    
+    talk[1].label = display.newText("- 바닥에 떨어진 그림을 들면 액자에 끌어다 넣을 수 있습니다. -", display.contentWidth * 0.5, 830, font_Content, 40)
+    talk[1].label:setFillColor(0)
 
     -- Images
     local picGroup = display.newGroup()
@@ -60,61 +69,20 @@ function scene:create( event )
     sceneGroup:insert(framGroup)
     sceneGroup:insert(memoGroup)
     sceneGroup:insert(player)
+
+    talkGroup:insert(talk[1])
+    talkGroup:insert(talk[1].label)
+
+	sceneGroup:insert(talkGroup)
+
 -- ↑ 배경 ----------------------------------------------------------------------------------------------------
 
--- ↓ 대화 ----------------------------------------------------------------------------------------------------
-    local talkGroup = display.newGroup()
-    local talk = {}
-    talk[1] = display.newImageRect("image/UI/대화창 ui.png", 1500, 1000)
-    talk[1].x, talk[1].y = display.contentWidth/2, 800
+-- ↓ 메모 ----------------------------------------------------------------------------------------------------
+local function moveScene_1( event )
+    composer.gotoScene("2층.예술가의방.picgame_start")
+end
 
-    talk[2] = display.newImageRect("image/UI/대답박스 분리.png", 300, 150)
-    talk[2].x, talk[2].y = 450, 650
-
-    for i = 1, 2 do
-        talkGroup:insert(talk[i])
-    end
-
-    sceneGroup:insert(talkGroup)
-
--- ↓ json1에서 정보 읽고 적용 ----------------------------------------------------------------------------------
-    local Data = jsonParse( "2층/예술가의방/예술가의방_json/memo.json" )
-
-    local dialog = display.newGroup()
-
-    local speaker = display.newText(dialog, "파이", 455, 642)
-	speaker:setFillColor(0)
-	speaker.size = 50
-    speaker.font = native.newFont(font_Speaker)  -- speaker에 폰트 적용
-
-	local content = display.newText(dialog, "\"음...\"", 950, 760)
-	content:setFillColor(0)
-	content.size = 30
-    content.font = native.newFont(font_Content)  -- content에 폰트 적용
-
-    if Data then
-        print(Data[1].speaker)
-        print(Data[1].content)
-    end
-    local index = 0
-
-    local function nextScript( event )
-        index = index + 1
-        if(index > #Data) then 
-            display.remove(dialog)
-            composer.gotoScene("2층.예술가의방.picgame_start") 
-            return
-        end
-
-        speaker.text = Data[index].speaker
-        content.text = Data[index].content
-    end
-
-    talk[1]:addEventListener("tap", nextScript)
-    dialog:toFront()
-
--- ↑ json1에서 정보 읽고 적용 ----------------------------------------------------------------------------------
-
+memo[2]:addEventListener("tap", moveScene_1)
 end
 
 function scene:show( event )
@@ -140,6 +108,7 @@ function scene:hide( event )
 		--
 		-- INSERT code here to pause the scene
 		-- e.g. stop timers, stop animation, unload sounds, etc.)
+        composer.removeScene("2층.예술가의방.memo")
 	elseif phase == "did" then
 		-- Called when the scene is now off screen
 	end
@@ -149,35 +118,6 @@ function scene:destroy( event )
 	local sceneGroup = self.view
 
     -- Remove all display objects created in this scene
-    if picGroup then
-        picGroup:removeSelf()
-        picGroup = nil
-    end
-
-    if framGroup then
-        framGroup:removeSelf()
-        framGroup = nil
-    end
-
-    if dialog then
-        dialog:removeSelf()
-        dialog = nil
-    end
-
-    if memo then
-        memo:removeSelf()
-        memo = nil
-    end
-
-    if background then
-        background:removeSelf()
-        background = nil
-    end
-
-    if talkGroup then
-        talkGroup:removeSelf()
-        talkGroup = nil
-    end
 	-- Called prior to the removal of scene's "view" (sceneGroup)
 	-- 
 	-- INSERT code here to cleanup the scene

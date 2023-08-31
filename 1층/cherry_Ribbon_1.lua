@@ -78,7 +78,7 @@ function scene:create( event )
 
 		if(index > #Data) then 
 			composer.hideOverlay("1층.cherry_Ribbon_1")
-			--composer.gotoScene( "1층.endingVideo" ) 
+			composer.gotoScene( "1층.endingVideo" ) 
 			return
 		end
 

@@ -582,7 +582,7 @@ local function tapinteract_buttonEventListener( event )
 		end	
 	elseif interact_button[4].alpha == 1 then
 		if game2 == 0 then
-			audio.pause( 3 )
+			audio.pause( 2 )
 			--audio.play( default_bgm, { channel = 4, loops = -1})
 			composer.gotoScene("2층.투명미로_black") -- 투명미로
 		else
@@ -590,7 +590,7 @@ local function tapinteract_buttonEventListener( event )
 		end	
 	elseif interact_button[3].alpha == 1 then
 		if game3 == 0 then
-			audio.pause( 4 )
+			audio.pause( 2 )
 			--audio.play( default_bgm, { channel = 5, loops = -1})
 			composer.gotoScene("2층.예술가의방_black") -- 예술가의방
 		else

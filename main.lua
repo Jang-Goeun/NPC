@@ -54,8 +54,8 @@ itemNum = {}
 
 cherry_interaction = 0
 game1 = 0 --거짓말쟁이방
-game2 = 1 --미로방
-game3 = 1 --예술가의방
+game2 = 0 --미로방
+game3 = 0 --예술가의방
 for i = 1, 6 do
 	itemNum[i] = false
 end

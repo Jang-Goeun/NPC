@@ -13,18 +13,20 @@ function scene:create(event)
     local sound_artist_memo1 = audio.loadSound("sound/종이 넘기는 소리 1.mp3")
     local sound_artist_memo2 = audio.loadSound("sound/종이 넘기는 소리 2.mp3")
     local buttonSound = buttonSound
+    local buttonSound1 = buttonSound1 
     local buttonSound2 = buttonSound2
+    local wrongSound = wrongSound
 
     audio.play(sound_artist_memo2)
 
     -- Background
-    local background = display.newImage("image/artist/배경_저택_예술가의방.png", display.contentCenterX, display.contentCenterY)
+    local background = display.newImage("image/배경/배경_저택_예술가의방.png", display.contentCenterX, display.contentCenterY)
     sceneGroup:insert(background)
 
-    local memo = display.newImageRect("image/UI/메모지.png", 120, 150)
+    local memo = display.newImageRect("image/UI/메모지.png", 60, 80)
     memo.x, memo.y = 450, 180
     memo.alpha = 0.7
-    memo.name = "memo"  
+    memo.name = "memo"
 
     local button = display.newImageRect("image/UI/버튼.png", 50, 50)
     button.x, button.y = 1535, 220
@@ -61,6 +63,80 @@ function scene:create(event)
     sceneGroup:insert(framGroup)
     sceneGroup:insert(picGroup)
 
+    local selGroup = display.newGroup()
+    local sel = {}
+
+    local numSets = 4
+
+    for i = 1, numSets do
+        local num = (i - 1) * 2 + 1
+        
+        sel[num] = display.newImageRect("image/UI/대답박스 분리.png", 275, 150)
+        sel[num].x, sel[num].y = 830, 700
+        
+        sel[num].label = display.newText("자세히 보기", sel[num].x, sel[num].y-7, font_Speaker, 35)
+        sel[num].label:setFillColor(0)
+        sel[num].alpha = 0
+        sel[num].label.alpha = 0
+        
+        selGroup:insert(sel[num])
+        selGroup:insert(sel[num].label)
+        
+        sel[num + 1] = display.newImageRect("image/UI/대답박스 분리.png", 275, 150)
+        sel[num + 1].x, sel[num + 1].y = 1130, 700
+        
+        sel[num + 1].label = display.newText("들기", sel[num + 1].x, sel[num + 1].y-7, font_Speaker, 35)
+        sel[num + 1].label:setFillColor(0)
+        sel[num + 1].alpha = 0
+        sel[num + 1].label.alpha = 0
+        
+        selGroup:insert(sel[num + 1])
+        selGroup:insert(sel[num + 1].label)
+    end
+
+    local talkGroup = display.newGroup()
+    local talk = {}
+
+    talk[1] = display.newImageRect("image/UI/대화창 ui.png", 1400, 980)
+    talk[1].x, talk[1].y = display.contentWidth/2, (display.contentHeight * 0.768)
+    talk[1].alpha = 0
+    
+    talk[1].label = display.newText("스위치를 누를까?", display.contentWidth * 0.5, 830, font_Content, 45)
+    talk[1].label:setFillColor(0)
+    talk[1].label.alpha = 0
+
+    talkGroup:insert(talk[1])
+    talkGroup:insert(talk[1].label)
+
+    local sel_buttonGroup = display.newGroup()
+    local sel_button = {}
+
+    sel_button[1] = display.newImageRect("image/UI/대답박스 분리.png", 280, 150)
+    sel_button[1].x, sel_button[1].y = 1140, 670
+    
+    sel_button[1].label = display.newText("아직 아니야", sel_button[1].x, sel_button[1].y-7, font_Speaker, 35)
+    sel_button[1].label:setFillColor(0)
+
+    sel_button[1].alpha = 0
+    sel_button[1].label.alpha = 0
+    
+    
+    sel_button[2] = display.newImageRect("image/UI/대답박스 분리.png", 280, 150)
+    sel_button[2].x, sel_button[2].y = 1420, 670
+    
+    sel_button[2].label = display.newText("누르자", sel_button[2].x, sel_button[2].y-7, font_Speaker, 35)
+    sel_button[2].label:setFillColor(0)
+
+    sel_button[2].alpha = 0
+    sel_button[2].label.alpha = 0
+
+    sel_buttonGroup:insert(sel_button[1])
+    sel_buttonGroup:insert(sel_button[1].label)
+    sel_buttonGroup:insert(sel_button[2])
+    sel_buttonGroup:insert(sel_button[2].label)
+
+    sceneGroup:insert(talkGroup)
+    sceneGroup:insert(sel_buttonGroup)
 
     -- 조작키 --------------------------------------
 
@@ -70,11 +146,45 @@ function scene:create(event)
 
 	local not_interaction = display.newImageRect("image/UI/빈원형.png", 130, 130)
 	not_interaction.x, not_interaction.y = 1740, 680
-	not_interaction.alpha = 0
+	--not_interaction.alpha = 0
 
-    local finger = display.newImage("image/UI/포인터.png")
-	finger.x, finger.y = 1560, 810
-    finger.alpha = 0
+    local cursor = display.newImage("image/UI/커서.png")
+	cursor.x, cursor.y = 1560, 810 
+
+    local newCursor = display.newImage("image/UI/커서.png")
+    newCursor.x, newCursor.y = 1560, 810 
+    newCursor.alpha = 0
+
+    local fingerGroup = display.newGroup()
+    local finger = {}
+
+    finger[1] = display.newImage("image/UI/포인터.png")
+	finger[1].x, finger[1].y = 1560, 810
+    finger[1].alpha = 0
+
+    finger[2] = display.newImage("image/UI/포인터.png")
+	finger[2].x, finger[2].y = 1560, 810
+    finger[2].alpha = 0
+
+    finger[3] = display.newImage("image/UI/포인터.png")
+	finger[3].x, finger[3].y = 1560, 810
+    finger[3].alpha = 0
+
+    finger[4] = display.newImage("image/UI/포인터.png")
+	finger[4].x, finger[4].y = 1560, 810
+    finger[4].alpha = 0
+
+    finger[5] = display.newImage("image/UI/포인터.png")
+	finger[5].x, finger[5].y = 1560, 810
+    finger[5].alpha = 0
+
+    finger[6] = display.newImage("image/UI/포인터.png")
+	finger[6].x, finger[6].y = 1560, 810
+    finger[6].alpha = 0
+
+    for i = 1, 6 do
+        fingerGroup:insert(finger[i])
+    end
 
 	local interaction = display.newImageRect("image/UI/변형.png", 130, 130)
 	interaction.x, interaction.y = 1740, 680
@@ -125,23 +235,6 @@ function scene:create(event)
 
 	local stopDown = display.newImage("image/UI/하_스트로크.png")
 	stopDown.x, stopDown.y = 330, 923
-
-	-- 레이어 정리
-	sceneGroup:insert(not_interaction)
-	sceneGroup:insert(interaction)
-	sceneGroup:insert(inventory)
-	sceneGroup:insert(question)
-    sceneGroup:insert(finger)
-
-	sceneGroup:insert(up)
-	sceneGroup:insert(right)
-	sceneGroup:insert(left)
-	sceneGroup:insert(down)
-	sceneGroup:insert(stopUp)
-	sceneGroup:insert(stopRight)
-	sceneGroup:insert(stopLeft)
-	sceneGroup:insert(stopDown)
-
 
     -- ↑ ui정리 -------------------------------------------------------------------------------------------------
 
@@ -194,7 +287,15 @@ function scene:create(event)
 	local locationY = 700
 
     
-    sceneGroup:insert(up)
+	sceneGroup:insert(cursor)
+    sceneGroup:insert(newCursor)
+	sceneGroup:insert(fingerGroup)
+	sceneGroup:insert(not_interaction)
+	sceneGroup:insert(interaction)
+	sceneGroup:insert(inventory)
+	sceneGroup:insert(question)
+
+	sceneGroup:insert(up)
 	sceneGroup:insert(right)
 	sceneGroup:insert(left)
 	sceneGroup:insert(down)
@@ -202,222 +303,289 @@ function scene:create(event)
 	sceneGroup:insert(stopRight)
 	sceneGroup:insert(stopLeft)
 	sceneGroup:insert(stopDown)
--- ↑ 플레이어 ---------------------------------------------------------------------------------------------------
 
--- ↓ 플레이어 이동 함수 정리 -------------------------------------------------------------------------------------------------
+    -- ↑ 플레이어 ---------------------------------------------------------------------------------------------------
 
-local movingDirection = nil
-local moveSpeed = 4
+    local selT1 = false
+    local selT2 = false
+    local selT3 = false
+    local selT4 = false
 
-local d = 0
-local motionUp = 1
-local motionDown = 1
-local motionRight = 1
-local motionLeft = 1
+    -- ↓ 플레이어 이동 함수 정리 -------------------------------------------------------------------------------------------------
 
-local function moveCharacter(event)
-    if movingDirection == "up" then
-        -- 이전 모습 삭제
-        if motionUp == 1 then -- 1~4
-            player[2][4].alpha = 0
+    local movingDirection = nil
+    local moveSpeed = 4
+
+    local d = 0
+    local motionUp = 1
+    local motionDown = 1
+    local motionRight = 1
+    local motionLeft = 1
+
+    local function moveCharacter(event)
+        if movingDirection == "up" then
+            -- 이전 모습 삭제
+            if motionUp == 1 then -- 1~4
+                player[2][4].alpha = 0
+            else
+                player[2][motionUp - 1].alpha = 0
+            end
+            -- 현재 모습 
+            player[2][motionUp].alpha = 1
+        
+            d = d + 0.2 -- 움직임 속도 조절
+            if(d == 1.2) then
+                motionUp = motionUp + 1
+                d = 0
+            end
+            if motionUp == 5 then
+                motionUp = 1
+            end
+
+            if (playerGroup.y > 0) then -- 여기 숫자 각 맵에 맞게 조절하시면 됩니다. ex) -608
+                playerGroup.y = playerGroup.y - moveSpeed
+            end
+            up.alpha = 0.7
+
+        elseif movingDirection == "down" then
+            -- 이전 모습 삭제
+            if motionDown == 1 then -- 1~4
+                player[1][4].alpha = 0
+            else
+                player[1][motionDown - 1].alpha = 0
+            end
+            -- 현재 모습 
+            player[1][motionDown].alpha = 1
+
+            d = d + 0.2 -- 움직임 속도 조절
+            if(d == 1.2) then
+                motionDown = motionDown + 1
+                d = 0
+            end
+            if motionDown == 5 then
+                motionDown = 1
+            end
+
+            if (playerGroup.y < 668) then -- 숫자 조절
+                playerGroup.y = playerGroup.y + moveSpeed
+            end
+            down.alpha = 0.7
+
+        elseif movingDirection == "left" then
+            -- 이전 모습 삭제
+            if motionLeft == 1 then -- 1~4
+                player[3][4].alpha = 0
+            else
+                player[3][motionLeft - 1].alpha = 0
+            end
+            -- 현재 모습 
+            player[3][motionLeft].alpha = 1
+
+            d = d + 0.2 -- 움직임 속도 조절
+            if(d == 1.4) then
+                motionLeft = motionLeft + 1
+                d = 0
+            end
+            if motionLeft == 5 then
+                motionLeft = 1
+            end
+
+            if (playerGroup.x > -73) then -- 숫자 조절
+                playerGroup.x = playerGroup.x - moveSpeed
+            end
+            left.alpha = 0.7
+
+        elseif movingDirection == "right" then
+            -- 이전 모습 삭제
+            if motionRight == 1 then -- 1~4
+                player[4][4].alpha = 0
+            else
+                player[4][motionRight - 1].alpha = 0
+            end
+
+            -- 현재 모습 
+            player[4][motionRight].alpha = 1
+
+            d = d + 0.2 -- 움직임 속도 조절
+            if(d == 1.4) then
+                motionRight = motionRight + 1
+                d = 0
+            end
+            if motionRight == 5 then
+                motionRight = 1
+            end
+
+            if (playerGroup.x < 1104) then -- 숫자 조절
+                playerGroup.x = playerGroup.x + moveSpeed
+            end
+            right.alpha = 0.7
+        end
+
+            --버튼
+            if (-10 < playerGroup.y and playerGroup.y < 70 and 1030 < playerGroup.x and playerGroup.x < 1120) then
+                finger[1].alpha = 1
+                cursor.alpha = 0
+        
+            --메모
+            elseif (-10 < playerGroup.y and playerGroup.y < 110 and -80 < playerGroup.x and playerGroup.x < 80) then
+                finger[2].alpha = 1
+                cursor.alpha = 0
+        
+            --그림 H
+            elseif (350 < playerGroup.y and playerGroup.y < 510 and 905 < playerGroup.x and playerGroup.x < 1105) then
+                finger[3].alpha = 1
+                cursor.alpha = 0
+        
+                if selT1 then
+                    newCursor.alpha = 1
+                end
+        
+            --그림 U
+            elseif (280 < playerGroup.y and playerGroup.y < 460 and -50 < playerGroup.x and playerGroup.x < 150) then
+                finger[4].alpha = 1
+                cursor.alpha = 0
+        
+                if selT2 then
+                    newCursor.alpha = 1
+                end
+        
+            --그림 N
+            elseif (135 < playerGroup.y and playerGroup.y < 300 and 300 < playerGroup.x and playerGroup.x < 500) then
+                finger[5].alpha = 1
+                cursor.alpha = 0
+        
+                if selT3 then
+                    newCursor.alpha = 1
+                end
+        
+            --그림 T
+            elseif (510 < playerGroup.y and playerGroup.y < 670 and 550 < playerGroup.x and playerGroup.x < 750) then
+                finger[6].alpha = 1
+                cursor.alpha = 0
+        
+                if selT4 then
+                    newCursor.alpha = 1
+                end
+        
+
         else
-            player[2][motionUp - 1].alpha = 0
-        end
-        -- 현재 모습 
-        player[2][motionUp].alpha = 1
-    
-        d = d + 0.2 -- 움직임 속도 조절
-        if(d == 1.2) then
-            motionUp = motionUp + 1
-            d = 0
-        end
-        if motionUp == 5 then
-            motionUp = 1
-        end
+            for i = 1, 6 do
+                finger[i].alpha = 0
+            end
+            cursor.alpha = 1
+            newCursor.alpha = 0
 
-        if (playerGroup.y > -4) then -- 여기 숫자 각 맵에 맞게 조절하시면 됩니다. ex) -608
-            playerGroup.y = playerGroup.y - moveSpeed
-        end
-        up.alpha = 0.7
+            for i = 1, numSets do
+                local num = (i - 1) * 2 + 1
 
-    elseif movingDirection == "down" then
-        -- 이전 모습 삭제
-        if motionDown == 1 then -- 1~4
-            player[1][4].alpha = 0
-        else
-            player[1][motionDown - 1].alpha = 0
-        end
-        -- 현재 모습 
-        player[1][motionDown].alpha = 1
+                sel[num].alpha = 0
+                sel[num].label.alpha = 0
+                sel[num+1].alpha = 0
+                sel[num+1].label.alpha = 0
+            end
 
-        d = d + 0.2 -- 움직임 속도 조절
-        if(d == 1.2) then
-            motionDown = motionDown + 1
-            d = 0
-        end
-        if motionDown == 5 then
-            motionDown = 1
-        end
+            talk[1].alpha = 0
+            talk[1].label.alpha = 0
 
-        if (playerGroup.y < 668) then -- 숫자 조절
-            playerGroup.y = playerGroup.y + moveSpeed
+            for i = 1, 2 do
+                sel_button[i].alpha = 0
+                sel_button[i].label.alpha = 0
+            end
         end
-        down.alpha = 0.7
-
-    elseif movingDirection == "left" then
-        -- 이전 모습 삭제
-        if motionLeft == 1 then -- 1~4
-            player[3][4].alpha = 0
-        else
-            player[3][motionLeft - 1].alpha = 0
-        end
-        -- 현재 모습 
-        player[3][motionLeft].alpha = 1
-
-        d = d + 0.2 -- 움직임 속도 조절
-        if(d == 1.4) then
-            motionLeft = motionLeft + 1
-            d = 0
-        end
-        if motionLeft == 5 then
-            motionLeft = 1
-        end
-
-        if (playerGroup.x > -73) then -- 숫자 조절
-            playerGroup.x = playerGroup.x - moveSpeed
-        end
-        left.alpha = 0.7
-
-    elseif movingDirection == "right" then
-        -- 이전 모습 삭제
-        if motionRight == 1 then -- 1~4
-            player[4][4].alpha = 0
-        else
-            player[4][motionRight - 1].alpha = 0
-        end
-
-        -- 현재 모습 
-        player[4][motionRight].alpha = 1
-
-        d = d + 0.2 -- 움직임 속도 조절
-        if(d == 1.4) then
-            motionRight = motionRight + 1
-            d = 0
-        end
-        if motionRight == 5 then
-            motionRight = 1
-        end
-
-        if (playerGroup.x < 1104) then -- 숫자 조절
-            playerGroup.x = playerGroup.x + moveSpeed
-        end
-        right.alpha = 0.7
     end
 
-    if (-5 < playerGroup.y and playerGroup.y < 70 and 1030 < playerGroup.x and playerGroup.x < 1105) then
-        finger.alpha = 1
-    else
-        finger.alpha = 0
-    end
+    local function touchEventListener(event)
+        if event.phase == "began" or event.phase == "moved" then
+            -- print("터치를 시작함")
+            if event.target == up then
+                movingDirection = "up"
 
-end
+                for i = 1, 4 do
+                    if i ~= 2 then
+                        for j = 1, 4 do
+                            player[i][j].alpha = 0
+                        end
+                    end
+                end
+            elseif event.target == down then
+                movingDirection = "down"
 
-local function touchEventListener(event)
-    if event.phase == "began" or event.phase == "moved" then
-        -- print("터치를 시작함")
-        if event.target == up then
-            movingDirection = "up"
+                for i = 2, 4 do
+                    for j = 1, 4 do
+                        player[i][j].alpha = 0
+                    end
+                end
+            elseif event.target == left then
+                movingDirection = "left"
 
-            for i = 1, 4 do
-                if i ~= 2 then
+                for i = 1, 4 do
+                    if i ~= 3 then
+                        for j = 1, 4 do
+                            player[i][j].alpha = 0
+                        end
+                    end
+                end
+            elseif event.target == right then
+                movingDirection = "right"
+
+                for i = 1, 3 do
                     for j = 1, 4 do
                         player[i][j].alpha = 0
                     end
                 end
             end
-        elseif event.target == down then
-            movingDirection = "down"
 
-            for i = 2, 4 do
-                for j = 1, 4 do
-                    player[i][j].alpha = 0
-                end
-            end
-        elseif event.target == left then
-            movingDirection = "left"
+        elseif event.phase == "ended" or event.phase == "cancelled" then
+            movingDirection = nil
 
-            for i = 1, 4 do
-                if i ~= 3 then
-                    for j = 1, 4 do
-                        player[i][j].alpha = 0
-                    end
-                end
-            end
-        elseif event.target == right then
-            movingDirection = "right"
+            up.alpha = 1
+            right.alpha = 1
+            left.alpha = 1
+            down.alpha = 1
 
-            for i = 1, 3 do
-                for j = 1, 4 do
-                    player[i][j].alpha = 0
-                end
-            end
+            --print(playerGroup.x, playerGroup.y)
         end
-
-    elseif event.phase == "ended" or event.phase == "cancelled" then
-        movingDirection = nil
-
-        up.alpha = 1
-        right.alpha = 1
-        left.alpha = 1
-        down.alpha = 1
-
-        --print(playerGroup.x, playerGroup.y)
     end
-end
 
-up:addEventListener("touch", touchEventListener)
-down:addEventListener("touch", touchEventListener)
-left:addEventListener("touch", touchEventListener)
-right:addEventListener("touch", touchEventListener)
+    up:addEventListener("touch", touchEventListener)
+    down:addEventListener("touch", touchEventListener)
+    left:addEventListener("touch", touchEventListener)
+    right:addEventListener("touch", touchEventListener)
 
-Runtime:addEventListener("enterFrame", moveCharacter)
+    Runtime:addEventListener("enterFrame", moveCharacter)
 
-local function stopMove ( event )
-    if event.phase == "began" or event.phase == "moved" then
-        movingDirection = nil
+    local function stopMove ( event )
+        if event.phase == "began" or event.phase == "moved" then
+            movingDirection = nil
 
-        up.alpha = 1
-        right.alpha = 1
-        left.alpha = 1
-        down.alpha = 1
+            up.alpha = 1
+            right.alpha = 1
+            left.alpha = 1
+            down.alpha = 1
+        end
     end
-end
 
-stopUp:addEventListener("touch", stopMove)
-stopDown:addEventListener("touch", stopMove)
-stopLeft:addEventListener("touch", stopMove)
-stopRight:addEventListener("touch", stopMove)
+    stopUp:addEventListener("touch", stopMove)
+    stopDown:addEventListener("touch", stopMove)
+    stopLeft:addEventListener("touch", stopMove)
+    stopRight:addEventListener("touch", stopMove)
 
--- ↑ 플레이어 이동 함수 정리 -------------------------------------------------------------------------------------------------
+    -- ↑ 플레이어 이동 함수 정리 -------------------------------------------------------------------------------------------------
 
--- ↓ 메모 -------------------------------------------------------------------------------------------------
+    -- ↓ 메모 -------------------------------------------------------------------------------------------------
 
-local function memoTap(event)
-    audio.play(sound_artist_memo1)
-    composer.showOverlay("2층.예술가의방.overlay_memo", {isModal = true})
-end
+    local function memoTap(event)
+        audio.play(buttonSound)
+        audio.play(sound_artist_memo1)
+        composer.showOverlay("2층.예술가의방.overlay_memo", {isModal = true})
+    end
 
-memo:addEventListener("tap", memoTap)
+    finger[2]:addEventListener("tap", memoTap)
 
     -- ↓ 그림 선택/이동 -------------------------------------------------------------------------------------------------
 
     local function successScene(event)
-        display.remove(picGroup)
-        display.remove(framGroup)
-        display.remove(background)
-
-        composer.gotoScene("2층.예술가의방.picgame_sucess_2")
-        print("성공 실행")
+        composer.gotoScene("2층.예술가의방.picgame_sucess")
     end
 
     local function failScene(event)
@@ -425,11 +593,12 @@ memo:addEventListener("tap", memoTap)
         for i = 1, #fram do
             display.remove(fram[i].currentPic) -- 제거된 currentPic
         end
-    
+                
         composer.gotoScene("2층.예술가의방.picgame_re_1")
-        print("실패 실행")
     end
 
+    local pic_match = nill
+    
     local imagePaths = {
         "image/artist/1.png",
         "image/artist/2.png",
@@ -442,8 +611,6 @@ memo:addEventListener("tap", memoTap)
     for i = 1, 4 do
         imageStates[i] = false  -- 초기에 모든 이미지의 상태를 false로 설정
     end
-
-
 
     local function drag( event )
         if( event.phase == "began" ) then
@@ -470,7 +637,6 @@ memo:addEventListener("tap", memoTap)
 
                 -- 드래그 끝났을 때
                 for i = 1, #fram do
-
                     if fram[i] then
                         local frameX = fram[i].x
                         local frameY = fram[i].y
@@ -493,360 +659,255 @@ memo:addEventListener("tap", memoTap)
                                     sceneGroup:insert(newPicGroup)
                                     sceneGroup:insert(playerGroup)
                                     
-
-
                                 display.remove(event.target)
                                 display.remove(fram[i])
 
                                 audio.play(buttonSound2)
 
-
                                 if i == index then
                                     imageStates[index] = true
 
                                     if imageStates[1] and imageStates[2] and imageStates[3] and imageStates[4] then
-                                        finger:addEventListener("tap", successScene)
-                                        print("성공")
+                                        pic_match = true
+                                        --print("성공")
                                     end
                                 else
-                                        finger:addEventListener("tap", failScene)
-                                        print("실패")
+                                    pic_match = false
+                                    --print("실패")
                                 end
-                            
+                                
                                 break -- 이미 한 번 위치를 찾았으면 더 이상 확인할 필요 없음
                             end
                         end
                     end
-
-                end 
-                
-    
+                end                 
             else
                 display.getCurrentStage():setFocus(nil)
                 event.target.isFocus = false
             end
         end
     end
-    
-    local selGroup = display.newGroup()
-    local sel = {}
-    local function updateSelection()
+  
+    -- ↓ 버튼 -------------------------------------------------------------------------------------------------
 
-        --U
-        if playerGroup.x > -50 and playerGroup.x < 150 and
-            playerGroup.y > 280 and playerGroup.y < 460 then
-                if pic[2] then
-                    if not sel[1] then
-                        sel[1] = display.newImageRect("image/UI/대답박스 분리.png", 150, 80)
-                        sel[1].x, sel[1].y = 440, 720
-                        sel[1].label = display.newText("확대/축소", sel[1].x, sel[1].y-3, native.systemFont, 22)
-                        sel[1].label:setFillColor(0)
-                        sel[1].font = native.newFont(font_Speaker)
-                        selGroup:insert(sel[1])
+    local function keep(event)
+        audio.play(buttonSound)
+        --print("아직 아니야")
 
-                        local function sel1Tap(event)
-                            audio.play(buttonSound)
+        talk[1].alpha = 0
+        talk[1].label.alpha = 0
 
-                            display.remove(sel[1].label)
-                            display.remove(sel[1])
-                            display.remove(sel[2].label)
-                            display.remove(sel[2]) 
-
-                            composer.showOverlay("2층.예술가의방.overlayScene2", {isModal = true})
-                        end
-        
-                        sel[1]:addEventListener("tap", sel1Tap)
-
-                    end
-            
-                    if not sel[2] then
-                        sel[2] = display.newImageRect("image/UI/대답박스 분리.png", 150, 80)
-                        sel[2].x, sel[2].y = 550, 720
-                        sel[2].label = display.newText("옮기기", sel[2].x, sel[2].y-3, native.systemFont, 22)
-                        sel[2].label:setFillColor(0)
-                        sel[2].font = native.newFont(font_Speaker)
-                        selGroup:insert(sel[2])
-
-                        local function sel2Tap(event)
-                            audio.play(buttonSound)
-
-                            display.remove(sel[1].label)
-                            display.remove(sel[1])
-                            display.remove(sel[2].label)
-                            display.remove(sel[2]) 
-
-                            display.remove(pic[2])
-                            
-
-                            local imagePath = "image/artist/2.png"
-                            pic[2].currentPic = display.newImageRect(imagePath, 165, 165)
-                            pic[2].currentPic.x, pic[2].currentPic.y = pic[2].x, pic[2].y
-
-                            pic[2].currentPic.myIndex = 2
-                            pic[2].currentPic:addEventListener("touch", drag)
-                            
-
-                        end
-                        sel[2]:addEventListener("tap", sel2Tap)
-
-                    end
-                end
-    
-                else
-                    if sel[1] then
-                        display.remove(sel[1].label)
-                        display.remove(sel[1])
-                        sel[1] = nil
-                        
-                    end
-            
-                    if sel[2] then
-                        display.remove(sel[2].label)
-                        display.remove(sel[2])
-                        sel[2] = nil
-                    end
-                end
-        
-        
-        --N
-        if playerGroup.x > 300 and playerGroup.x < 500 and
-            playerGroup.y > 135 and playerGroup.y < 300 then
-            if pic[3] then 
-                if not sel[3] then
-                    sel[3] = display.newImageRect("image/UI/대답박스 분리.png", 150, 80)
-                    sel[3].x, sel[3].y = 800, 570
-                    sel[3].label = display.newText("확대/축소", sel[3].x, sel[3].y-3, native.systemFont, 22)
-                    sel[3].label:setFillColor(0)
-                    sel[3].font = native.newFont(font_Speaker)
-                    selGroup:insert(sel[3])
-
-                    local function sel3Tap(event)
-                        audio.play(buttonSound)
-
-                        display.remove(sel[3].label)
-                        display.remove(sel[3])
-                        display.remove(sel[4].label)
-                        display.remove(sel[4])
-
-                        composer.showOverlay("2층.예술가의방.overlayScene3", {isModal = true})
-                    end
-
-                    sel[3]:addEventListener("tap", sel3Tap)
-                end
-        
-                if not sel[4] then
-                    sel[4] = display.newImageRect("image/UI/대답박스 분리.png", 150, 80)
-                    sel[4].x, sel[4].y = 910, 570
-                    sel[4].label = display.newText("옮기기", sel[4].x, sel[4].y-3, native.systemFont, 22)
-                    sel[4].label:setFillColor(0)
-                    sel[4].font = native.newFont(font_Speaker)
-                    selGroup:insert(sel[4])
-
-                    local function sel4Tap(event)
-                        audio.play(buttonSound)
-                        
-                        display.remove(sel[3].label)
-                        display.remove(sel[3])
-                        display.remove(sel[4].label)
-                        display.remove(sel[4])
-
-                        display.remove(pic[3])
-
-                        local imagePath = "image/artist/3.png"
-                        pic[3].currentPic = display.newImageRect(imagePath, 165, 165)
-                        pic[3].currentPic.x, pic[3].currentPic.y = pic[3].x, pic[3].y
-
-                        pic[3].currentPic.myIndex = 3
-                        pic[3].currentPic:addEventListener("touch", drag)
-
-                    end
-        
-                    sel[4]:addEventListener("tap", sel4Tap)
-                end
-            end
-        
-
-            else
-                if sel[3] then
-                    display.remove(sel[3].label)
-                    display.remove(sel[3])
-                    sel[3] = nil
-                end
-        
-                if sel[4] then
-                    display.remove(sel[4].label)
-                    display.remove(sel[4])
-                    sel[4] = nil
-                end
-            end
-
-
-        --T
-        if playerGroup.x > 550 and playerGroup.x < 750 and
-            playerGroup.y > 510 and playerGroup.y < 670 then
-            if pic[4] then 
-                if not sel[5] then
-                    sel[5] = display.newImageRect("image/UI/대답박스 분리.png", 150, 80)
-                    sel[5].x, sel[5].y = 1040, 945
-                    sel[5].label = display.newText("확대/축소", sel[5].x, sel[5].y-3, native.systemFont, 22)
-                    sel[5].label:setFillColor(0)
-                    sel[5].font = native.newFont(font_Speaker)
-                    selGroup:insert(sel[5])
-
-                    local function sel5Tap(event)
-                        audio.play(buttonSound)
-
-                        display.remove(sel[5].label)
-                        display.remove(sel[5])
-                        display.remove(sel[6].label)
-                        display.remove(sel[6])
-
-                        composer.showOverlay("2층.예술가의방.overlayScene4", {isModal = true})
-                    end
-
-                    sel[5]:addEventListener("tap", sel5Tap)
-                end
-        
-                if not sel[6] then
-                    sel[6] = display.newImageRect("image/UI/대답박스 분리.png", 150, 80)
-                    sel[6].x, sel[6].y = 1150, 945
-                    sel[6].label = display.newText("옮기기", sel[6].x, sel[6].y-3, native.systemFont, 22)
-                    sel[6].label:setFillColor(0)
-                    sel[6].font = native.newFont(font_Speaker)
-                    selGroup:insert(sel[6])
-
-                    local function sel6Tap(event)
-                        audio.play(buttonSound)
-                        
-                        display.remove(sel[5].label)
-                        display.remove(sel[5])
-                        display.remove(sel[6].label)
-                        display.remove(sel[6])
-
-                        display.remove(pic[4])
-
-                        local imagePath = "image/artist/4.png"
-                        pic[4].currentPic = display.newImageRect(imagePath, 165, 165)
-                        pic[4].currentPic.x, pic[4].currentPic.y = pic[4].x, pic[4].y
-
-                        pic[4].currentPic.myIndex = 4
-                        pic[4].currentPic:addEventListener("touch", drag)
-
-
-                    end
-        
-                    sel[6]:addEventListener("tap", sel6Tap)
-                end
-        
-            end
-
-            else
-                if sel[5] then
-                    display.remove(sel[5].label)
-                    display.remove(sel[5])
-                    sel[5] = nil
-
-                end
-        
-                if sel[6] then
-                    display.remove(sel[6].label)
-                    display.remove(sel[6])
-                    sel[6] = nil
-                end
-            end 
-
-
-        --H
-        if playerGroup.x > 905 and playerGroup.x < 1105 and
-            playerGroup.y > 350 and playerGroup.y < 510 then
-            if pic[1] then 
-                if not sel[7] then
-                    sel[7] = display.newImageRect("image/UI/대답박스 분리.png", 150, 80)
-                    sel[7].x, sel[7].y = 1390, 780
-                    sel[7].label = display.newText("확대/축소", sel[7].x, sel[7].y-3, native.systemFont, 22)
-                    sel[7].label:setFillColor(0)
-                    sel[7].font = native.newFont(font_Speaker)
-                    selGroup:insert(sel[7])
-
-                    local function sel7Tap(event)
-                        audio.play(buttonSound)
-
-                        display.remove(sel[7].label)
-                        display.remove(sel[7])
-                        display.remove(sel[8].label)
-                        display.remove(sel[8])
-                        
-                        composer.showOverlay("2층.예술가의방.overlayScene1", {isModal = true})
-                    end
-
-                    sel[7]:addEventListener("tap", sel7Tap)
-                end
-        
-                if not sel[8] then
-                    sel[8] = display.newImageRect("image/UI/대답박스 분리.png", 150, 80)
-                    sel[8].x, sel[8].y = 1500, 780
-                    sel[8].label = display.newText("옮기기", sel[8].x, sel[8].y-3, native.systemFont, 22)
-                    sel[8].label:setFillColor(0)
-                    sel[8].font = native.newFont(font_Speaker)
-                    selGroup:insert(sel[8])
-
-                    local function sel8Tap(event)
-                        audio.play(buttonSound)
-                        
-                        display.remove(sel[7].label)
-                        display.remove(sel[7])
-                        display.remove(sel[8].label)
-                        display.remove(sel[8])
-
-                        display.remove(pic[1])
-
-                        local imagePath = "image/artist/1.png"
-                        pic[1].currentPic = display.newImageRect(imagePath, 165, 165)
-                        pic[1].currentPic.x, pic[1].currentPic.y = pic[1].x, pic[1].y
-
-                        pic[1].currentPic.myIndex = 1
-                        pic[1].currentPic:addEventListener("touch", drag)
-
-
-                    end
-        
-                    sel[8]:addEventListener("tap", sel8Tap)
-                end
-            end
-
-            else
-                if sel[7] then
-                    display.remove(sel[7].label)
-                    display.remove(sel[7])
-                    sel[7] = nil
-                end
-        
-                if sel[8] then
-                    display.remove(sel[8].label)
-                    display.remove(sel[8])
-                    sel[8] = nil
-                end
-
+        for i = 1, 2 do
+            sel_button[i].alpha = 0
+            sel_button[i].label.alpha = 0
         end
+
+        sel_button[1]:removeEventListener("tap", keep)
+        sel_button[2]:removeEventListener("tap", failScene)
+        sel_button[2]:removeEventListener("tap", successScene)
+        finger[1]:removeEventListener("tap", button)
     end
 
-    local function autoUpdateSelection()
-        for i = 1, 4 do
-            if pic[i] then
-                updateSelection()
+    local function button(event)
+        audio.play(buttonSound)
+        talk[1].alpha = 1
+        talk[1].label.alpha = 1
 
-            end
+        for i = 1, 2 do
+            sel_button[i].alpha = 1
+            sel_button[i].label.alpha = 1
         end
-        timer.performWithDelay(100, autoUpdateSelection) -- 0.1초마다 업데이트
+
+        sel_button[1]:addEventListener("tap", keep)
+
+        if pic_match then
+            sel_button[2]:addEventListener("tap", successScene)
+        else
+            sel_button[2]:addEventListener("tap", failScene)
+        end
+
     end
 
+    finger[1]:addEventListener("tap", button)
+                
+    --그림 H -------------------------------------------------------------------------------------------------
+    local function selTap_1(event)
+        audio.play(buttonSound)
+        for i = 1, 2 do
+            sel[i].alpha = 1
+            sel[i].label.alpha = 1
+        end
     
-    -- 자동 업데이트 시작
-    autoUpdateSelection()
+        local function sel1(event)
+            audio.play(buttonSound)
+            composer.showOverlay("2층.예술가의방.overlayScene1", {isModal = true})
+        end
     
+        local function sel2(event)
+            selT1 = true
+
+            audio.play(buttonSound)
+                
+            for i = 1, 2 do
+                display.remove(sel[i].label)
+                display.remove(sel[i])
+            end
+    
+            display.remove(pic[1])
+    
+            local imagePath = "image/artist/1.png"
+            pic[1].currentPic = display.newImageRect(imagePath, 165, 165)
+            pic[1].currentPic.x, pic[1].currentPic.y = pic[1].x, pic[1].y
+    
+            pic[1].currentPic.myIndex = 1
+            pic[1].currentPic:addEventListener("touch", drag)
+    
+            display.remove(finger[3])
+    
+            finger[3]:removeEventListener("tap", selTap_1)
+        end
+    
+        sel[1]:addEventListener("tap", sel1)
+        sel[2]:addEventListener("tap", sel2)
+    end
+
+    finger[3]:addEventListener("tap", selTap_1)
+
+    --그림 U -------------------------------------------------------------------------------------------------
+
+    local function selTap_2(event)
+        audio.play(buttonSound)
+        for i = 3, 4 do
+            sel[i].alpha = 1
+            sel[i].label.alpha = 1
+        end
+    
+        local function sel3(event)
+            audio.play(buttonSound)
+            composer.showOverlay("2층.예술가의방.overlayScene2", {isModal = true})
+        end
+    
+        local function sel4(event)
+            selT2 = true
+
+            audio.play(buttonSound)
+                
+            for i = 3, 4 do
+                display.remove(sel[i].label)
+                display.remove(sel[i])
+            end
+    
+            display.remove(pic[2])
+    
+            local imagePath = "image/artist/2.png"
+            pic[2].currentPic = display.newImageRect(imagePath, 165, 165)
+            pic[2].currentPic.x, pic[2].currentPic.y = pic[2].x, pic[2].y
+    
+            pic[2].currentPic.myIndex = 2
+            pic[2].currentPic:addEventListener("touch", drag)
+    
+            display.remove(finger[4])
+    
+            finger[4]:removeEventListener("tap", selTap_2)
+        end
+    
+        sel[3]:addEventListener("tap", sel3)
+        sel[4]:addEventListener("tap", sel4)
+    end
+
+    finger[4]:addEventListener("tap", selTap_2)
+
+    --그림 N -------------------------------------------------------------------------------------------------
+    local function selTap_3(event)
+        audio.play(buttonSound)
+        for i = 5, 6 do
+            sel[i].alpha = 1
+            sel[i].label.alpha = 1
+        end
+    
+        local function sel5(event)
+            audio.play(buttonSound)
+            composer.showOverlay("2층.예술가의방.overlayScene3", {isModal = true})
+        end
+    
+        local function sel6(event)
+            audio.play(buttonSound)
+                
+            for i = 5, 6 do
+                display.remove(sel[i].label)
+                display.remove(sel[i])
+            end
+    
+            display.remove(pic[3])
+    
+            local imagePath = "image/artist/3.png"
+            pic[3].currentPic = display.newImageRect(imagePath, 165, 165)
+            pic[3].currentPic.x, pic[3].currentPic.y = pic[3].x, pic[3].y
+    
+            pic[3].currentPic.myIndex = 3
+            pic[3].currentPic:addEventListener("touch", drag)
+    
+            display.remove(finger[5])
+    
+            selT3 = true
+
+            finger[5]:removeEventListener("tap", selTap_3)
+        end
+    
+        sel[5]:addEventListener("tap", sel5)
+        sel[6]:addEventListener("tap", sel6)
+    end
+
+    finger[5]:addEventListener("tap", selTap_3)
+
+    --그림 T -------------------------------------------------------------------------------------------------
+    local function selTap_4(event)
+        audio.play(buttonSound)
+        for i = 7, 8 do
+            sel[i].alpha = 1
+            sel[i].label.alpha = 1
+        end
+    
+        local function sel7(event)
+            audio.play(buttonSound)
+            composer.showOverlay("2층.예술가의방.overlayScene4", {isModal = true})
+        end
+    
+        local function sel8(event)
+            selT4 = true
+
+            audio.play(buttonSound)
+                
+            for i = 7, 8 do
+                display.remove(sel[i].label)
+                display.remove(sel[i])
+            end
+    
+            display.remove(pic[4])
+    
+            local imagePath = "image/artist/4.png"
+            pic[4].currentPic = display.newImageRect(imagePath, 165, 165)
+            pic[4].currentPic.x, pic[4].currentPic.y = pic[4].x, pic[4].y
+    
+            pic[4].currentPic.myIndex = 4
+            pic[4].currentPic:addEventListener("touch", drag)
+    
+            display.remove(finger[6])
+    
+    
+            finger[6]:removeEventListener("tap", selTap_4)
+        end
+    
+        sel[7]:addEventListener("tap", sel7)
+        sel[8]:addEventListener("tap", sel8)
+    end
+
+    finger[6]:addEventListener("tap", selTap_4)
+
     sceneGroup:insert(selGroup)
     
     playerGroup:toFront()
+    talkGroup:toFront()
 
 end
 

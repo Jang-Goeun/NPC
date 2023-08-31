@@ -23,7 +23,7 @@ function scene:create( event )
 		if count == 1 then
 			print("///////")
 			composer.hideOverlay("2층.투명미로_black")
-			composer.gotoScene("2층.2층로비")
+			composer.gotoScene("2층.장미키우기방.rose_intro")
 		end
 		
 	end

@@ -15,7 +15,7 @@ function scene:create( event )
 	background:setFillColor(0) -- 검정 화면
 	sceneGroup:insert(background)
 
-	game1 = 1
+	game3 = 1
 	local count = 2
 	local function counter( event )
 		count = count - 1
@@ -23,10 +23,15 @@ function scene:create( event )
 
 		if count == 1 then
 			print("///////")
-			audio.pause(3)
+			audio.pause(5)
 			audio.resume(2)
 			composer.hideOverlay("black")
-			composer.gotoScene("2층.2층로비", {effect = "fade"})
+			if (game1 ==1 and game2 == 1 and game3 == 1) then
+				composer.setVariable("num", 3)
+				composer.gotoScene("2층.2층로비_ending1", {effect = "fade"})
+			else 
+				composer.gotoScene("2층.2층로비", {effect = "fade"})
+			end
 		end
 		
 	end

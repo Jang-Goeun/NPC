@@ -8,37 +8,25 @@ local composer = require( "composer" )
 local scene = composer.newScene()
 
 function scene:create( event )
-	local sceneGroup = self.view
+    local sceneGroup = self.view
 
-	local video = native.newVideo( display.contentCenterX, display.contentCenterY, 320, 480 )
-  
-	local function videoListener( event )
-		print( "Event phase: " .. event.phase )
-	
-		if event.errorCode then
-			native.showAlert( "Error!", event.errorMessage, { "OK" } )
-		end
-	end
-	
-	-- Load a video and jump to 0:30
-	video:load( "video/체리엔딩+크레딧.mp4", system.DocumentsDirectory )
-	--video:seek( 30 )
-	
-	-- Add video event listener 
-	video:addEventListener( "video", videoListener )
-	
-	-- Play video
-	video:play()
-	
-	-- Stop the video and remove
-	video:pause()
-	video:removeSelf()
-	video = nil
+    local video = native.newVideo( display.contentCenterX, display.contentCenterY, 320, 480 )
 
-	if video == nil then
-		print( "video session ended" )
-		--composer.gotoScene("1층.game_ending_lobby")
-	 end
+    local function videoListener( event )
+        print( "Event phase: " .. event.phase )
+        if event.errorCode then
+            native.showAlert( "Video Error", event.errorMessage, { "OK" } )
+        end
+    end
+
+    -- Load a video
+    video:load( "video/체리엔딩+크레딧.mp4", system.DocumentsDirectory )
+
+    -- Add video event listener
+    video:addEventListener( "video", videoListener )
+
+    -- Play video
+    video:play()
 end
 
 function scene:show( event )

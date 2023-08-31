@@ -6,7 +6,7 @@
 
 local composer = require( "composer" )
 local scene = composer.newScene()
-
+audio.pause(2)
 function scene:create( event )
 	local sceneGroup = self.view
     local backgroundY = composer.getVariable("backgroundY")

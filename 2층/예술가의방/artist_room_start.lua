@@ -13,26 +13,19 @@ function scene:create(event)
     local sound_artist_memo1 = audio.loadSound("sound/종이 넘기는 소리 1.mp3")
     local sound_artist_memo2 = audio.loadSound("sound/종이 넘기는 소리 2.mp3")
 
-    local function playSound_memo1()
-        audio.play(sound_artist_memo1)
-    end
-
-    local function playSound_memo2()
-        audio.play(sound_artist_memo2)
-    end
 
     -- ↓ 배경 ----------------------------------------------------------------------------------------------------
-    local background = display.newImage("image/artist/배경_저택_예술가의방.png", display.contentCenterX, display.contentCenterY)
+    local background = display.newImage("image/배경/배경_저택_예술가의방.png", display.contentCenterX, display.contentCenterY)
     background.x, background.y = display.contentWidth/2, display.contentHeight/2
     sceneGroup:insert(background)
 
     local memo = {}
-    local memo = display.newImageRect("image/UI/메모지.png", 120, 150)
+    local memo = display.newImageRect("image/UI/메모지.png", 60, 80)
     memo.x, memo.y = 450, 180
     sceneGroup:insert(memo)
 
     local button = display.newImageRect("image/UI/버튼.png", 50, 50)
-    button.x, button.y = 1535, 220
+    button.x, button.y = 1535, 180
     sceneGroup:insert(button)
 
     -- Images
@@ -62,12 +55,21 @@ function scene:create(event)
 
     -- 조작키 --------------------------------------
 
+
 	local restart = display.newImage("image/UI/세모.png")
 	restart.x, restart.y = 1820, 80
+	sceneGroup:insert(restart)
 
 	local not_interaction = display.newImageRect("image/UI/빈원형.png", 130, 130)
 	not_interaction.x, not_interaction.y = 1740, 680
-	not_interaction.alpha = 0
+	--not_interaction.alpha = 0
+
+    local cursor = display.newImage("image/UI/커서.png")
+	cursor.x, cursor.y = 1560, 810 
+
+    local finger = display.newImage("image/UI/포인터.png")
+	finger.x, finger.y = 1560, 810
+    finger.alpha = 0
 
 	local interaction = display.newImageRect("image/UI/변형.png", 130, 130)
 	interaction.x, interaction.y = 1740, 680
@@ -119,23 +121,6 @@ function scene:create(event)
 	local stopDown = display.newImage("image/UI/하_스트로크.png")
 	stopDown.x, stopDown.y = 330, 923
 
-	-- 레이어 정리
-    sceneGroup:insert(restart)
-	sceneGroup:insert(not_interaction)
-	sceneGroup:insert(interaction)
-	sceneGroup:insert(inventory)
-	sceneGroup:insert(question)
-
-	sceneGroup:insert(up)
-	sceneGroup:insert(right)
-	sceneGroup:insert(left)
-	sceneGroup:insert(down)
-	sceneGroup:insert(stopUp)
-	sceneGroup:insert(stopRight)
-	sceneGroup:insert(stopLeft)
-	sceneGroup:insert(stopDown)
-
-
     -- ↑ ui정리 -------------------------------------------------------------------------------------------------
 
     -- ↓ 플레이어 ---------------------------------------------------------------------------------------------------
@@ -186,6 +171,13 @@ function scene:create(event)
 	local locationX = 1200
 	local locationY = 700
 
+	sceneGroup:insert(cursor)
+	sceneGroup:insert(finger)
+	sceneGroup:insert(not_interaction)
+	sceneGroup:insert(interaction)
+	sceneGroup:insert(inventory)
+	sceneGroup:insert(question)
+
 	sceneGroup:insert(up)
 	sceneGroup:insert(right)
 	sceneGroup:insert(left)
@@ -227,7 +219,7 @@ function scene:create(event)
                 motionUp = 1
             end
 
-            if (playerGroup.y > -564) then -- 여기 숫자 각 맵에 맞게 조절하시면 됩니다. ex) -608
+            if (playerGroup.y > -560) then -- 여기 숫자 각 맵에 맞게 조절하시면 됩니다. ex) -608
                 playerGroup.y = playerGroup.y - moveSpeed
             end
             up.alpha = 0.7
@@ -304,6 +296,16 @@ function scene:create(event)
                 playerGroup.x = playerGroup.x + moveSpeed
             end
             right.alpha = 0.7
+        end
+
+        if playerGroup.x > -5 and playerGroup.x < 150 and
+            playerGroup.y > -570 and playerGroup.y < -470 then
+
+            finger.alpha = 1
+            cursor.alpha = 0
+        else
+            finger.alpha = 0
+            cursor.alpha = 1
         end
 
     end
@@ -387,19 +389,14 @@ function scene:create(event)
     -- ↑ 플레이어 이동 함수 정리 -------------------------------------------------------------------------------------------------
 
     -- ↓ 메모 -------------------------------------------------------------------------------------------------
-    memo.scene = "2층.예술가의방.memo"
-
     local function onMemoTap(event)
+        audio.play(buttonSound)
         audio.play(sound_artist_memo1)
 
-        if playerGroup.x > -4 and playerGroup.x < 150 and
-           playerGroup.y > -565 and playerGroup.y < -470 then
-            
-            composer.gotoScene(event.target.scene)
-        end
+        composer.gotoScene("2층.예술가의방.memo")
     end
 
-    memo:addEventListener("tap", onMemoTap)
+    finger:addEventListener("tap", onMemoTap)
 
 end
 	----------------------------------------------------------------------------------------------------------

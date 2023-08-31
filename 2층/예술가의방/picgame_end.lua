@@ -1,6 +1,6 @@
 -----------------------------------------------------------------------------------------
 --
--- picgame_sucess_2.lua
+-- picgame_end.lua
 --
 -----------------------------------------------------------------------------------------
 
@@ -10,18 +10,19 @@ local scene = composer.newScene()
 function scene:create(event)
     local sceneGroup = self.view
 
+    local gameSuccess = gameSuccess
 
     -- Background
-    local background = display.newImage("image/artist/배경_저택_예술가의방.png", display.contentCenterX, display.contentCenterY)
+    local background = display.newImage("image/배경/배경_저택_예술가의방.png", display.contentCenterX, display.contentCenterY)
     sceneGroup:insert(background)
 
-    local memo = display.newImageRect("image/UI/메모지.png", 120, 150)
+    local memo = display.newImageRect("image/UI/메모지.png", 60, 80)
     memo.x, memo.y = 450, 180
     memo.alpha = 0.7
     memo.name = "memo"  
 
     local button = display.newImageRect("image/UI/버튼.png", 50, 50)
-    button.x, button.y = 1535, 220
+    button.x, button.y = 1535, 180
     sceneGroup:insert(button)
 
     -- Images
@@ -40,15 +41,9 @@ function scene:create(event)
         framGroup:insert(fram[i])
     end
 
-    local gun = display.newImageRect("image/자물쇠/총.png", 100, 100)
-    gun.x = 1510
-    gun.y = display.contentCenterY - 200
-
-
 
     sceneGroup:insert(memo)
     sceneGroup:insert(framGroup)
-    sceneGroup:insert(gun)
 
 
     -- 조작키 --------------------------------------
@@ -67,7 +62,7 @@ function scene:create(event)
 
 	local inventory = display.newImage("image/UI/인벤토리.png")
 	inventory.x, inventory.y = 240, 80
-    
+
     local circle = display.newCircle(240, 80, 50)
     circle:setFillColor(1)
     circle.alpha=0.7
@@ -76,69 +71,12 @@ function scene:create(event)
 	local question = display.newImage("image/UI/물음표.png")
 	question.x, question.y = 100, 80
 
-    -- ↓ 인벤토리 함수 -------------------------------------------------------------------------------------------------
-
-    local function inven( event )
-        composer.showOverlay("inventoryScene", {isModal = true})
-    end
-    inventory:addEventListener("tap", inven)
-
-    local function inven_inGun( event)
-        display.remove(gun)
-        composer.showOverlay("inventoryScene", {isModal = true})
-
-    end
-    gun:addEventListener("tap", inven_inGun)
-
-	-- ↓ 방향키 --------------------------------------
-
-	local up = display.newImage("image/UI/콘솔(상).png")
-	up.x, up.y = 330, 696
-	up.name  = "up"
-	up.alpha = 0.5
-
-	local right = display.newImage("image/UI/콘솔(우).png")
-	right.x, right.y = 443, 810
-	right.name = "right"
-	right.alpha = 0.5
-
-	local left = display.newImage("image/UI/콘솔(좌).png")
-	left.x, left.y = 217, 810
-	left.name = "left"
-	left.alpha = 0.5
-
-	local down = display.newImage("image/UI/콘솔(하).png")
-	down.x, down.y = 330, 924
-	down.name = "down"
-	down.alpha = 0.5
-
-	--  -----------
-	local stopUp = display.newImage("image/UI/상_스트로크.png")
-	stopUp.x, stopUp.y = 330, 697
-
-	local stopRight = display.newImage("image/UI/우_스트로크.png")
-	stopRight.x, stopRight.y = 442, 810
-
-	local stopLeft = display.newImage("image/UI/좌_스트로크.png")
-	stopLeft.x, stopLeft.y = 218, 810
-
-	local stopDown = display.newImage("image/UI/하_스트로크.png")
-	stopDown.x, stopDown.y = 330, 923
 
 	-- 레이어 정리
 	sceneGroup:insert(not_interaction)
 	sceneGroup:insert(interaction)
 	sceneGroup:insert(inventory)
 	sceneGroup:insert(question)
-
-	sceneGroup:insert(up)
-	sceneGroup:insert(right)
-	sceneGroup:insert(left)
-	sceneGroup:insert(down)
-	sceneGroup:insert(stopUp)
-	sceneGroup:insert(stopRight)
-	sceneGroup:insert(stopLeft)
-	sceneGroup:insert(stopDown)
 
 
     -- ↑ ui정리 -------------------------------------------------------------------------------------------------
@@ -181,7 +119,7 @@ function scene:create(event)
 		player[4][i].x, player[4][i].y = 1540, 240 
 		player[4][i].alpha = 0
 
-		--playerGroup:insert(player[4][i])
+		playerGroup:insert(player[4][i])
 	end
 
 	sceneGroup:insert(playerGroup)
@@ -191,206 +129,60 @@ function scene:create(event)
 	local locationX = 1200
 	local locationY = 700
 
-	sceneGroup:insert(up)
-	sceneGroup:insert(right)
-	sceneGroup:insert(left)
-	sceneGroup:insert(down)
-	sceneGroup:insert(stopUp)
-	sceneGroup:insert(stopRight)
-	sceneGroup:insert(stopLeft)
-	sceneGroup:insert(stopDown)
+    -- ↓ 일러스트 ---------------------------------------------------------------------------------------------------
 
--- ↑ 플레이어 ---------------------------------------------------------------------------------------------------
+    local image2 = display.newImage("image/캐릭터/파이 기본.png")
+	image2.x, image2.y = display.contentWidth*0.2, display.contentHeight*0.5
+    image2.alpha = 0
 
--- ↓ 플레이어 이동 함수 정리 -------------------------------------------------------------------------------------------------
+    local image3 = display.newImage("image/캐릭터/파이 안도.png")
+	image3.x, image3.y = display.contentWidth*0.2, display.contentHeight*0.5
+    image3.alpha = 0
 
-local movingDirection = nil
-local moveSpeed = 4
+    sceneGroup:insert(image2)
+    sceneGroup:insert(image3)
 
-local d = 0
-local motionUp = 1
-local motionDown = 1
-local motionRight = 1
-local motionLeft = 1
+-- ↓ 대화 ----------------------------------------------------------------------------------------------------
 
-local function moveCharacter(event)
-    if movingDirection == "up" then
-        -- 이전 모습 삭제
-        if motionUp == 1 then -- 1~4
-            player[2][4].alpha = 0
-        else
-            player[2][motionUp - 1].alpha = 0
-        end
-        -- 현재 모습 
-        player[2][motionUp].alpha = 1
+local talkGroup = display.newGroup()
+local talk = {}
+
+talk[1] = display.newImageRect("image/UI/대화창 ui.png", 1400, 980)
+talk[1].x, talk[1].y = display.contentWidth/2, (display.contentHeight * 0.768)
+
+talkGroup:insert(talk[1])
+
+sceneGroup:insert(talkGroup)
+
+
+-- ↓ json1에서 정보 읽고 적용 ----------------------------------------------------------------------------------
+local dialog = display.newGroup()
+
+local speaker = display.newText(dialog, "안내", display.contentWidth*0.33, display.contentHeight*0.73, display.contentWidth*0.2, display.contentHeight*0.1, font_Speaker)
+speaker:setFillColor(0)
+speaker.size = 50
+
+local content = display.newText(dialog, "[ '뭐든 쏴 무기' 를 얻었다. ]", display.contentWidth*0.58, display.contentHeight*0.88, display.contentWidth*0.7, display.contentHeight*0.2, font_Content)
+content:setFillColor(0)
+content.size = 40
+
+local index = 0
+
+local function nextScript( event )
+    display.remove(dialog)
+    display.remove(playerGroup)
+    audio.pause(5)
+    game3 = 1
+    local function goToNextScene()
+        composer.gotoScene("2층.예술가의방.black")
+    end
     
-        d = d + 0.2 -- 움직임 속도 조절
-        if(d == 1.2) then
-            motionUp = motionUp + 1
-            d = 0
-        end
-        if motionUp == 5 then
-            motionUp = 1
-        end
-
-        if (playerGroup.y > 0) then -- 여기 숫자 각 맵에 맞게 조절하시면 됩니다. ex) -608
-            playerGroup.y = playerGroup.y - moveSpeed
-        end
-        up.alpha = 0.7
-
-    elseif movingDirection == "down" then
-        -- 이전 모습 삭제
-        if motionDown == 1 then -- 1~4
-            player[1][4].alpha = 0
-        else
-            player[1][motionDown - 1].alpha = 0
-        end
-        -- 현재 모습 
-        player[1][motionDown].alpha = 1
-
-        d = d + 0.2 -- 움직임 속도 조절
-        if(d == 1.2) then
-            motionDown = motionDown + 1
-            d = 0
-        end
-        if motionDown == 5 then
-            motionDown = 1
-        end
-
-        if (playerGroup.y < 670) then -- 숫자 조절
-            playerGroup.y = playerGroup.y + moveSpeed
-        end
-        down.alpha = 0.7
-
-    elseif movingDirection == "left" then
-        -- 이전 모습 삭제
-        if motionLeft == 1 then -- 1~4
-            player[3][4].alpha = 0
-        else
-            player[3][motionLeft - 1].alpha = 0
-        end
-        -- 현재 모습 
-        player[3][motionLeft].alpha = 1
-
-        d = d + 0.2 -- 움직임 속도 조절
-        if(d == 1.4) then
-            motionLeft = motionLeft + 1
-            d = 0
-        end
-        if motionLeft == 5 then
-            motionLeft = 1
-        end
-
-        if (playerGroup.x > -1164) then -- 숫자 조절
-            playerGroup.x = playerGroup.x - moveSpeed
-        end
-        left.alpha = 0.7
-
-    elseif movingDirection == "right" then
-        -- 이전 모습 삭제
-        if motionRight == 1 then -- 1~4
-            player[4][4].alpha = 0
-        else
-            player[4][motionRight - 1].alpha = 0
-        end
-
-        -- 현재 모습 
-        player[4][motionRight].alpha = 1
-
-        d = d + 0.2 -- 움직임 속도 조절
-        if(d == 1.4) then
-            motionRight = motionRight + 1
-            d = 0
-        end
-        if motionRight == 5 then
-            motionRight = 1
-        end
-
-        if (playerGroup.x < 20) then -- 숫자 조절
-            playerGroup.x = playerGroup.x + moveSpeed
-        end
-        right.alpha = 0.7
-    end
-
+    timer.performWithDelay(0, goToNextScene)
 end
 
-local function touchEventListener(event)
-    if event.phase == "began" or event.phase == "moved" then
-        -- print("터치를 시작함")
-        if event.target == up then
-            movingDirection = "up"
+talk[1]:addEventListener("tap", nextScript)
+dialog:toFront()
 
-            for i = 1, 4 do
-                if i ~= 2 then
-                    for j = 1, 4 do
-                        player[i][j].alpha = 0
-                    end
-                end
-            end
-        elseif event.target == down then
-            movingDirection = "down"
-
-            for i = 2, 4 do
-                for j = 1, 4 do
-                    player[i][j].alpha = 0
-                end
-            end
-        elseif event.target == left then
-            movingDirection = "left"
-
-            for i = 1, 4 do
-                if i ~= 3 then
-                    for j = 1, 4 do
-                        player[i][j].alpha = 0
-                    end
-                end
-            end
-        elseif event.target == right then
-            movingDirection = "right"
-
-            for i = 1, 3 do
-                for j = 1, 4 do
-                    player[i][j].alpha = 0
-                end
-            end
-        end
-
-    elseif event.phase == "ended" or event.phase == "cancelled" then
-        movingDirection = nil
-
-        up.alpha = 1
-        right.alpha = 1
-        left.alpha = 1
-        down.alpha = 1
-
-        print(playerGroup.x, playerGroup.y)
-    end
-end
-
-up:addEventListener("touch", touchEventListener)
-down:addEventListener("touch", touchEventListener)
-left:addEventListener("touch", touchEventListener)
-right:addEventListener("touch", touchEventListener)
-
-Runtime:addEventListener("enterFrame", moveCharacter)
-
-local function stopMove ( event )
-    if event.phase == "began" or event.phase == "moved" then
-        movingDirection = nil
-
-        up.alpha = 1
-        right.alpha = 1
-        left.alpha = 1
-        down.alpha = 1
-    end
-end
-
-stopUp:addEventListener("touch", stopMove)
-stopDown:addEventListener("touch", stopMove)
-stopLeft:addEventListener("touch", stopMove)
-stopRight:addEventListener("touch", stopMove)
-
--- ↑ 플레이어 이동 함수 정리 -------------------------------------------------------------------------------------------------
 
 end
 

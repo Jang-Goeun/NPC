@@ -168,7 +168,6 @@ function scene:create( event )
 	local function keytap( event )
 		if itemNum[1] == false then
 			itemNum[1] = true
-			itemNum[4] = true -- 임시
 			audio.play(itemGetSound)
 		end
 		composer.setVariable( "personGroup" , personGroup)

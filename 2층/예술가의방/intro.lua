@@ -9,80 +9,126 @@ local scene = composer.newScene()
 
 function scene:create( event )
 	local sceneGroup = self.view
+    local sound_artist = audio.loadSound("sound/예술가의방.mp3")
+
     audio.play(sound_artist, { channel=5, loops = -1 })
     audio.setVolume( 0.3, { channel=5 } )
 
-
-
 -- ↓ 배경 ----------------------------------------------------------------------------------------------------
-    local background = display.newImage("image/artist/배경_저택_예술가의방.png", display.contentCenterX, display.contentCenterY)
-	background.x, background.y = display.contentWidth/2, display.contentHeight/2
-	sceneGroup:insert(background)
+local background = display.newImage("image/배경/배경_저택_예술가의방.png", display.contentCenterX, display.contentCenterY)
+background.x, background.y = display.contentWidth/2, display.contentHeight/2
+sceneGroup:insert(background)
 
-    local memo = {}
-    local memo = display.newImageRect("image/UI/메모지.png", 120, 150)
-    memo.x, memo.y = 450, 180
-    sceneGroup:insert(memo)
+local memo = {}
+local memo = display.newImageRect("image/UI/메모지.png", 60, 80)
+memo.x, memo.y = 450, 180
+sceneGroup:insert(memo)
 
-    local button = display.newImageRect("image/UI/버튼.png", 50, 50)
-    button.x, button.y = 1535, 220
-    sceneGroup:insert(button)
+local button = display.newImageRect("image/UI/버튼.png", 50, 50)
+button.x, button.y = 1535, 180
+sceneGroup:insert(button)
 
-    -- Images
-    local picGroup = display.newGroup()
-    local pic = {}
-    local framGroup = display.newGroup()
-    local fram = {}
+-- Images
+local picGroup = display.newGroup()
+local pic = {}
+local framGroup = display.newGroup()
+local fram = {}
 
-    pic[1] = display.newImageRect("image/artist/예술가의방 그림 H.png", 200, 150)
-    pic[1].x, pic[1].y = 1450, 700
-    pic[2] = display.newImageRect("image/artist/예술가의방 그림 U.png", pic[1].width, pic[1].height)
-    pic[2].x, pic[2].y = 450, 650
-    pic[3] = display.newImageRect("image/artist/예술가의방 그림 N.png", pic[1].width, pic[1].height)
-    pic[3].x, pic[3].y = 850, 500
-    pic[4] = display.newImageRect("image/artist/예술가의방 그림 T.png", pic[1].width, pic[1].height)
-    pic[4].x, pic[4].y = 1100, 880
+pic[1] = display.newImageRect("image/artist/예술가의방 그림 H.png", 200, 150)
+pic[1].x, pic[1].y = 1450, 700
+pic[2] = display.newImageRect("image/artist/예술가의방 그림 U.png", pic[1].width, pic[1].height)
+pic[2].x, pic[2].y = 450, 650
+pic[3] = display.newImageRect("image/artist/예술가의방 그림 N.png", pic[1].width, pic[1].height)
+pic[3].x, pic[3].y = 850, 500
+pic[4] = display.newImageRect("image/artist/예술가의방 그림 T.png", pic[1].width, pic[1].height)
+pic[4].x, pic[4].y = 1100, 880
 
-    for i = 1, 4 do
-        picGroup:insert(pic[i])
-        fram[i] = display.newImageRect("image/artist/오브제 액자.png", 200, 200)
-        fram[i].x, fram[i].y = 645 + (i - 1) * 250, 180
-        framGroup:insert(fram[i])
-    end
+for i = 1, 4 do
+    picGroup:insert(pic[i])
+    fram[i] = display.newImageRect("image/artist/오브제 액자.png", 200, 200)
+    fram[i].x, fram[i].y = 645 + (i - 1) * 250, 180
+    framGroup:insert(fram[i])
+end
 
-    sceneGroup:insert(picGroup)
-    sceneGroup:insert(framGroup)
+sceneGroup:insert(picGroup)
+sceneGroup:insert(framGroup)
+
+
+local restart = display.newImage("image/UI/세모.png")
+restart.x, restart.y = 1820, 80
+sceneGroup:insert(restart)
+
+local not_interaction = display.newImageRect("image/UI/빈원형.png", 130, 130)
+not_interaction.x, not_interaction.y = 1740, 680
+not_interaction.alpha = 0
+
+local cursor = display.newImage("image/UI/커서.png")
+cursor.x, cursor.y = 1560, 810 
+cursor.alpha = 0
+
+local finger = display.newImage("image/UI/포인터.png")
+finger.x, finger.y = 1560, 810
+finger.alpha = 0
+
+local interaction = display.newImageRect("image/UI/변형.png", 130, 130)
+interaction.x, interaction.y = 1740, 680
+interaction.alpha = 0
+
+local inventory = display.newImage("image/UI/인벤토리.png")
+inventory.x, inventory.y = 240, 80
+
+local circle = display.newCircle(240, 80, 50)
+circle:setFillColor(1)
+circle.alpha=0.7
+sceneGroup:insert(circle)
+
+local question = display.newImage("image/UI/물음표.png")
+question.x, question.y = 100, 80
+
+sceneGroup:insert(cursor)
+sceneGroup:insert(finger)
+sceneGroup:insert(not_interaction)
+sceneGroup:insert(interaction)
+sceneGroup:insert(inventory)
+sceneGroup:insert(question)
+
 -- ↑ 배경 ----------------------------------------------------------------------------------------------------
 
+-- ↓ 파이 일러 ----------------------------------------------------------------------------------------------------
+    
+    local image1 = display.newImage("image/캐릭터/파이 당황.png")
+    image1.x, image1.y = display.contentWidth*0.2, display.contentHeight*0.5
+
+    local image2 = display.newImage("image/캐릭터/파이 기본.png")
+    image2.x, image2.y = display.contentWidth*0.2, display.contentHeight*0.5
+    image2.alpha = 0
+
+    sceneGroup:insert(image1)
+    sceneGroup:insert(image2)
+
 -- ↓ 대화 ----------------------------------------------------------------------------------------------------
-    local talkGroup = display.newGroup()
-    local talk = {}
-    talk[1] = display.newImageRect("image/UI/대화창 ui.png", 1500, 1000)
-    talk[1].x, talk[1].y = display.contentWidth/2, 800
+local talkGroup = display.newGroup()
+local talk = {}
 
-    talk[2] = display.newImageRect("image/UI/대답박스 분리.png", 300, 150)
-    talk[2].x, talk[2].y = 450, 650
+talk[1] = display.newImageRect("image/UI/대화창 ui.png", 1400, 980)
+talk[1].x, talk[1].y = display.contentWidth/2, (display.contentHeight * 0.768)
 
-    for i = 1, 2 do
-        talkGroup:insert(talk[i])
-    end
+talkGroup:insert(talk[1])
 
-    sceneGroup:insert(talkGroup)
+sceneGroup:insert(talkGroup)
 
 -- ↓ json1에서 정보 읽고 적용 ----------------------------------------------------------------------------------
     local Data = jsonParse( "2층/예술가의방/예술가의방_json/intro.json" )
 
     local dialog = display.newGroup()
 
-    local speaker = display.newText(dialog, "파이", 455, 642)
+    local speaker = display.newText(dialog, "파이", display.contentWidth*0.33, display.contentHeight*0.73, display.contentWidth*0.2, display.contentHeight*0.1, font_Speaker)
 	speaker:setFillColor(0)
 	speaker.size = 50
-    speaker.font = native.newFont(font_Speaker)  -- speaker에 폰트 적용
 
-	local content = display.newText(dialog, "\"웬 그림들이 이렇게 널브러져있지...?\"", 950, 760)
+	local content = display.newText(dialog, "웬 그림들이 이렇게 널브러져있지...?",  display.contentWidth*0.58, display.contentHeight*0.88, display.contentWidth*0.7, display.contentHeight*0.2, font_Content)
 	content:setFillColor(0)
-	content.size = 30
-    content.font = native.newFont(font_Content)  -- content에 폰트 적용
+	content.size = 40
 
     if Data then
         print(Data[1].speaker)
