@@ -30,11 +30,11 @@ function scene:create( event )
 	talk1.x, talk1.y = display.contentWidth*0.5, display.contentHeight*0.7 
 	talk1:scale(0.63, 0.78) -- 대화창
 
-	local talk3 = display.newImageRect("image/UI/거짓말쟁이_대화창.png", 200, 70)
+	local talk3 = display.newImageRect("image/UI/대화창선택지.png", 200, 70)
 	talk3.x, talk3.y = display.contentWidth*0.7, display.contentHeight*0.50
 	talk3.alpha = 0 -- 대화창(맞아)
 
-	local talk4 = display.newImageRect("image/UI/거짓말쟁이_대화창.png", 200, 70)
+	local talk4 = display.newImageRect("image/UI/대화창선택지.png", 200, 70)
 	talk4.x, talk4.y = display.contentWidth*0.7, display.contentHeight*0.56
 	talk4.alpha = 0 -- 대화창(아니야)
 

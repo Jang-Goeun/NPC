@@ -114,7 +114,6 @@ local function createBug()
             rose[2].alpha = 0
         end
     end
-    
     --터치 이벤트부여
     bug:addEventListener("touch", onBugTouch) --터치하면 제거됨
 
@@ -227,6 +226,8 @@ local function checkRose() --게임루프안에넣기
                     effect = "fade", 
                     time = 1500 
                 }
+                    
+                display.remove(bugs)
                 composer.setVariable("gameOverNumber", 4)
                 composer.removeScene("2층.장미키우기방.rose_game", options)
                 composer.gotoScene("gameOver", options)
@@ -428,6 +429,7 @@ function scene:create( event )
                 timer.cancel(bugTimer)
                 timer.cancel(checkTimer)
                 timer.cancel(gameTimer)
+                display.remove(bugs)
                 Runtime:removeEventListener("enterFrame", isGameStarted)
 
                 composer.removeScene("2층.장미키우기방.rose_game",options)

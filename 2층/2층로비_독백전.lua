@@ -77,7 +77,7 @@ function scene:create( event )
 
 -- ↑ 인벤토리 함수 ---------------------------------------------------------------------------------------------
 -- ↓ 상호작용 버튼 ---------------------------------------------------------------------------------------------------
-	interact_button = display.newImage("image/상호작용버튼/interact_button-1.png")
+	interact_button = display.newImage("image/UI/커서.png")
 	interact_button.x, interact_button.y = 1560, 810
 	sceneGroup:insert(interact_button)
 -- ↑ 상호작용 버튼 ---------------------------------------------------------------------------------------------------

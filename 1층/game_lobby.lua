@@ -28,9 +28,6 @@ function scene:create( event )
 
 	local nearCherry = 0
 
-	--desk
-	--local desk = display.newRect(background.x, background.y, 550,150)
-
 	local obsGroup = display.newGroup()
 
 	-- 액자
@@ -57,15 +54,15 @@ function scene:create( event )
 	local cursor = display.newImage("image/UI/커서.png")
 	cursor.x, cursor.y = 1560, 840 
 
-	local finger = display.newImage("image/UI/손가락포인터.png")
+	local finger = display.newImage("image/UI/포인터.png")
 	finger.x, finger.y = 1560, 840
 	finger.alpha = 0
 
-	local finger_key = display.newImage("image/UI/손가락포인터.png")
+	local finger_key = display.newImage("image/UI/포인터.png")
 	finger_key.x, finger_key.y = 1560, 840
 	finger_key.alpha = 0
 
-	local finger_picture = display.newImage("image/UI/손가락포인터.png")
+	local finger_picture = display.newImage("image/UI/포인터.png")
 	finger_picture.x, finger_picture.y = 1560, 840
 	finger_picture.alpha = 0
 
@@ -292,7 +289,7 @@ function scene:create( event )
 				motionUp = 1
 			end
 			
-			print(playerGroup.x, playerGroup.y, background.x, background.y)
+			--print(playerGroup.x, playerGroup.y, background.x, background.y)
 			if ( playerGroup.y < -420 and background.y < 998) then -- 여기 숫자 각 맵에 맞게 조절하시면 됩니다. ex) -608
 				if ( (playerGroup.y == -424 or playerGroup.y == -428) and playerGroup.x > -192 and playerGroup.x < 200) then
 					if ( playerGroup.x > -64 and playerGroup.x < 64) then
@@ -542,7 +539,7 @@ function scene:create( event )
 				end
 			elseif (playerGroup.x < 780) then -- 숫자 조절
 				if (playerGroup.y == -424 and (background.y > 206 and background.y < 398)) then
-					if (playerGroup.x < -64 or playerGroup.x > 64) then
+					if (playerGroup.x < -68 or playerGroup.x > 60) then
 						playerGroup.x = playerGroup.x + moveSpeed
 					end
 				else	

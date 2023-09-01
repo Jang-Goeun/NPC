@@ -98,12 +98,12 @@ function scene:create( event )
 -- ↓ 상호작용 버튼 ---------------------------------------------------------------------------------------------------
 	local interact_button = {}
 
-	interact_button[1] = display.newImage("image/상호작용버튼/interact_button-1.png")
+	interact_button[1] = display.newImage("image/UI/커서.png")
 	interact_button[1].x, interact_button[1].y = 1560, 810
 	interact_button[1].alpha = 0
 	sceneGroup:insert(interact_button[1])
 	for i = 2, 4 do
-		interact_button[i] = display.newImage("image/상호작용버튼/interact_button-"..i..".png")
+		interact_button[i] = display.newImage("image/UI/포인터.png")
 		interact_button[i].x, interact_button[i].y = 1560, 810
 		interact_button[i].alpha = 0
 
@@ -232,7 +232,7 @@ function scene:create( event )
 			player[2][motionUp].alpha = 1
 		
 			d = d + 0.2 -- 움직임 속도 조절
-			if(d == 0.8 or d > 0.8) then
+			if(d >= 1.2) then
 				motionUp = motionUp + 1
 				d = 0
 			end
@@ -291,7 +291,7 @@ function scene:create( event )
 			player[1][motionDown].alpha = 1
 
 			d = d + 0.2 -- 움직임 속도 조절
-			if(d == 0.8 or d > 0.8) then
+			if(d >= 1.2) then
 				motionDown = motionDown + 1
 				d = 0
 			end
@@ -356,7 +356,7 @@ function scene:create( event )
 			player[3][motionLeft].alpha = 1
 
 			d = d + 0.2 -- 움직임 속도 조절
-			if(d == 1 or d > 1) then
+			if(d >= 1.4) then
 				motionLeft = motionLeft + 1
 				d = 0
 			end
@@ -420,7 +420,7 @@ function scene:create( event )
 			player[4][motionRight].alpha = 1
 
 			d = d + 0.2 -- 움직임 속도 조절
-			if(d == 1 or d > 1) then
+			if(d >= 1.4) then
 				motionRight = motionRight + 1
 				d = 0
 			end

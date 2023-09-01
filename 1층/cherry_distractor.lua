@@ -157,6 +157,7 @@ function scene:create( event )
 			-- 대답활성화
 			answer1.alpha = 1
 			answer2.alpha = 1
+			print("!!!!!")
 
 		elseif(index == 5 and i == 0) then
 			composer.hideOverlay("1층.distractor")
@@ -176,6 +177,13 @@ function scene:create( event )
 			cherry_interaction = 1
 			audio.play(choiceSound)
 		end
+		print(index)
+		if(index == 5 and i == 0) then
+			composer.hideOverlay("1층.distractor")
+			composer.gotoScene( "1층.game_lobby" ) 
+			return
+		end
+
 		-- 대답상자 비활성화
 		choice[1].alpha = 0
 		choice[2].alpha = 0
@@ -201,12 +209,6 @@ function scene:create( event )
 
 			image_cherry.alpha = 0
 			image_pi.alpha = 1
-		end
-
-		if(index == 5 and i == 0) then
-			composer.hideOverlay("1층.distractor")
-			composer.gotoScene( "1층.game_lobby" ) 
-			return
 		end
 
 		chatBox.alpha = 1

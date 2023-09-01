@@ -10,6 +10,8 @@ local scene = composer.newScene()
 function scene:create( event )
 	local sceneGroup = self.view
 	audio.play(darkSound)
+		
+	audio.play(liarroomSound, { channel = 3, loops = -1 })
 	audio.setVolume(0.3, {channel = 3})
 -- ↓ 시작화면 배치 -----------------------------------------------------------------------------------------------
 
@@ -30,7 +32,7 @@ function scene:create( event )
 	local back = display.newImage("image/UI/세모.png")
 	back.x, back.y = 1820, 80
 
-	local item_Change = display.newImage("image/UI/Item_Change.png")
+	local item_Change = display.newImage("image/UI/빈원형.png")
 	item_Change.x, item_Change.y = 1740, 680
 
 	local interact_extent = display.newRect(display.contentCenterX, display.contentCenterY, 100, 150)

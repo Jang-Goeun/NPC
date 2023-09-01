@@ -26,7 +26,6 @@ function scene:create( event )
         elseif gameOverNumber == 3 then
             composer.gotoScene("배경화면.computerScreen") -- 디노
         elseif gameOverNumber == 4 then
-            audio.resume(2)
             composer.gotoScene("2층.2층로비") -- 2층 게임
         end
 

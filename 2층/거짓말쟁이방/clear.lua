@@ -85,7 +85,7 @@ function scene:create( event )
 	key:scale(0.1, 0.1)
 	key.alpha = 0
 
-	local interact_button = display.newImage("image/상호작용버튼/interact_button-1.png")
+	local interact_button = display.newImage("image/UI/커서.png")
 	interact_button.x, interact_button.y = 1560, 810
 	interact_button.alpha = 0
 

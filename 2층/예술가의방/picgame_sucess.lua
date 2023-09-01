@@ -239,7 +239,7 @@ local function moveCharacter(event)
         player[2][motionUp].alpha = 1
     
         d = d + 0.2 -- 움직임 속도 조절
-        if(d == 1.2) then
+        if(d >= 1.2) then
             motionUp = motionUp + 1
             d = 0
         end
@@ -263,7 +263,7 @@ local function moveCharacter(event)
         player[1][motionDown].alpha = 1
 
         d = d + 0.2 -- 움직임 속도 조절
-        if(d == 1.2) then
+        if(d >= 1.2) then
             motionDown = motionDown + 1
             d = 0
         end
@@ -287,7 +287,7 @@ local function moveCharacter(event)
         player[3][motionLeft].alpha = 1
 
         d = d + 0.2 -- 움직임 속도 조절
-        if(d == 1.4) then
+        if(d >= 1.4) then
             motionLeft = motionLeft + 1
             d = 0
         end
@@ -312,7 +312,7 @@ local function moveCharacter(event)
         player[4][motionRight].alpha = 1
 
         d = d + 0.2 -- 움직임 속도 조절
-        if(d == 1.4) then
+        if(d >= 1.4) then
             motionRight = motionRight + 1
             d = 0
         end

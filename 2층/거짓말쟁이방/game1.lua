@@ -49,9 +49,8 @@ function scene:create( event )
 	question.x, question.y = 100, 80
 	question.alpha = 0
 
-	local questBox = display.newImage("image/UI/퀘스트창.png")
-	questBox.x, questBox.y = display.contentWidth*0.195, display.contentHeight*0.28
-	questBox:scale(0.73, 0.73)
+	local questBox = display.newImage("image/UI/퀘스트.png")
+	questBox.x, questBox.y = display.contentWidth*0.198, display.contentHeight*0.285
 	questBox.alpha = 0
 
 	composer.setVariable( "heartGroup", heartGroup )

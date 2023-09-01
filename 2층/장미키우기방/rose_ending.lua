@@ -69,7 +69,7 @@ function scene:create( event )
 	finger.x, finger.y = 1560, 840
 	finger.alpha = 0
 
-	local finger1 = display.newImage("image/UI/포인터.png")
+	local finger1 = display.newImage("image/UI/커서.png")
 	finger1.x, finger1.y = 1560, 840
 	finger1.alpha = 0
 
@@ -211,7 +211,7 @@ function scene:create( event )
 			player[2][motionUp].alpha = 1
 		
 			d = d + 0.2 -- 움직임 속도 조절
-			if(d == 1.2) then
+			if(d >= 1.2) then
 				motionUp = motionUp + 1
 				d = 0
 			end
@@ -251,7 +251,7 @@ function scene:create( event )
 		 	player[1][motionDown].alpha = 1
 
 		 	d = d + 0.2 -- 움직임 속도 조절
-			if(d == 1.2) then
+			if(d >= 1.2) then
 				motionDown = motionDown + 1
 				d = 0
 			end
@@ -291,7 +291,7 @@ function scene:create( event )
 		 	player[3][motionLeft].alpha = 1
 
 		 	d = d + 0.2 -- 움직임 속도 조절
-			if(d == 1.4) then
+			if(d >= 1.4) then
 				motionLeft = motionLeft + 1
 				d = 0
 			end
@@ -333,7 +333,7 @@ function scene:create( event )
 		 	player[4][motionRight].alpha = 1
 
 		 	d = d + 0.2 -- 움직임 속도 조절
-			if(d == 1.4) then
+			if(d >= 1.4) then
 				motionRight = motionRight + 1
 				d = 0
 			end
@@ -458,11 +458,11 @@ function scene:create( event )
 					y = compass.y - 100,
 					loadGunSound(),
 					onComplete = function()
-						local function slowlyGunGot(event)--2초뒤 총 display삭제
-							display.remove(compass)
-							gotGun = true
+						--local function slowlyGunGot(event)--2초뒤 총 display삭제
+							--display.remove(compass)
+							--gotGun = true
 							
-						end
+						--end
 						
 						timer.performWithDelay(2000,slowlyGunGot)
 						finger.alpha = 0
@@ -500,7 +500,7 @@ function scene:create( event )
 	end
 
 	finger:addEventListener("touch", gotoGame)
-	finger1:addEventListener("touch", gotoMain)
+	compass:addEventListener("touch", gotoMain)
 	cursor:addEventListener("touch", onButtonPress)
 end
 

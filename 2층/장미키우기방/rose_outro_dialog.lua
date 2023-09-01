@@ -49,7 +49,7 @@ function scene:create( event )
 	chatBox.x, chatBox.y = display.contentWidth/2, display.contentHeight * 0.78
 	sceneGroup:insert(chatBox)
     --퀘스트창
-    local questBox = display.newImage("image/UI/퀘스트창.png")
+    local questBox = display.newImage("image/UI/퀘스트.png")
     questBox.x, questBox.y = display.contentWidth*0.19, display.contentHeight*0.28
     questBox:scale(0.73, 0.73)
     questBox.alpha = 0
@@ -124,7 +124,7 @@ function scene:create( event )
 		elseif(Data[index].speaker == image_pi.name) then
 			image_rose.alpha = 0
 			image_pi.alpha = 1
-		else
+		elseif (Data[index].speaker == " ") then
 			image_rose.alpha = 0
 			image_pi.alpha = 0
 		end

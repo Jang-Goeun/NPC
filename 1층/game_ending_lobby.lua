@@ -259,7 +259,7 @@ function scene:create( event )
 				motionUp = 1
 			end
 			
-			print(playerGroup.x, playerGroup.y, background.x, background.y)
+			--print(playerGroup.x, playerGroup.y, background.x, background.y)
 			if ((playerGroup.y > 396 and playerGroup.y < 404 )and background.y < 976 ) then -- 여기 숫자 각 맵에 맞게 조절하시면 됩니다. ex) -608
 				if ( playerGroup.x < -188 or playerGroup.x > 196 ) then
 					if( background.y > 784 ) then
@@ -334,7 +334,7 @@ function scene:create( event )
 				motionDown = 1
 			end
 
-			print(playerGroup.x, playerGroup.y, background.x, background.y)
+			--print(playerGroup.x, playerGroup.y, background.x, background.y)
 			if (playerGroup.y > 396 and background.y > 80) then -- 여기 숫자 각 맵에 맞게 조절하시면 됩니다. ex) -608
 				if ( playerGroup.x < -188 or playerGroup.x > 196 ) then
 					if( background.y > 784 ) then
@@ -408,7 +408,7 @@ function scene:create( event )
 			if motionLeft == 5 then
 				motionLeft = 1
 			end
-			print(playerGroup.x, playerGroup.y, background.x, background.y)
+			--print(playerGroup.x, playerGroup.y, background.x, background.y)
 			if ( playerGroup.y < 260 or ( playerGroup.y == 400 and background.y > 392 and background.y < 772 )) then
 				if (playerGroup.x > -188) then -- 숫자 조절
 					playerGroup.x = playerGroup.x - moveSpeed
@@ -470,7 +470,7 @@ function scene:create( event )
 				motionRight = 1
 			end
 			
-			print(playerGroup.x, playerGroup.y, background.x, background.y)
+			--print(playerGroup.x, playerGroup.y, background.x, background.y)
 			if (  playerGroup.y < 260 or ( playerGroup.y == 400 and background.y > 392 and background.y < 772 )) then
 				if (playerGroup.x < 196) then -- 숫자 조절
 					playerGroup.x = playerGroup.x + moveSpeed

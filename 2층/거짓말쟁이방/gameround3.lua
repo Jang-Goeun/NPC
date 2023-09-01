@@ -103,12 +103,12 @@ function scene:create( event )
 -- ↓ 상호작용 버튼 ---------------------------------------------------------------------------------------------------
 	local interact_button = {}
 
-	interact_button[1] = display.newImage("image/상호작용버튼/interact_button-1.png")
+	interact_button[1] = display.newImage("image/UI/커서.png")
 	interact_button[1].x, interact_button[1].y = 1560, 810
 	interact_button[1].alpha = 0
 
 	for i = 2, 6 do
-		interact_button[i] = display.newImage("image/상호작용버튼/interact_button-"..i..".png")
+		interact_button[i] = display.newImage("image/UI/포인터.png")
 		interact_button[i].x, interact_button[i].y = 1560, 810
 		interact_button[i].alpha = 0
 
