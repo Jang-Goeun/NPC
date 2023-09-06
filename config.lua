@@ -7,17 +7,21 @@ application =
 {
 	content =
 	{
-		width = 1920,
-		height = 1080, 
+		width = 1080,
+		height = 1920, 
+		-- width = display.actualContentWidth * 0.5625,
+      	-- height = display.actualContentHeight,
+
 		scale = "letterbox",
+		-- scale = "letterBox",
 		fps = 60,
-		
-		--[[
-		imageSuffix =
-		{
-			    ["@2x"] = 2,
-			    ["@4x"] = 4,
-		},
-		--]]
+		orientation = {
+            default = "landscapeRight", -- 기본 가로 모드 설정
+            supported = { "landscapeRight", "landscapeLeft" } -- 지원하는 가로 모드 목록
+        },
+
+		xAlign = "center",
+		yAlign = "center",
+
 	},
 }

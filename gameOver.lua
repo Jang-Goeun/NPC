@@ -20,13 +20,14 @@ function scene:create( event )
     local gameOverNumber = composer.getVariable("gameOverNumber")
     local function hide(event)
         if gameOverNumber == 1 then
-            composer.gotoScene("배경화면.mainScript1") -- 보안창
+            composer.gotoScene("mainScript1") -- 보안창
         elseif gameOverNumber == 2 then
-            composer.gotoScene("배경화면.login_logIn") -- 로그인, 로봇
+            composer.gotoScene("login_logIn") -- 로그인, 로봇
         elseif gameOverNumber == 3 then
-            composer.gotoScene("배경화면.computerScreen") -- 디노
+            composer.gotoScene("computerScreen") -- 디노
         elseif gameOverNumber == 4 then
-            composer.gotoScene("2층.2층로비") -- 2층 게임
+            audio.resume(8)
+            composer.gotoScene("2nd_floor_lobby") -- 2층 게임
         end
 
     end

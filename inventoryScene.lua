@@ -21,6 +21,15 @@ function scene:create( event )
 	back.x, back.y = display.contentWidth * 0.275 , display.contentHeight * 0.332
 	sceneGroup:insert(back)
 
+	-- 나침반 추가 코드: 빈 원형 클릭 배치하기 -------------------------------------------------------------------------------------------
+
+	local not_interaction = display.newImageRect("image/UI/빈원형.png", 130, 130)
+	not_interaction.x, not_interaction.y = 1740, 680
+	not_interaction.alpha = 0.01
+	sceneGroup:insert(not_interaction)
+
+	--****** 아래 hide() 함수에서 display.remove(not_interaction) 코드 추가함 ******
+
 	local item = {}
 	-- key, sim, key_sum, compass, arm, ribbon
 	item[1] = display.newImageRect("image/자물쇠/1자열쇠.png", 115, 115)
@@ -52,6 +61,63 @@ function scene:create( event )
 
 
 	-- ↑ ui정리 -------------------------------------------------------------------------------------------------
+
+	-- 나침반 추가 코드: ↓ 나침반 함수 정리  -----------------------------------------------------------------------------------------------
+
+	local function compassReaction(event) -- 나침반 이동 이벤트 
+		if( event.phase == "began" ) then
+			display.getCurrentStage():setFocus( event.target )
+			event.target.isFocus = true
+
+			-- 드래그 시작할 때
+			event.target.initX = event.target.x
+			event.target.initY = event.target.y
+
+		elseif ( event.phase == "moved" ) then
+			
+			if ( event.target.isFocus ) then
+				-- 드래그 중일 때
+				event.target.x = event.xStart + event.xDelta
+				event.target.y = event.yStart + event.yDelta
+				
+			end
+
+		elseif ( event.phase == "ended" or event.phase == "cancelled"  ) then
+			if ( event.target.x > not_interaction.x - 50 and event.target.x < not_interaction.x + 50 
+				and event.target.y > not_interaction.y - 50 and event.target.y < not_interaction.y + 50 ) then
+
+				display.getCurrentStage():setFocus( nil )
+
+				audio.play( insertItem )
+
+				local new_item4 = display.newImageRect("image/자물쇠/나침반.png", 110, 110)
+				new_item4.x, new_item4.y = 1740, 680
+				sceneGroup:insert(new_item4)
+
+				item[4].alpha = 0
+				itemNum[4] = false
+
+				-- ↓ 휴지통 입장 코드  --------------------------------------------------------------------------------------------------
+
+			 	composer.gotoScene( "compass_trashcan" )
+
+				-- ↑ 휴지통 입장 코드 ---------------------------------------------------------------------------------------------------
+				
+			else
+				display.getCurrentStage():setFocus( nil )
+				
+				event.target.x = event.target.initX
+				event.target.y = event.target.initY
+			end
+		end
+
+	end
+
+	if itemNum[4] == true then
+		item[4]:addEventListener("touch", compassReaction)
+	end
+
+	-- 나침반 추가 코드: ↑ 나침반 함수 정리  -----------------------------------------------------------------------------------------------
 
 	-- ↓ 함수 정리 ------------------------------------------------------------------------------------------------------------
 
@@ -144,7 +210,7 @@ function scene:create( event )
 	--	열쇠 만들기 이동
 	local function tapKeyMaking(event)
 		-- print(go)
-		composer.showOverlay("1층.key_making", {isModal == true})
+		composer.showOverlay("key_making", {isModal == true})
 	end
 	item[3]:addEventListener("tap", tapKeyMaking)
 
@@ -215,7 +281,7 @@ function scene:create( event )
 						itemNum[6] = true 
 						audio.play(itemGetSound)
 						itemNum[3] = false
-						composer.gotoScene("1층.game_lobby")
+						composer.gotoScene("game_lobby")
 					else
 						-- 오답 소리
 						audio.play(wrongSound)
@@ -263,7 +329,7 @@ function scene:hide( event )
 		--
 		-- INSERT code here to pause the scene
 		-- e.g. stop timers, stop animation, unload sounds, etc.)
-		composer.removeScene( "1층.inventoryScene" )
+		composer.removeScene( "inventoryScene" )
 	elseif phase == "did" then
 		-- Called when the scene is now off screen
 	end

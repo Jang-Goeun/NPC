@@ -49,24 +49,35 @@ font_Speaker = "font/PF스타더스트 Bold.ttf"
 
 
 mainBackgroundMusic = audio.loadSound( "sound/default_bgm_1.mp3" )
-liarroomSound = audio.loadSound( "sound/거짓말쟁이방.mp3 ")
+liarroomSound = audio.loadSound( "sound/거짓말쟁이방.mp3" )
 sound_artist = audio.loadSound("sound/예술가의방.mp3")
 mansionSound = audio.loadSound("sound/저택 브금.mp3")
 sound_liar1 =  audio.loadSound("sound/거짓말쟁이 1.mp3")
 sound_liar2 =  audio.loadSound("sound/거짓말쟁이 2.mp3")
-darkSound =  audio.loadSound("sound/게임 시스템/암전 될 때 소리.mp3")
+sound_rose = audio.loadSound("sound/장미키우기.mp3")
+start_page_bgm = audio.loadSound("sound/밝은브금.mp3")
 
+
+wateringSound = audio.loadSound("sound/물주는_소리.mp3")
+witheringSound = audio.loadSound("sound/시드는_소리.mp3")
+movingSound = audio.loadSound("sound/파이_이동소리.mp3")
+debuggingSound = audio.loadSound("sound/종이 찢는 소리.mp3")
 
 wrongSound = audio.loadSound( "sound/경고음 1 수정.mp3" )
 warningSound_short = audio.loadSound("sound/경고음 2(short).mp3")
 warningSound = audio.loadSound( "sound/경고음 2.mp3" )
+
 insertItem = audio.loadSound( "sound/게임 시스템/딸깍 소리 1.mp3" )
 buttonSound = audio.loadSound( "sound/게임 시스템/딸깍 소리 2.mp3" )
 gameSuccess = audio.loadSound( "sound/게임 시스템/성공 소리.mp3" )
 questSound = audio.loadSound( "sound/게임 시스템/알림 소리.mp3" )
 itemGetSound = audio.loadSound("sound/게임 시스템/아이템 얻는 소리 1.mp3")
 
+buttonSound1 = audio.loadSound( "sound/게임 시스템/버튼 소리 1.mp3" )
+buttonSound2 = audio.loadSound( "sound/게임 시스템/버튼 소리 2.mp3" )
+sucessSound = audio.loadSound( "sound/게임 시스템/성공 소리.mp3" )
 
+darkSound =  audio.loadSound("sound/게임 시스템/암전 될 때 소리.mp3")
 dieSound =  audio.loadSound("sound/베는, 찔리는 소리 2.mp3")
 garbageSound = audio.loadSound( "sound/낙엽 밟는 소리.mp3" )
 
@@ -86,26 +97,23 @@ for i = 1, 6 do
 end
 
 cherry_interaction = 0
-game1 = 0 --거짓말쟁이방
-game2 = 0 --미로방
-game3 = 0 --예술가의방
-for i = 1, 6 do
-	itemNum[i] = false
-end
-
-
-
+game1 = 1 --거짓말쟁이방
+game2 = 1 --미로방
+game3 = 1 --예술가의방
 
 -- event listeners for tab buttons:
 local function onFirstView( event )
-	-- composer.gotoScene( "배경화면.computerScreen" )
-	-- composer.gotoScene("배경화면.screen_garbage")
-	-- composer.gotoScene( "배경화면.mainScript7" )
-	-- composer.gotoScene( "배경화면.security_script" )
-	-- composer.gotoScene("배경화면.mainScript7")
-	-- composer.gotoScene("1층.game_start_loading")
-	composer.gotoScene("1층.game_lobby")
-
+	-- composer.gotoScene( "computerScreen" )
+	-- composer.gotoScene("screen_garbage") -- 영상 건너 뛰고 시작/시뮬용 시작
+	-- composer.gotoScene( "mainScript7" )
+	-- composer.gotoScene( "compass_prevScript" )
+	-- composer.gotoScene( "compass_escape" )
+	-- composer.gotoScene("ending")
+	-- composer.gotoScene("game_start_loading")
+	-- composer.gotoScene("2층로비")
+	composer.gotoScene("2nd_floor_ending1") -- 처음 시작 화면
+	-- composer.gotoScene("compass_computerScreen")
+	-- composer.gotoScene("start1")
 end
 
 
