@@ -125,7 +125,7 @@ local function onFirstView( event )
 	-- composer.gotoScene("compass_computerScreen")
 	-- composer.gotoScene("key_open")
 	-- composer.gotoScene("game_lobby")
-	composer.gotoScene("game_lobby")
+	composer.gotoScene("2nd_floor_lobby")
 end
 
 
